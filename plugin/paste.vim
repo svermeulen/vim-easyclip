@@ -136,7 +136,7 @@ xnoremap <silent> <plug>XG_EasyClipPasteUnformatted "_d:<c-u>call <sid>PasteText
 
 call s:FixInsertModePaste()
 
-if !exists('g:EasyClipUseDefaults') || g:EasyClipUseDefaults
+if !exists('g:EasyClipUsePasteDefaults') || g:EasyClipUsePasteDefaults
 
     xmap p <plug>XEasyClipPaste
     xmap P <plug>XEasyClipPaste

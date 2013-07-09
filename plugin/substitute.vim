@@ -81,7 +81,7 @@ nnoremap <plug>G_SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:regist
 nnoremap <plug>NoNewlineSubstituteLine :call <sid>SubstituteLine(v:register, 1)<cr>
 nnoremap <plug>SubstituteLine :call <sid>SubstituteLine(v:register, 0)<cr>
 
-if !exists('g:EasyClipUseDefaults') || g:EasyClipUseDefaults
+if !exists('g:EasyClipUseSubstituteDefaults') || g:EasyClipUseSubstituteDefaults
 
     " Make the s key more useful, paste over a given motion
     nmap <silent> s <plug>SubstituteOverMotionMap

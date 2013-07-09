@@ -30,7 +30,7 @@ function! s:MoveMotion(type)
     silent exec "normal! \"_d"
 endfunction
 
-if !exists('g:EasyClipUseDefaults') || g:EasyClipUseDefaults
+if !exists('g:EasyClipUseCutDefaults') || g:EasyClipUseCutDefaults
 
     "" "m" = "move" to a different location
     nmap m <Plug>MoveMotionPlug

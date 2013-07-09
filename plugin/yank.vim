@@ -112,11 +112,9 @@ nnoremap <plug>YankLinePreserveCursorPosition :call <sid>PreYankMotion()<cr>:cal
 nnoremap <silent> <plug>YankPreserveCursorPosition :call <sid>PreYankMotion()<cr>:set opfunc=<sid>YankMotion<cr>g@
 
 command! EasyClipBeforeYank :call <sid>OnBeforeYank()
-command! -nargs=0 EasyClipShowYanks call s:ShowYanks()
+command! -nargs=0 Yanks call s:ShowYanks()
 
-if !exists('g:EasyClipUseDefaults') || g:EasyClipUseDefaults
-
-    nnoremap yd :call <sid>ShowYanks()<cr>
+if !exists('g:EasyClipUseYankDefaults') || g:EasyClipUseYankDefaults
 
     nmap [y <plug>EasyClipRotateYanksForward
     nmap ]y <plug>EasyClipRotateYanksBackward

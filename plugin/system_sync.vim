@@ -15,11 +15,13 @@ function! s:OnFocusGained()
     endif
 endfunction
 
-" Check whether the system clipboard changed while focus was lost and 
-" add it to our yank buffer
-augroup _sync_clipboard
-    au!
-    autocmd FocusGained * call <sid>OnFocusGained()
-    autocmd FocusLost * call <sid>OnFocusLost()
-augroup END
+if !exists('g:EasyClipDoSystemSync') || g:EasyClipDoSystemSync
+    " Check whether the system clipboard changed while focus was lost and 
+    " add it to our yank buffer
+    augroup _sync_clipboard
+        au!
+        autocmd FocusGained * call <sid>OnFocusGained()
+        autocmd FocusLost * call <sid>OnFocusLost()
+    augroup END
+endif
 

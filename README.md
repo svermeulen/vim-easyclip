@@ -38,6 +38,8 @@ Easyclip allows you to yank and cut things without worrying about losing text th
 
 The first line of the currently selected yank will be displayed in the status line.
 
+You can view the full list of yanks at any time by running the command `:Yanks`
+
 Note: Most of the yank functionality is shamelessly stolen and adapted from the great yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
 
 ### Paste ###
@@ -70,7 +72,21 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 
 `g:EasyClipYankHistorySize` - Change this to limit yank history, defaults to 30
 
-`g:EasyClipUseDefaults` - If you want to load easyclip without defining any of the default key mappings, just set this to zero in your vimrc.  You can then pick and choose what to use from EasyClip by binding to the `<plug>` mappings yourself.
+`g:EasyClipDoSystemSync` - Set this to zero to disable system clipboard sync. Defaults to on.
+
+You can also disable the default mappings by setting one or more of the following to zero:
+    `g:EasyClipUseYankDefaults`
+    `g:EasyClipUseCutDefaults`
+    `g:EasyClipUsePasteDefaults`
+    `g:EasyClipUseSubstituteDefaults`
+
+You can then map to the specific `<plug>` mappings to define whatever mappings you want.  For example, to change the mapping for cut (by default set to `m`) to `yd`, include the following in your vimrc:`
+
+    let g:EasyClipUseCutDefaults = 0
+
+    nmap yd <Plug>MoveMotionPlug
+    xmap yd <Plug>MoveMotionXPlug
+    nmap ydd <Plug>MoveMotionLinePlug
 
 ### Key Mappings ###
 
@@ -99,8 +115,6 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 
 `]y`              Go forward in the yank buffer
 
-`yd`              Display contents of yank buffer
-
 `Y`               Yank to end of line
 
 ### Custom Yanks ###
@@ -116,7 +130,7 @@ This plugin is very new and as such most certainly contains bugs.  It is not ver
 ### Todo ###
 
 - Add back ability to toggle most recent paste between pastes after pasting, similar to yankstack/yankring 
-- yd should open up the list of yanks in a scratch buffer so that it is searchable
+- `:Yanks` command should open up the list of yanks in a scratch buffer so that it is searchable
 
 ### Changelog ###
 
