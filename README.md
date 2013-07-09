@@ -1,4 +1,4 @@
-easyclip
+EasyClip
 =============
 ### Simplified clipboard functionality for Vim.###
 
@@ -70,7 +70,7 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 
 `g:EasyClipYankHistorySize` - Change this to limit yank history, defaults to 30
 
-`g:EasyClipUseDefaults` - If you want to load easyclip without defining any of the default key mappings, just set this to zero in your vimrc.  You can then pick and choose what to use from EasyVim by binding to the `<plug>` mappings yourself.
+`g:EasyClipUseDefaults` - If you want to load easyclip without defining any of the default key mappings, just set this to zero in your vimrc.  You can then pick and choose what to use from EasyClip by binding to the `<plug>` mappings yourself.
 
 ### Key Mappings ###
 
