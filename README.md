@@ -20,6 +20,16 @@ There is simply no need to clutter up the yank history with every single edit, w
 
 Because replacing text is such a common operation, this plugin includes a motion for it (by default mapped to `s` key, for 'substitute').  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, to paste over the word under the cursor you would type `siw`.
 
+### What about the default s and m keys?!? ###
+
+One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and both keys also happen to be not all that important.
+
+`s` can easily be substituted for `cl` and `S` can easily be substituted for `cc`
+
+`m` or 'set mark' is important but it is not so important to have a key so close to the home row.  It is better remapped to something else such as `gm`, `!` or `\`.  You can do this by including the following in your vimrc:
+
+`nnoremap \ m`
+
 ### Yank Buffer ###
 
 Easyclip allows you to yank and cut things without worrying about losing text that you copied previously.  It achieves this by storing all yanks into a buffer, which you can cycle through forward or backwards to choose the yank that you want.  (By default, cycle backward using `[y` and cycle forward using `]y`).  
@@ -81,11 +91,7 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 
 `m<motion>`       Cut operator
 
-`M`               Cut to end of line
-
 `mm`              Cut line
-
-`mM`              Cut line except newline
 
 `[y`              Go backward in the yank buffer
 

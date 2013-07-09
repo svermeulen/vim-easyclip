@@ -34,8 +34,10 @@ if !exists('g:EasyClipUseDefaults') || g:EasyClipUseDefaults
 
     "" "m" = "move" to a different location
     nmap m <Plug>MoveMotionPlug
-    nmap M <Plug>MoveMotionEndOfLinePlug
-    nmap mM <Plug>MoveMotionReplaceLinePlug
     nmap mm <Plug>MoveMotionLinePlug
     xmap m <Plug>MoveMotionXPlug
+
+    " Leave these commented to avoid shadowing M (go to middle of screen)
+    "nmap M <Plug>MoveMotionEndOfLinePlug
+    "nmap mM <Plug>MoveMotionReplaceLinePlug
 endif
