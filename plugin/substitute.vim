@@ -15,9 +15,8 @@ function! s:OnPreSubstitute(register, moveCursor)
 endfunction
 
 function! s:SubstituteMotion(type, ...)
-    if !s:moveCursor
-        exe "normal! mz"
-    end
+
+    let startPos = getpos('.')
 
     if a:type ==# 'line'
         exe "normal! '[V']"
@@ -43,18 +42,8 @@ function! s:SubstituteMotion(type, ...)
     endif
 
     if !s:moveCursor
-        exe "normal! `z"
+        call setpos('.', startPos)
     end
-endfunction
-
-function! s:SubstituteToEndOfLine(reg, moveCursor)
-    let startPos = getpos('.')
-    normal! v$
-    call s:SubstituteMotion('char')
-
-    if !moveCursor
-        Gcall setpos('.', startPos)
-    endif
 endfunction
 
 " For some reason I couldn't get this to work without defining it as a function
@@ -67,14 +56,27 @@ function! s:SubstituteLine(reg, keepNewLine)
         exe "normal! \"_dd"
     endif
 
-    exe "normal \<c-r>" . a:reg . (isOnLastLine ? "p" : "P")
+    " Use our own version of paste so it autoformats and positions the cursor correctly
+    call g:EasyClipPaste((isOnLastLine ? "p" : "P"), 1, a:reg)
+endfunction
+
+function! s:SubstituteToEndOfLine(reg, moveCursor)
+    let startPos = getpos('.')
+    exec "normal! \"_d$"
+
+    " Use our own version of paste so it autoformats and positions the cursor correctly
+    call g:EasyClipPaste("p", 1, a:reg)
+
+    if !a:moveCursor
+        call setpos('.', startPos)
+    endif
 endfunction
 
 nnoremap <plug>SubstituteOverMotionMap :<c-u>call <sid>OnPreSubstitute(v:register, 1)<cr>:set opfunc=<sid>SubstituteMotion<cr>g@
 nnoremap <plug>G_SubstituteOverMotionMap :<c-u>call <sid>OnPreSubstitute(v:register, 0)<cr>:set opfunc=<sid>SubstituteMotion<cr>g@
 
-nnoremap <plug>SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:register, 0)<cr>
-nnoremap <plug>G_SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:register, 0)<cr>
+nnoremap <plug>SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
+nnoremap <plug>G_SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
 
 nnoremap <plug>NoNewlineSubstituteLine :call <sid>SubstituteLine(v:register, 1)<cr>
 nnoremap <plug>SubstituteLine :call <sid>SubstituteLine(v:register, 0)<cr>
