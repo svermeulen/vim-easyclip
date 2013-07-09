@@ -75,6 +75,7 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 `g:EasyClipDoSystemSync` - Set this to zero to disable system clipboard sync. Defaults to on.
 
 You can also disable the default mappings by setting one or more of the following to zero:
+
     `g:EasyClipUseYankDefaults`
     
     `g:EasyClipUseCutDefaults`
