@@ -46,11 +46,11 @@ function! g:EasyClipPaste(op, format, reg)
         let lastWords = matchstr(text, '\v\n=\s*\zs\p*\ze\n=$')
 
         if line !~# '^\s*$' && lastWords !=# ''
-            let colPos = stridx(line, lastWords)
+            let colNo = stridx(line, lastWords)
 
-            if colPos != -1
-                let colPos = colPos + len(lastWords)
-                exe "normal! ". colPos . "|"
+            if colNo != -1
+                let colNo = colNo + len(lastWords)
+                call cursor(line('.'), colNo)
             endif
         endif
 
