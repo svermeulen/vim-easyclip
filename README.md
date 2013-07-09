@@ -20,7 +20,7 @@ There is simply no need to clutter up the yank history with every single edit, w
 
 ### Substitution Operator ###
 
-Because replacing text is such a common operation, this plugin includes a motion for it (by default mapped to `s` key, for 'substitute').  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, to paste over the word under the cursor you would type `siw`.
+Because replacing text is such a common operation, this plugin includes a motion for it (by default mapped to `s` key, for 'substitute').  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
 
 ### What about the default s and m keys?!? ###
 
