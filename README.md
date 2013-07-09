@@ -10,6 +10,8 @@ Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Ma
 
 I recommend loading your plugins with [vundle](https://github.com/gmarik/vundle) or [pathogen](https://github.com/tpope/vim-pathogen) (I personally prefer Vundle).
 
+This plugin also requires that you have Tim Pope's [repeat.vim](https://github.com/tpope/vim-repeat) plugin installed.
+
 ### Black Hole Redirection ###
 
 By default, Vim's built-in delete operator will yank the deleted text in addition to just deleting it.  This works great when you want to cut text and paste it somewhere else, but in many other cases it can make things more difficult.  For example, if you want to make some tiny edit to fix formatting after cutting some text, you either have to have had the foresight to use a named register, or specify the black hole register explicitly to do your formatting, both of which seem overly cumbersome.  This plugin solves that problem by redirecting all change and delete operations to the black hole register and introducing a new operator, cut (by default mapped to the `m` key, for 'move', eg: `miw` to cut word under cursor)
