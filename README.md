@@ -97,7 +97,9 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 
 ### Custom Yanks ###
 
-If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, simply call the command `EasyClipBeforeYank` before the yank occurs.
+If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, simply call the command `EasyClipBeforeYank` before the yank occurs.  For example, I have the following line in my vimrc to yank the current file name:
+
+`nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>`
 
 ### Disclaimer ###
 
