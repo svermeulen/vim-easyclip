@@ -1,9 +1,6 @@
 
 let s:activeRegister = easyclip#GetDefaultReg()
 
-"" Delete text but also copy it into our registers aka cut
-" I have no idea why but with the latest update to Cream Vim delete no longer cycles through
-" numbered registers, otherwise we could just map to 'd'
 nnoremap <silent> <plug>MoveMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$"_d$
 nnoremap <silent> <plug>MoveMotionReplaceLinePlug :<c-u>EasyClipBeforeYank<cr>0y$"_d$ 
 nnoremap <silent> <plug>MoveMotionLinePlug :<c-u>EasyClipBeforeYank<cr>yy"_dd
