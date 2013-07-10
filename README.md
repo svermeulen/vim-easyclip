@@ -24,11 +24,11 @@ Because replacing text is such a common operation, this plugin includes a motion
 
 ### What about the default s and m keys?!? ###
 
-One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and both keys also happen to be not all that important.
+One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and both keys also happen to be among the lesser important default mappings.
 
 `s` can easily be substituted for `cl` and `S` can easily be substituted for `cc`
 
-`m` or 'set mark' is important but it is not so important to have a key so close to the home row.  It is better remapped to something else such as `gm`, `!` or `\`.  You can do this by including the following in your vimrc:
+`m` or 'set mark' is useful but it is not used so frequently that it deserves a key so close to the home row.  It is better remapped to something else such as `gm`, `!` or `\`.  You can do this by including the following in your vimrc:
 
 `nnoremap \ m`
 
