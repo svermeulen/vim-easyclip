@@ -1,14 +1,18 @@
 
 nnoremap d "_d
 nnoremap dd "_dd
-nnoremap D "_d$
+
+if !exists('g:EasyClipRemapCapitals') || g:EasyClipRemapCapitals
+    nnoremap D "_d$
+    xnoremap D <nop>
+endif
+
 nnoremap dD 0"_d$
 
 noremap x "_x
 xnoremap x "_x
 
 xnoremap d "_d
-xnoremap D <nop>
 
 nnoremap c "_c
 xnoremap c "_c

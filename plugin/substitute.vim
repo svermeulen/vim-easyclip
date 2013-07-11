@@ -86,8 +86,12 @@ if !exists('g:EasyClipUseSubstituteDefaults') || g:EasyClipUseSubstituteDefaults
     " Make the s key more useful, paste over a given motion
     nmap <silent> s <plug>SubstituteOverMotionMap
     nmap <silent> gs <plug>G_SubstituteOverMotionMap
-    nmap <silent> S <plug>SubstituteToEndOfLine
-    nmap <silent> gS <plug>G_SubstituteToEndOfLine
+
+    if !exists('g:EasyClipRemapCapitals') || g:EasyClipRemapCapitals
+        nmap <silent> S <plug>SubstituteToEndOfLine
+        nmap <silent> gS <plug>G_SubstituteToEndOfLine
+    endif
+
     nmap ss <plug>SubstituteLine
     nmap sS <plug>NoNewlineSubstituteLine
 

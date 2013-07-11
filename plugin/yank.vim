@@ -119,9 +119,11 @@ if !exists('g:EasyClipUseYankDefaults') || g:EasyClipUseYankDefaults
     nmap [y <plug>EasyClipRotateYanksForward
     nmap ]y <plug>EasyClipRotateYanksBackward
 
-    " Make Y more consistent with C and D
-    " you can do yy if you want the whole line
-    nnoremap <silent> Y :EasyClipBeforeYank<cr>y$
+    if !exists('g:EasyClipRemapCapitals') || g:EasyClipRemapCapitals
+        " Make Y more consistent with C and D
+        " you can do yy if you want the whole line
+        nnoremap <silent> Y :EasyClipBeforeYank<cr>y$
+    endif
 
     " Change all yanks to preserve the cursor position
     " Otherwise any yanks using T or backwards sentence/paragraph will move the cursor for some reason
