@@ -14,23 +14,27 @@ This plugin also requires that you have Tim Pope's [repeat.vim](https://github.c
 
 ### Black Hole Redirection ###
 
-By default, Vim's built-in delete operator will yank the deleted text in addition to just deleting it.  This works great when you want to cut text and paste it somewhere else, but in many other cases it can make things more difficult.  For example, if you want to make some tiny edit to fix formatting after cutting some text, you either have to have had the foresight to use a named register, or specify the black hole register explicitly to do your formatting, both of which seem overly cumbersome.  This plugin solves that problem by redirecting all change and delete operations to the black hole register and introducing a new operator, cut (by default mapped to the `m` key, for 'move', eg: `miw` to cut word under cursor)
+By default, Vim's built-in delete operator will yank the deleted text in addition to just deleting it.  This works great when you want to cut text and paste it somewhere else, but in many other cases it can make things more difficult.  For example, if you want to make some tiny edit to fix formatting after cutting some text, you either have to have had the foresight to use a named register, or specify the black hole register explicitly to do your formatting, both of which seem overly cumbersome.  This plugin solves that problem by redirecting all change and delete operations to the black hole register and introducing a new operator, cut (by default mapped to 'm' for 'move' but can be redefined to your liking)
 
 There is simply no need to clutter up the yank history with every single edit, when you almost always know at the time you are deleting text whether it's something that is worth keeping around or not.
 
 ### Substitution Operator ###
 
-Because replacing text is such a common operation, this plugin includes a motion for it (by default mapped to `s` key, for 'substitute').  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `"asi(`, etc.
+Because replacing text is such a common operation, this plugin includes a motion for it (by default mapped to `s` key, for 'substitute' but again this can be redefined).  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
+
+It can also take a register to use for the substitution (eg. `"asip`), and is fully repeatable using the `.` key.
 
 ### What about the default s and m keys?!? ###
 
-One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and both keys also happen to be among the lesser important default mappings.
+One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and (in my humble opinion) both keys also happen to be among the lesser important default mappings.
 
-`s` can easily be substituted for `cl` and `S` can easily be substituted for `cc`
+`s` can be substituted for `cl` and `S` can be substituted for `cc`
 
-`m` or 'set mark' is useful but it is not used so frequently that it deserves a key so close to the home row.  It is better remapped to something else such as `gm`, `!` or `\`.  You can do this by including the following in your vimrc:
+`m` or 'set mark' however, does not have an alternative so will require a remapping.  Good alternatives might be `gm`, `!`, or `\`, which you can apply by including the following in your vimrc:
 
-`nnoremap \ m`
+`nnoremap gm m`
+
+Of course, you can pick and choose which parts of EasyClip you want to use, and redefine these operations however you want.  I do believe substitution and cut are common enough operations to justify a dedicated key but your opinion may differ.
 
 ### Yank Buffer ###
 
@@ -41,6 +45,8 @@ The first line of the currently selected yank will be displayed in the status li
 You can view the full list of yanks at any time by running the command `:Yanks`
 
 Note: Most of the yank functionality is shamelessly stolen and adapted from the great yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
+
+One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer (still working on this)
 
 ### Paste ###
 
@@ -95,7 +101,7 @@ You can then map to the specific `<plug>` mappings to define whatever mappings y
 ### Key Mappings ###
 
 
-`s<motion>`       Substitute specified text with specified register
+`s<motion>`       Substitute specified text with specified register. 
 
 `ss`              Substitute current line with specified register
 
