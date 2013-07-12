@@ -58,8 +58,8 @@ Easy clip makes the following changes to Vim's default paste
     - Also automatically corrects the `[` and `]` marks according to the formatted text
 - `p` and `P` behaviour
     - Always positions the cursor directly after the pasted text
-    - `P` pastes text after the current line if multiline (or after the current character if non-multiline)
-    - `P` behaves the same except acts before the current line (or before the current character)
+    - `p` (lowercase) pastes text after the current line if multiline (or after the current character if non-multiline)
+    - `P` (uppercase) behaves the same except acts before the current line (or before the current character)
 - `gp` and `gP` behaviour
     - Same as `p` and `P` except the cursor does not move
     - Note there is a similar operator (`gs` / `gS`) for the substitute operator
