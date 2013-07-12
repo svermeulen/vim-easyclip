@@ -17,11 +17,16 @@ endfunction
 function! s:SubstituteMotion(type, ...)
 
     let startPos = getpos('.')
+    if &selection ==# 'exclusive'
+      let excl_right = "\<right>"
+    else
+      let excl_right = ""
+    endif
 
     if a:type ==# 'line'
-        exe "normal! '[V']"
+        exe "normal! '[V']".excl_right
     elseif a:type ==# 'char'
-        exe "normal! `[v`]"
+        exe "normal! `[v`]".excl_right
     else
         echom "Unexpected selection type"
         return
