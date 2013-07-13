@@ -38,7 +38,7 @@ Of course, you can pick and choose which parts of EasyClip you want to use, and 
 
 ### Yank Buffer ###
 
-Easyclip allows you to yank and cut things without worrying about losing text that you copied previously.  It achieves this by storing all yanks into a buffer, which you can cycle through forward or backwards to choose the yank that you want.  (By default, cycle backward using `[y` and cycle forward using `]y`).  
+Easyclip allows you to yank and cut things without worrying about losing text that you copied previously.  It achieves this by storing all yanks into a buffer, which you can cycle through forward or backwards to choose the yank that you want.  (By default, cycle backward using `[y` and cycle forward using `]y`).
 
 The first line of the currently selected yank will be displayed in the status line.
 
@@ -47,6 +47,8 @@ You can view the full list of yanks at any time by running the command `:Yanks`
 Note: Most of the yank functionality is shamelessly stolen and adapted from the great yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
 
 One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer (still working on this)
+
+Another difference worth noting is that the cursor position does not change when a yank occurs.
 
 ### Paste ###
 
