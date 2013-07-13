@@ -17,6 +17,7 @@ endfunction
 function! s:SubstituteMotion(type, ...)
 
     let startPos = getpos('.')
+
     if &selection ==# 'exclusive'
       let excl_right = "\<right>"
     else
@@ -42,12 +43,13 @@ function! s:SubstituteMotion(type, ...)
         " Use our own version of paste so it autoformats and positions the cursor correctly
         call g:EasyClipPaste("P", 1, reg)
     else
-        " No ! since we want to hook into our custom paste
         exe "normal! \"_c\<c-r>". reg
     endif
 
     if !s:moveCursor
         call setpos('.', startPos)
+        " For some reason this is necessary otherwise doing gS and then hitting 'j' does not work as you'd expect (jumps to end of next line)
+        normal! hl
     end
 endfunction
 

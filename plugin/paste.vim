@@ -36,7 +36,8 @@ function! g:EasyClipPaste(op, format, reg)
 
         keepjumps normal! `]
         let startPos = getpos('.')
-        exec "keepjumps normal! `[=`]"
+        " Suppress 'x lines indented' message
+        silent exec "keepjumps normal! `[=`]"
         call setpos('.', startPos)
 
         " Update the `] register with the end of the formatted text
