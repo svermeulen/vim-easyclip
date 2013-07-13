@@ -68,6 +68,8 @@ function! s:ShowYank(yank, index)
     echohl None
 endfunction
 
+let s:preYankPos = []
+
 function! s:PreYankMotion()
     let s:activeRegister = v:register
 
@@ -77,7 +79,7 @@ function! s:PreYankMotion()
         let s:activeRegister = easyclip#GetDefaultReg()
     endif
 
-    exec "normal! mz"
+    let s:preYankPos = getpos('.')
 endfunction
 
 function! s:YankMotion(type)
@@ -93,7 +95,7 @@ function! s:YankMotion(type)
         return
     endif
 
-    silent exe "keepjumps normal! `z"
+    call setpos('.', s:preYankPos)
 endfunction
 
 function! s:YankLine()
@@ -108,7 +110,7 @@ endfunction
 nnoremap <plug>EasyClipRotateYanksForward :call <sid>RotateYanks(1)<cr>
 nnoremap <plug>EasyClipRotateYanksBackward :call <sid>RotateYanks(-1)<cr>
 
-nnoremap <plug>YankLinePreserveCursorPosition :call <sid>PreYankMotion()<cr>:call <sid>YankLine()<cr>
+nnoremap <silent> <plug>YankLinePreserveCursorPosition :call <sid>PreYankMotion()<cr>:call <sid>YankLine()<cr>
 nnoremap <silent> <plug>YankPreserveCursorPosition :call <sid>PreYankMotion()<cr>:set opfunc=<sid>YankMotion<cr>g@
 
 command! EasyClipBeforeYank :call <sid>OnBeforeYank()

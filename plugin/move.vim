@@ -7,13 +7,13 @@ nnoremap <silent> <expr> <plug>MoveMotionLinePlug ':<c-u>EasyClipBeforeYank<cr>'
 xnoremap <silent> <plug>MoveMotionXPlug :<c-u>EasyClipBeforeYank<cr>gvygv"_d
 nnoremap <silent> <plug>MoveMotionPlug :call <sid>PreMoveMotion()<cr>:set opfunc=<sid>MoveMotion<cr>g@
 
-function! s:PreMoveMotion()
+function! s:PreMoveMotion( )
     let s:activeRegister = v:register
 
     " This is necessary to get around a bug in vim where the active register persists to
     " the next command. Repro by doing "_d and then a command that uses v:register
     if s:activeRegister ==# "_"
-        let s:activeRegister = easyclip#GetDefaultReg()
+        let s:activeRegister = easyclip#GetDefaultReg( )
     endif
 endfunction
 
