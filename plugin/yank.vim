@@ -112,8 +112,8 @@ function! g:EasyClipGetAllYanks()
     return [s:GetYankstackHead()] + s:yankstackTail
 endfunction
 
-nnoremap <plug>EasyClipRotateYanksForward :call <sid>RotateYanks(1)<cr>
-nnoremap <plug>EasyClipRotateYanksBackward :call <sid>RotateYanks(-1)<cr>
+nnoremap <plug>EasyClipRotateYanksForward :call <sid>RotateYanks(-1)<cr>
+nnoremap <plug>EasyClipRotateYanksBackward :call <sid>RotateYanks(1)<cr>
 
 nnoremap <silent> <plug>YankLinePreserveCursorPosition :call <sid>PreYankMotion()<cr>:call <sid>YankLine()<cr>
 nnoremap <silent> <plug>YankPreserveCursorPosition :call <sid>PreYankMotion()<cr>:set opfunc=<sid>YankMotion<cr>g@
@@ -123,8 +123,8 @@ command! -nargs=0 Yanks call s:ShowYanks()
 
 if !exists('g:EasyClipUseYankDefaults') || g:EasyClipUseYankDefaults
 
-    nmap [y <plug>EasyClipRotateYanksForward
-    nmap ]y <plug>EasyClipRotateYanksBackward
+    nmap [y <plug>EasyClipRotateYanksBackward
+    nmap ]y <plug>EasyClipRotateYanksForward
 
     if !exists('g:EasyClipRemapCapitals') || g:EasyClipRemapCapitals
         " Make Y more consistent with C and D

@@ -55,7 +55,17 @@ function! g:EasyClipPaste(op, format, reg)
             endif
         endif
 
-        normal! m]
+        if text =~# '\v\p\n$'
+            " We need `[v`] to fully capture the last paste because it's 
+            " used to swap between pastes afterwards
+            " So make sure the `] mark includes the last newline
+            let oldVirtualEdit=&virtualedit
+            set virtualedit+=onemore
+            normal! lm]
+            exec 'set virtualedit='.oldVirtualEdit
+        else
+            normal! m]
+        endif
     endif
 
     if a:op ==# 'gp'
@@ -110,6 +120,12 @@ function! s:FixInsertModePaste()
     endfor
 endfunction
 
+function! s:SwapPaste(forward, count)
+    exec "normal ". a:count . "\<plug>EasyClipRotateYanks" . (a:forward ? "Forward" : "Backward")
+    normal! `[v`]"_d
+    call g:EasyClipPaste("P", 1, easyclip#GetDefaultReg())
+endfunction
+
 " Our Paste options are:
 " p - paste after newline if multiline, paste after character if non-multiline
 " P - paste before newline if multiline, paste before character if non-multiline
@@ -134,6 +150,9 @@ nnoremap <silent> <plug>XEasyClipPasteUnformatted "_d:<c-u>call <sid>PasteText(v
 nnoremap <silent> <plug>G_EasyClipPasteUnformattedAfter :<c-u>call <sid>PasteText(v:register, v:count, 'gp', 0, "G_EasyClipPasteUnformattedAfter")<cr>
 nnoremap <silent> <plug>G_EasyClipPasteUnformattedBefore :<c-u>call <sid>PasteText(v:register, v:count, 'gP', 0, "G_EasyClipPasteUnformattedBefore")<cr>
 xnoremap <silent> <plug>XG_EasyClipPasteUnformatted "_d:<c-u>call <sid>PasteText(v:register, v:count, 'gP', 0, "G_EasyClipPasteUnformattedBefore")<cr>
+
+nnoremap <plug>EasyClipSwapPasteForward :call <sid>SwapPaste(1, v:count)<cr>
+nnoremap <plug>EasyClipSwapPasteBackwards :call <sid>SwapPaste(0, v:count)<cr>
 
 call s:FixInsertModePaste()
 

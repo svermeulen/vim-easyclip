@@ -35,16 +35,15 @@ function! s:SubstituteMotion(type, ...)
 
     let reg = s:activeRegister
 
-    if (getreg(reg) =~# "\n")
-        " For some reason using "c" change doesn't work correctly for multiline,
-        " Adds an extra line at the end
-        exe "normal! \"_d"
+    " Necessary for the case where we substitute to the end of the line 
+    let oldVirtualEdit=&virtualedit
+    set virtualedit+=onemore
 
-        " Use our own version of paste so it autoformats and positions the cursor correctly
-        call g:EasyClipPaste("P", 1, reg)
-    else
-        exe "normal! \"_c\<c-r>". reg
-    endif
+    exe "normal! \"_d"
+    " Use our own version of paste so it autoformats and positions the cursor correctly
+    call g:EasyClipPaste("P", 1, reg)
+
+    exec 'set virtualedit='.oldVirtualEdit
 
     if !s:moveCursor
         call setpos('.', startPos)
