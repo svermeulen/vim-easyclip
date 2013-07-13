@@ -92,9 +92,9 @@ function! s:YankMotion(type)
 
     EasyClipBeforeYank
     if a:type ==# 'line'
-        silent exe "keepjumps normal! `[V`]".excl_right."\"".s:activeRegister."y"
+        exe "keepjumps normal! `[V`]".excl_right."\"".s:activeRegister."y"
     elseif a:type ==# 'char'
-        silent exe "keepjumps normal! `[v`]".excl_right."\"".s:activeRegister."y"
+        exe "keepjumps normal! `[v`]".excl_right."\"".s:activeRegister."y"
     else
         echom "Unexpected selection type"
         return

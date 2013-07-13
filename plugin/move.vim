@@ -21,10 +21,10 @@ function! s:MoveMotion(type)
 
     EasyClipBeforeYank
     let selectType = (a:type ==# 'line' ? "'[V']" : "`[v`]")
-    silent exe "normal! ". selectType . "\"".s:activeRegister."y"
+    exe "keepjumps normal! ". selectType . "\"".s:activeRegister."y"
 
-    silent exec "normal! gv"
-    silent exec "normal! \"_d"
+    exec "normal! gv"
+    exec "normal! \"_d"
 endfunction
 
 if !exists('g:EasyClipUseCutDefaults') || g:EasyClipUseCutDefaults
