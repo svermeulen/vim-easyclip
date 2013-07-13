@@ -84,12 +84,17 @@ endfunction
 
 function! s:YankMotion(type)
     let oldValue = getreg(s:activeRegister)
+    if &selection ==# 'exclusive'
+      let excl_right = "\<right>"
+    else
+      let excl_right = ""
+    endif
 
     EasyClipBeforeYank
     if a:type ==# 'line'
-        silent exe "keepjumps normal! `[V`]\"".s:activeRegister."y"
+        silent exe "keepjumps normal! `[V`]".excl_right."\"".s:activeRegister."y"
     elseif a:type ==# 'char'
-        silent exe "keepjumps normal! `[v`]\"".s:activeRegister."y"
+        silent exe "keepjumps normal! `[v`]".excl_right."\"".s:activeRegister."y"
     else
         echom "Unexpected selection type"
         return
