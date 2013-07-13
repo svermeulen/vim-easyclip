@@ -20,8 +20,8 @@ function! g:EasyClipPaste(op, format, reg)
     let isEmptyLine = (line =~# '^\s*$')
 
     " Save their old position to jumplist
-    " Except for gp since the cursor pos doesn't change
-    " in this case
+    " Except for gp since the cursor pos shouldn't change
+    " in that case
     if isMultiLine && a:op ==# 'P'
         " just doing m` doesn't work in this case so do it one line above
         exec "normal! km`j"
@@ -34,7 +34,7 @@ function! g:EasyClipPaste(op, format, reg)
     if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat
         " Only auto-format if it's multiline or pasting into an empty line
 
-        normal! `]
+        keepjumps normal! `]
         let startPos = getpos('.')
         exec "keepjumps normal! `[=`]"
         call setpos('.', startPos)
