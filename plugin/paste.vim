@@ -112,7 +112,7 @@ endfunction
 " Make sure paste works the same in insert mode
 function! s:FixInsertModePaste()
 
-    let registers = '1234567890abcdefghijklmnopqrstuvwxyz*'
+    let registers = '1234567890abcdefghijklmnopqrstuvwxyz*"'
 
     for i in range(strlen(registers))
         let chr = strpart(registers, i, 1)
