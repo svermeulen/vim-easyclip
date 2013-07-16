@@ -19,8 +19,14 @@ endfunction
 
 function! s:MoveMotion(type)
 
+    if &selection ==# 'exclusive'
+      let excl_right = "\<right>"
+    else
+      let excl_right = ""
+    endif
+
     EasyClipBeforeYank
-    let selectType = (a:type ==# 'line' ? "'[V']" : "`[v`]")
+    let selectType = (a:type ==# 'line' ? "'[V']".excl_right : "`[v`]".excl_right)
     silent exe "normal! ". selectType . "\"".s:activeRegister."y"
 
     silent exec "normal! gv"
