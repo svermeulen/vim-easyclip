@@ -69,8 +69,10 @@ function! s:ShowYank(yank, index)
 endfunction
 
 let s:preYankPos = []
+let s:yankCount = 0
 
 function! s:PreYankMotion()
+    let s:yankCount = v:count > 0 ? v:count : 1
     let s:activeRegister = v:register
 
     " This is necessary to get around a bug in vim where the active register persists to
@@ -105,18 +107,20 @@ endfunction
 
 function! s:YankLine()
     EasyClipBeforeYank
-    exec 'normal! "'. s:activeRegister .'yy'
+    exec 'normal! '. s:yankCount . '"'. s:activeRegister .'yy'
+
+    call setpos('.', s:preYankPos)
 endfunction
 
 function! g:EasyClipGetAllYanks()
     return [s:GetYankstackHead()] + s:yankstackTail
 endfunction
 
-nnoremap <plug>EasyClipRotateYanksForward :call <sid>RotateYanks(1)<cr>
-nnoremap <plug>EasyClipRotateYanksBackward :call <sid>RotateYanks(-1)<cr>
+nnoremap <plug>EasyClipRotateYanksForward :<c-u>call <sid>RotateYanks(1)<cr>
+nnoremap <plug>EasyClipRotateYanksBackward :<c-u>call <sid>RotateYanks(-1)<cr>
 
-nnoremap <silent> <plug>YankLinePreserveCursorPosition :call <sid>PreYankMotion()<cr>:call <sid>YankLine()<cr>
-nnoremap <silent> <plug>YankPreserveCursorPosition :call <sid>PreYankMotion()<cr>:set opfunc=<sid>YankMotion<cr>g@
+nnoremap <silent> <plug>YankLinePreserveCursorPosition :<c-u>call <sid>PreYankMotion()<cr>:call <sid>YankLine()<cr>
+nnoremap <silent> <plug>YankPreserveCursorPosition :<c-u>call <sid>PreYankMotion()<cr>:set opfunc=<sid>YankMotion<cr>g@
 
 command! EasyClipBeforeYank :call <sid>OnBeforeYank()
 command! -nargs=0 Yanks call s:ShowYanks()
