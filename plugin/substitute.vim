@@ -53,18 +53,28 @@ function! s:SubstituteMotion(type, ...)
     end
 endfunction
 
-" For some reason I couldn't get this to work without defining it as a function
-function! s:SubstituteLine(reg, keepNewLine)
-    let isOnLastLine = (line(".") == line("$"))
+function! s:SubstituteLineNoNewLine(reg)
+    exec "normal! 0\"_d$"
+    " Use our own version of paste so it autoformats and positions the cursor correctly
+    call g:EasyClipPaste("P", 1, a:reg)
+endfunction
 
-    if a:keepNewLine
-        exec "normal! 0\"_d$"
-    else
-        exe "normal! \"_dd"
+function! s:SubstituteLine(reg, count)
+    let cnt = a:count > 0 ? a:count : 1 
+    exe "normal! ". cnt . "\"_dd"
+
+    let isLastLine = (line(".") == line("$"))
+    if (!isLastLine)
+        normal! k
     endif
 
-    " Use our own version of paste so it autoformats and positions the cursor correctly
-    call g:EasyClipPaste((isOnLastLine ? "p" : "P"), 1, a:reg)
+    let i = 0
+    while i < cnt
+        " Use our own version of paste so it autoformats and positions the cursor correctly
+        call g:EasyClipPaste("p", 1, a:reg)
+
+        let i = i + 1
+    endwhile
 endfunction
 
 function! s:SubstituteToEndOfLine(reg, moveCursor)
@@ -82,11 +92,11 @@ endfunction
 nnoremap <plug>SubstituteOverMotionMap :<c-u>call <sid>OnPreSubstitute(v:register, 1)<cr>:set opfunc=<sid>SubstituteMotion<cr>g@
 nnoremap <plug>G_SubstituteOverMotionMap :<c-u>call <sid>OnPreSubstitute(v:register, 0)<cr>:set opfunc=<sid>SubstituteMotion<cr>g@
 
-nnoremap <plug>SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
-nnoremap <plug>G_SubstituteToEndOfLine :call <sid>SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
+nnoremap <plug>SubstituteToEndOfLine :<c-u>call <sid>SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
+nnoremap <plug>G_SubstituteToEndOfLine :<c-u>call <sid>SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
 
-nnoremap <plug>NoNewlineSubstituteLine :call <sid>SubstituteLine(v:register, 1)<cr>
-nnoremap <plug>SubstituteLine :call <sid>SubstituteLine(v:register, 0)<cr>
+nnoremap <plug>NoNewlineSubstituteLine :<c-u>call <sid>SubstituteLineNoNewLine(v:register)<cr>
+nnoremap <plug>SubstituteLine :<c-u>call <sid>SubstituteLine(v:register, v:count)<cr>
 
 if !exists('g:EasyClipUseSubstituteDefaults') || g:EasyClipUseSubstituteDefaults
 

@@ -2,11 +2,6 @@
 nnoremap d "_d
 nnoremap dd "_dd
 
-if !exists('g:EasyClipRemapCapitals') || g:EasyClipRemapCapitals
-    nnoremap D "_d$
-    xnoremap D <nop>
-endif
-
 nnoremap dD 0"_d$
 
 noremap x "_x
@@ -21,8 +16,13 @@ xnoremap c "_c
 nnoremap cc "_S
 nnoremap cC "_S
 
-nnoremap C "_C
-xnoremap C "_C
+if !exists('g:EasyClipRemapCapitals') || g:EasyClipRemapCapitals
+    nnoremap C "_C
+    xnoremap C "_C
+
+    nnoremap D "_d$
+    xnoremap D <nop>
+endif
 
 function! s:AddBlackHoleSelectBindings()
 
