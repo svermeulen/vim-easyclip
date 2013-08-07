@@ -46,7 +46,7 @@ You can view the full list of yanks at any time by running the command `:Yanks`
 
 Note: Most of the yank functionality is shamelessly stolen and adapted from the great yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
 
-One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer (still working on this)
+One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer (though this may change at some point)
 
 Another difference worth noting is that the cursor position does not change when a yank occurs.
 
