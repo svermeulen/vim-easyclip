@@ -137,7 +137,7 @@ If you have custom yanks that occur in your vimrc or elsewhere and would like th
 
 ### Disclaimer ###
 
-This plugin is very new and as such probably contains bugs.  It is not very well tested on systems other than my own. Feedback and contributions welcome!
+This plugin is very new and as such may contain bugs.  Feedback and contributions welcome!
 
 ### Todo ###
 
