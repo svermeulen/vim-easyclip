@@ -95,8 +95,8 @@ nnoremap <plug>G_SubstituteOverMotionMap :<c-u>call <sid>OnPreSubstitute(v:regis
 nnoremap <plug>SubstituteToEndOfLine :<c-u>call <sid>SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
 nnoremap <plug>G_SubstituteToEndOfLine :<c-u>call <sid>SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
 
-nnoremap <plug>NoNewlineSubstituteLine :<c-u>call <sid>SubstituteLineNoNewLine(v:register)<cr>
-nnoremap <plug>SubstituteLine :<c-u>call <sid>SubstituteLine(v:register, v:count)<cr>
+nnoremap <plug>NoNewlineSubstituteLine :<c-u>call <sid>SubstituteLineNoNewLine(v:register)<cr>:call repeat#set("\<plug>NoNewlineSubstituteLine")<cr>
+nnoremap <plug>SubstituteLine :<c-u>call <sid>SubstituteLine(v:register, v:count)<cr>:call repeat#set("\<plug>SubstituteLine")<cr>
 
 if !exists('g:EasyClipUseSubstituteDefaults') || g:EasyClipUseSubstituteDefaults
 
