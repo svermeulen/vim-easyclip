@@ -26,15 +26,15 @@ It can also take a register to use for the substitution (eg. `"asip`), and is fu
 
 ### What about the default s and m keys?!? ###
 
-One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and (in my humble opinion) both keys also happen to be among the lesser important default mappings.
+One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text) and (in the author's humble opinion) both keys also happen to be among the lesser important default mappings. They are both useful however so will require alternatives:
 
 `s` can be substituted for `cl` and `S` can be substituted for `cc`
 
-`m` or 'set mark' however, does not have an alternative so will require a remapping.  Good alternatives might be `gm`, `!`, or `\`, which you can apply by including the following in your vimrc:
+`m` or 'set mark' does not have as easy an alternative so will require a remapping.  Good alternatives might be `gm`, `!`, or `\`, which you can apply by including the following in your vimrc:
 
 `nnoremap gm m`
 
-Of course, you can pick and choose which parts of EasyClip you want to use, and redefine these operations however you want.  I do believe substitution and cut are common enough operations to justify a dedicated key but your opinion may differ.
+Of course, you can pick and choose which parts of EasyClip you want to use (see options section below), and redefine these operations however you want.  I do believe substitution and cut are common enough operations to justify a dedicated key but your opinion may differ.
 
 ### Yank Buffer ###
 
@@ -44,7 +44,7 @@ The first line of the currently selected yank will be displayed in the status li
 
 You can view the full list of yanks at any time by running the command `:Yanks`
 
-Note: Most of the yank functionality is shamelessly stolen and adapted from the great yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
+Note: Most of the yank functionality is shamelessly stolen and adapted from the yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
 
 One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer (though this may change at some point)
 
@@ -55,7 +55,7 @@ Another difference worth noting is that the cursor position does not change when
 Easy clip makes the following changes to Vim's default paste
 - Adds previously position to jump list
     - This allows you to easily return to the position the cursor was before pasting by pressing `<c-o>`
-    - Note that the substitute operator also adds previous position to the jumplist, so you can hit `<c-o>` in that case to return to previous position as well
+    - Note that the substitute operator also adds previous position to the jumplist, so you can hit `<c-o>` in that case as well
 - Auto formats pasted text
     - Also automatically corrects the `[` and `]` marks according to the formatted text
 - `p` and `P` behaviour
