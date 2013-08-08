@@ -141,8 +141,7 @@ This plugin is very new and as such may contain bugs.  Feedback and contribution
 
 ### Todo ###
 
-- Add back ability to toggle most recent paste between pastes after pasting, similar to yankstack/yankring 
-- `:Yanks` command should open up the list of yanks in a scratch buffer so that it is searchable
+- `:Yanks` command should maybe open up the list of yanks in a scratch buffer so that it is searchable
 
 ### Changelog ###
 
