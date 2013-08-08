@@ -44,7 +44,7 @@ The first line of the currently selected yank will be displayed in the status li
 
 You can view the full list of yanks at any time by running the command `:Yanks`
 
-Note: Most of the yank functionality is shamelessly stolen and adapted from the yankstack plugin, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
+Note: Most of the yank functionality is shamelessly stolen and adapted from another plugin, yankstack, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
 
 One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer.  I find this works fine since I can usually remember the order that the yanks occurred in (and if I can't, the current yank is also printed in the status line every time it changes)
 
