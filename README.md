@@ -1,4 +1,4 @@
-EasyClip
+vim-easyclip
 =============
 ### Simplified clipboard functionality for Vim.###
 
