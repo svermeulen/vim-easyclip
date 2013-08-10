@@ -53,28 +53,26 @@ function! s:SubstituteMotion(type, ...)
     end
 endfunction
 
-function! s:SubstituteLineNoNewLine(reg)
-    exec "normal! 0\"_d$"
-    " Use our own version of paste so it autoformats and positions the cursor correctly
-    call g:EasyClipPaste("P", 1, a:reg)
-endfunction
-
 function! s:SubstituteLine(reg, count)
-    let cnt = a:count > 0 ? a:count : 1 
-    exe "normal! ". cnt . "\"_dd"
+    if getreg(a:reg) !~ '\n'
 
-    let isLastLine = (line(".") == line("$"))
-    if (!isLastLine)
-        normal! k
-    endif
-
-    let i = 0
-    while i < cnt
+        exec "normal! 0\"_d$"
         " Use our own version of paste so it autoformats and positions the cursor correctly
-        call g:EasyClipPaste("p", 1, a:reg)
+        call g:EasyClipPaste("P", 1, a:reg)
+    else
+        let isLastLine = (line(".") == line("$"))
 
-        let i = i + 1
-    endwhile
+        let cnt = a:count > 0 ? a:count : 1 
+        exe "normal! ". cnt . "\"_dd"
+
+        let i = 0
+        while i < cnt
+            " Use our own version of paste so it autoformats and positions the cursor correctly
+            call g:EasyClipPaste(isLastLine ? "p" : "P", 1, a:reg)
+
+            let i = i + 1
+        endwhile
+    endif
 endfunction
 
 function! s:SubstituteToEndOfLine(reg, moveCursor)
@@ -95,7 +93,6 @@ nnoremap <plug>G_SubstituteOverMotionMap :<c-u>call <sid>OnPreSubstitute(v:regis
 nnoremap <plug>SubstituteToEndOfLine :<c-u>call <sid>SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
 nnoremap <plug>G_SubstituteToEndOfLine :<c-u>call <sid>SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
 
-nnoremap <plug>NoNewlineSubstituteLine :<c-u>call <sid>SubstituteLineNoNewLine(v:register)<cr>:call repeat#set("\<plug>NoNewlineSubstituteLine")<cr>
 nnoremap <plug>SubstituteLine :<c-u>call <sid>SubstituteLine(v:register, v:count)<cr>:call repeat#set("\<plug>SubstituteLine")<cr>
 
 if !exists('g:EasyClipUseSubstituteDefaults') || g:EasyClipUseSubstituteDefaults
@@ -110,7 +107,5 @@ if !exists('g:EasyClipUseSubstituteDefaults') || g:EasyClipUseSubstituteDefaults
     endif
 
     nmap ss <plug>SubstituteLine
-    nmap sS <plug>NoNewlineSubstituteLine
-
     xmap s p
 endif
