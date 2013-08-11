@@ -36,12 +36,12 @@ function! s:SubstituteMotion(type, ...)
     let reg = s:activeRegister
 
     if (getreg(reg) =~# "\n")
-        " For some reason using "c" change doesn't work correctly for multiline,
-        " Adds an extra line at the end
+        " Using "c" change doesn't work correctly for multiline,
+        " Adds an extra line at the end, so delete instead
         exe "normal! \"_d"
 
-        " Use our own version of paste so it autoformats and positions the cursor correctly
-        call g:EasyClipPaste("P", 1, reg)
+        " Use our own version of paste so it autoformats and positions the cursor correctly, also note: pasting inline
+        call g:EasyClipPaste("P", 1, reg, 1)
     else
         exe "normal! \"_c\<c-r>". reg
     endif
@@ -58,7 +58,7 @@ function! s:SubstituteLine(reg, count)
 
         exec "normal! 0\"_d$"
         " Use our own version of paste so it autoformats and positions the cursor correctly
-        call g:EasyClipPaste("P", 1, a:reg)
+        call g:EasyClipPaste("P", 1, a:reg, 0)
     else
         let isLastLine = (line(".") == line("$"))
 
@@ -68,7 +68,7 @@ function! s:SubstituteLine(reg, count)
         let i = 0
         while i < cnt
             " Use our own version of paste so it autoformats and positions the cursor correctly
-            call g:EasyClipPaste(isLastLine ? "p" : "P", 1, a:reg)
+            call g:EasyClipPaste(isLastLine ? "p" : "P", 1, a:reg, 0)
 
             let i = i + 1
         endwhile
@@ -80,7 +80,7 @@ function! s:SubstituteToEndOfLine(reg, moveCursor)
     exec "normal! \"_d$"
 
     " Use our own version of paste so it autoformats and positions the cursor correctly
-    call g:EasyClipPaste("p", 1, a:reg)
+    call g:EasyClipPaste("p", 1, a:reg, 0)
 
     if !a:moveCursor
         call setpos('.', startPos)

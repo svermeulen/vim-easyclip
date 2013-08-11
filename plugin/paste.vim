@@ -6,7 +6,12 @@ let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 1)
 " - optionally auto format, preserving the marks `[ and `] in the process
 " - always position the cursor directly after the text for P and p versions
 " - do not move the cursor for gp and gP versions
-function! g:EasyClipPaste(op, format, reg)
+"
+" op = either P or p
+" format = 1 if we should autoformat
+" inline = 1 if we should paste multiline text inline.  
+" That is, add the newline wherever the cursor is rather than above/below the current line
+function! g:EasyClipPaste(op, format, reg, inline)
 
     let text = getreg(a:reg)
 
@@ -19,17 +24,22 @@ function! g:EasyClipPaste(op, format, reg)
     let line = getline(".")
     let isEmptyLine = (line =~# '^\s*$')
 
-    " Save their old position to jumplist
-    " Except for gp since the cursor pos shouldn't change
-    " in that case
-    if isMultiLine && a:op ==# 'P'
-        " just doing m` doesn't work in this case so do it one line above
-        exec "normal! km`j"
+    if a:inline
+        " Do not save to jumplist when pasting inline
+        exec "normal! ". (a:op ==# 'p' ? 'a' : 'i') . "\<c-r>". a:reg
     else
-        exec "normal! m`"
-    endif
+        " Save their old position to jumplist
+        " Except for gp since the cursor pos shouldn't change
+        " in that case
+        if isMultiLine && a:op ==# 'P'
+            " just doing m` doesn't work in this case so do it one line above
+            exec "normal! km`j"
+        else
+            exec "normal! m`"
+        endif
 
-    exec "normal! \"".a:reg.a:op
+        exec "normal! \"".a:reg.a:op
+    endif
 
     if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat
         " Only auto-format if it's multiline or pasting into an empty line
@@ -52,6 +62,10 @@ function! g:EasyClipPaste(op, format, reg)
             if colNo != -1
                 let colNo = colNo + len(lastWords)
                 call cursor(line('.'), colNo)
+            else
+                " This might happen if the pasted value ends with a newline
+                " Make sure we end at the beginning of the line in this case
+                normal! ^
             endif
         endif
 
@@ -84,7 +98,7 @@ function! s:PasteText(reg, count, op, format, plugName)
     let cnt = a:count > 0 ? a:count : 1 
 
     while i < cnt
-        call g:EasyClipPaste(a:op, a:format, reg)
+        call g:EasyClipPaste(a:op, a:format, reg, 0)
         let i = i + 1
     endwhile
 
@@ -93,16 +107,15 @@ endfunction
 
 " Change to use the same paste routine above when pasting things in insert mode
 function! g:EasyClipInsertModePaste(reg)
-    let op = (col(".") == (strlen(getline("."))+1)) ? "p" : "P"
+    call g:EasyClipPaste('P', 1, a:reg, 1)    " Note: pasting inline
 
-    call g:EasyClipPaste(op, 1, a:reg)
-    return "\<right>"
+    return col('.') == 1 ? "" : "\<right>"
 endfunction
 
 " Make sure paste works the same in insert mode
 function! s:FixInsertModePaste()
 
-    let registers = '1234567890abcdefghijklmnopqrstuvwxyz*'
+    let registers = '"1234567890abcdefghijklmnopqrstuvwxyz*'
 
     for i in range(strlen(registers))
         let chr = strpart(registers, i, 1)
