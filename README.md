@@ -56,7 +56,7 @@ Easy clip makes the following changes to Vim's default paste
 - Adds previously position to jump list
     - This allows you to easily return to the position the cursor was before pasting by pressing `<c-o>`
     - Note that the substitute operator also adds previous position to the jumplist, so you can hit `<c-o>` in that case as well
-- Auto formats pasted text
+- Auto formats pasted text (including text pasted in insert mode using `<c-r>`)
     - Also automatically corrects the `[` and `]` marks according to the formatted text
 - `p` and `P` behaviour
     - Always positions the cursor directly after the pasted text
