@@ -8,7 +8,7 @@ Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Ma
 
 ### Installation ###
 
-I recommend loading your plugins with [vundle](https://github.com/gmarik/vundle) or [pathogen](https://github.com/tpope/vim-pathogen) (I personally prefer Vundle).
+I recommend loading your plugins with [neobundle](https://github.com/Shougo/neobundle.vim) or [vundle](https://github.com/gmarik/vundle) or [pathogen](https://github.com/tpope/vim-pathogen)
 
 This plugin also requires that you have Tim Pope's [repeat.vim](https://github.com/tpope/vim-repeat) plugin installed.
 
