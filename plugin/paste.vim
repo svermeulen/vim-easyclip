@@ -109,6 +109,7 @@ endfunction
 function! g:EasyClipInsertModePaste(reg)
     call g:EasyClipPaste('P', 1, a:reg, 1)    " Note: pasting inline
 
+    " TODO: this doesn't quite work in some cases, like when selecting then pasting using v and not just V
     return col('.') == 1 ? "" : "\<right>"
 endfunction
 
