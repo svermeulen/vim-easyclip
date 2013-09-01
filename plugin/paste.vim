@@ -26,7 +26,7 @@ function! g:EasyClipPaste(op, format, reg, inline)
 
     if a:inline
         " Do not save to jumplist when pasting inline
-        exec "normal! ". (a:op ==# 'p' ? 'a' : 'i') . "\<c-r>". a:reg
+        exec "normal! ". (a:op ==# 'p' ? 'a' : 'i') . "\<c-r>". a:reg . "\<right>"
     else
         " Save their old position to jumplist
         " Except for gp since the cursor pos shouldn't change
@@ -46,27 +46,17 @@ function! g:EasyClipPaste(op, format, reg, inline)
 
         keepjumps normal! `]
         let startPos = getpos('.')
+        normal! ^
+        let numFromStart = startPos[2] - col('.')
+
         " Suppress 'x lines indented' message
         silent exec "keepjumps normal! `[=`]"
         call setpos('.', startPos)
+        normal! ^
 
-        " Update the `] register with the end of the formatted text
-        " I don't know of any way to get this other than searching for it
-        " Go to last line
-        let line = getline(".")
-        let lastWords = matchstr(text, '\v\n=\s*\zs\p*\ze\n=$')
-
-        if line !~# '^\s*$' && lastWords !=# ''
-            let colNo = stridx(line, lastWords)
-
-            if colNo != -1
-                let colNo = colNo + len(lastWords)
-                call cursor(line('.'), colNo)
-            else
-                " This might happen if the pasted value ends with a newline
-                " Make sure we end at the beginning of the line in this case
-                normal! ^
-            endif
+        if numFromStart > 0
+            " Preserve cursor position so that it is placed at the last pasted character
+            exec "normal! ". numFromStart . "l"
         endif
 
         normal! m]
@@ -74,13 +64,12 @@ function! g:EasyClipPaste(op, format, reg, inline)
 
     if a:op ==# 'gp'
         exec "normal! ``"
-    endif
 
-    if a:op ==# 'gP'
+    elseif a:op ==# 'gP'
         exec "keepjumps normal! `["
-    endif
 
-    if a:op ==# 'P' || a:op ==# 'p'
+    else
+        " a:op ==# 'P' || a:op ==# 'p'
         exec "keepjumps normal! `]"
     endif
 endfunction
@@ -108,7 +97,14 @@ endfunction
 " Change to use the same paste routine above when pasting things in insert mode
 function! g:EasyClipInsertModePaste(reg)
 
-    call g:EasyClipPaste('P', 1, a:reg, 1)    " Note: pasting inline
+    let oldVirtualEdit = &virtualedit
+    " We need to set virtual edit otherwise the part in EasyClipPaste where
+    " we do <c-r> ...etc... \<right> will not always work as expected and we'll
+    " be off one character.  This would occur for eg. when pasting a single word into
+    " an empty line
+    set virtualedit=onemore
+    call g:EasyClipPaste('P', 1, a:reg, 1)
+    exec "set virtualedit=". oldVirtualEdit
     return ""
 endfunction
 
@@ -119,9 +115,7 @@ function! s:FixInsertModePaste()
 
     for i in range(strlen(registers))
         let chr = strpart(registers, i, 1)
-        " Hack: Add a temporary character and delete it after the paste to avoid bug where the cursor position 
-        " goes off by one character
-        exec "inoremap <c-r>".chr ." x<left><c-r>=g:EasyClipInsertModePaste('". chr ."')<cr><right><backspace>"
+        exec "inoremap <c-r>".chr ." <c-r>=g:EasyClipInsertModePaste('". chr ."')<cr>"
     endfor
 endfunction
 
