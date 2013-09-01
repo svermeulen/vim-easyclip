@@ -142,6 +142,7 @@ This plugin is very new and as such may contain bugs.  Feedback and contribution
 ### Todo ###
 
 - `:Yanks` command should maybe open up the list of yanks in a scratch buffer so that it is searchable
+- Improve yank navigation, maybe using something like yankstack where you can toggle after paste rather than before
 
 ### Changelog ###
 
