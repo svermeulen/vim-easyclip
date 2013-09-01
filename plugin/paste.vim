@@ -9,7 +9,7 @@ let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 1)
 "
 " op = either P or p
 " format = 1 if we should autoformat
-" inline = 1 if we should paste multiline text inline.  
+" inline = 1 if we should paste multiline text inline.
 " That is, add the newline wherever the cursor is rather than above/below the current line
 function! g:EasyClipPaste(op, format, reg, inline)
 
@@ -107,10 +107,9 @@ endfunction
 
 " Change to use the same paste routine above when pasting things in insert mode
 function! g:EasyClipInsertModePaste(reg)
-    call g:EasyClipPaste('P', 1, a:reg, 1)    " Note: pasting inline
 
-    " TODO: this doesn't quite work in some cases, like when selecting then pasting using v and not just V
-    return col('.') == 1 ? "" : "\<right>"
+    call g:EasyClipPaste('P', 1, a:reg, 1)    " Note: pasting inline
+    return ""
 endfunction
 
 " Make sure paste works the same in insert mode
@@ -120,7 +119,9 @@ function! s:FixInsertModePaste()
 
     for i in range(strlen(registers))
         let chr = strpart(registers, i, 1)
-        exec "inoremap <c-r>".chr ." <c-r>=g:EasyClipInsertModePaste('". chr ."')<cr>"
+        " Hack: Add a temporary character and delete it after the paste to avoid bug where the cursor position 
+        " goes off by one character
+        exec "inoremap <c-r>".chr ." x<left><c-r>=g:EasyClipInsertModePaste('". chr ."')<cr><right><backspace>"
     endfor
 endfunction
 
