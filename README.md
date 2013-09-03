@@ -26,7 +26,7 @@ It can also take a register to use for the substitution (eg. `"asip`), and is fu
 
 ### What about the default s and m keys?!? ###
 
-One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for EasyClip (`s` for substitute and `m` for move text) and (in the author's humble opinion) both keys also happen to be among the easier keys to remap. They are both useful however so will require alternatives:
+One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for EasyClip (`s` for substitute and `m` for move text) and they are among the easier keys to remap. However, they are both useful so will require alternatives:
 
 `s` can be substituted for `cl` and `S` can be substituted for `cc`
 
