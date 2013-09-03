@@ -85,7 +85,6 @@ function! s:PreYankMotion()
 endfunction
 
 function! s:YankMotion(type)
-    let oldValue = getreg(s:activeRegister)
     if &selection ==# 'exclusive'
       let excl_right = "\<right>"
     else
