@@ -146,6 +146,9 @@ This plugin is very new and as such may contain bugs.  Feedback and contribution
 
 ### Changelog ###
 
+0.2 (2013-09-03)
+  - Bunch of bug fixes
+
 0.1 (2013-07-08)
   - Initial release
 
