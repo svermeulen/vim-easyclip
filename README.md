@@ -111,8 +111,6 @@ You can then map to the specific `<plug>` mappings to define whatever mappings y
 
 `gs/gS`           Same as s/S but preserves the current cursor position
 
-`sS`              Substitute current line with specified register, except the newline character
-
 `p`               Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
 
 `P`               Same as p except inserts text before current line/character
