@@ -4,8 +4,8 @@ nnoremap dd "_dd
 
 nnoremap dD 0"_d$
 
-noremap x "_x
-xnoremap x "_x
+noremap z "_x
+xnoremap z "_x
 
 xnoremap d "_d
 
