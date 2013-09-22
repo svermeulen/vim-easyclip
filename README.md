@@ -144,10 +144,13 @@ This plugin is very new and as such may contain bugs.  Feedback and contribution
 
 ### Changelog ###
 
-0.2 (2013-09-03)
+1.2 (2013-09-22)
+  - More bug fixes
+
+1.1 (2013-09-03)
   - Bunch of bug fixes
 
-0.1 (2013-07-08)
+1.0 (2013-07-08)
   - Initial release
 
 ### License ###
