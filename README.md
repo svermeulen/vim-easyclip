@@ -4,7 +4,7 @@ vim-easyclip
 
 Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Max Brunsfeld] (http://www.github.com/maxbrunsfeld)
 
-[EasyClip](https://github.com/svermeulen/vim-easyclip) is a collection of clipboard related functionality with the goal of making using vim simpler without losing any of its power.
+[EasyClip](https://github.com/svermeulen/vim-easyclip) is a plugin for Vim which contains a collection of clipboard related functionality with the goal of making using Vim simpler without losing any of its power.
 
 ### Installation ###
 
@@ -26,7 +26,7 @@ It can also take a register to use for the substitution (eg. `"asip`), and is fu
 
 ### What about the default s and m keys?!? ###
 
-One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for EasyClip (`s` for substitute and `m` for move text) and (in the author's humble opinion) both keys also happen to be among the easier keys to remap. They are both useful however so will require alternatives:
+One implication of the default Easyclip mapping is that we shadow two of vim's defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen to be perfect mnemonic's for EasyClip (`s` for substitute and `m` for move text) and they are among the easier keys to remap. However, they are both useful so will require alternatives:
 
 `s` can be substituted for `cl` and `S` can be substituted for `cc`
 
@@ -46,7 +46,7 @@ You can view the full list of yanks at any time by running the command `:Yanks`
 
 Note: Most of the yank functionality is shamelessly stolen and adapted from another plugin, yankstack, which can be found [here](https://github.com/maxbrunsfeld/vim-yankstack)
 
-One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer.  I find this works fine since I can usually remember the order that the yanks occurred in (and if I can't, the current yank is also printed in the status line every time it changes)
+One difference you'll find with yankstack is that it does not replace the most recent paste, and instead just moves the current register forward or backwards in the yank buffer.  In many cases you can remember the order of pastes (since you don't have it cluttered with deletes) so this is usually sufficient, but I do admit that yankring/yankstack-style swapping post-paste had it's uses, so I hope to look into adding this at some point (see todo below)
 
 Another difference worth noting is that the cursor position does not change when a yank occurs.
 
@@ -111,8 +111,6 @@ You can then map to the specific `<plug>` mappings to define whatever mappings y
 
 `gs/gS`           Same as s/S but preserves the current cursor position
 
-`sS`              Substitute current line with specified register, except the newline character
-
 `p`               Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
 
 `P`               Same as p except inserts text before current line/character
@@ -145,6 +143,9 @@ This plugin is very new and as such may contain bugs.  Feedback and contribution
 - Improve yank navigation, maybe using something like yankstack where you can toggle after paste rather than before
 
 ### Changelog ###
+
+0.2 (2013-09-03)
+  - Bunch of bug fixes
 
 0.1 (2013-07-08)
   - Initial release

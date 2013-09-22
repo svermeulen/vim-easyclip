@@ -23,6 +23,7 @@ function! g:EasyClipPaste(op, format, reg, inline)
     let isMultiLine = (text =~# "\n")
     let line = getline(".")
     let isEmptyLine = (line =~# '^\s*$')
+    let oldPos = getpos('.')
 
     if a:inline
         " Do not save to jumplist when pasting inline
@@ -31,11 +32,13 @@ function! g:EasyClipPaste(op, format, reg, inline)
         " Save their old position to jumplist
         " Except for gp since the cursor pos shouldn't change
         " in that case
-        if isMultiLine && a:op ==# 'P'
-            " just doing m` doesn't work in this case so do it one line above
-            exec "normal! km`j"
-        else
-            exec "normal! m`"
+        if isMultiLine
+            if a:op ==# 'P'
+                " just doing m` doesn't work in this case so do it one line above
+                exec "normal! km`j"
+            elseif a:op == 'p'
+                exec "normal! m`"
+            endif
         endif
 
         exec "normal! \"".a:reg.a:op
@@ -63,7 +66,7 @@ function! g:EasyClipPaste(op, format, reg, inline)
     endif
 
     if a:op ==# 'gp'
-        exec "normal! ``"
+        call setpos('.', oldPos)
 
     elseif a:op ==# 'gP'
         exec "keepjumps normal! `["

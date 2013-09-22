@@ -24,10 +24,12 @@ function! s:SubstituteMotion(type, ...)
       let excl_right = ""
     endif
 
+    " use keepjumps since we only want to change jumplist
+    " if it's multiline
     if a:type ==# 'line'
-        exe "normal! '[V']".excl_right
+        exe "keepjump normal! '[V']".excl_right
     elseif a:type ==# 'char'
-        exe "normal! `[v`]".excl_right
+        exe "keepjump normal! `[v`]".excl_right
     else
         echom "Unexpected selection type"
         return
@@ -36,6 +38,12 @@ function! s:SubstituteMotion(type, ...)
     let reg = s:activeRegister
 
     if (getreg(reg) =~# "\n")
+
+        if s:moveCursor
+            " Record the start of the substitution to the jump list
+            exec "normal! m`"
+        endif
+
         " Using "c" change doesn't work correctly for multiline,
         " Adds an extra line at the end, so delete instead
         exe "normal! \"_d"
