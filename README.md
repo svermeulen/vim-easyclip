@@ -91,6 +91,8 @@ You can also disable the default mappings by setting one or more of the followin
     `g:EasyClipUsePasteDefaults`
     
     `g:EasyClipUseSubstituteDefaults`
+    
+    `g:EasyClipUseBlackHoleDefaults`
 
 You can then map to the specific `<plug>` mappings to define whatever mappings you want.  For example, to change the mapping for cut (by default set to `m`) to `yd`, include the following in your vimrc:`
 
