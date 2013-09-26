@@ -56,6 +56,7 @@ Easy clip makes the following changes to Vim's default paste
 - Adds previously position to jump list
     - This allows you to easily return to the position the cursor was before pasting by pressing `<c-o>`
     - Note that the substitute operator also adds previous position to the jumplist, so you can hit `<c-o>` in that case as well
+    - Note that this only occurs if the paste/substitution is multiline.
 - Auto formats pasted text (including text pasted in insert mode using `<c-r>`)
     - Also automatically corrects the `[` and `]` marks according to the formatted text
 - `p` and `P` behaviour
@@ -131,9 +132,11 @@ You can then map to the specific `<plug>` mappings to define whatever mappings y
 
 ### Custom Yanks ###
 
-If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, simply call the command `EasyClipBeforeYank` before the yank occurs.  For example, I have the following line in my vimrc to yank the current file name:
+If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, you can either call easyclip#Yank() to record the string or call the command `EasyClipBeforeYank` before the yank occurs.  For example, to yank the current file name you could do either of the following:
 
 `nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>`
+
+`nnoremap <leader>yfn :call easyclip#Yank(expand('%'))<cr>`
 
 ### Disclaimer ###
 
