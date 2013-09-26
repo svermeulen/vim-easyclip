@@ -140,7 +140,7 @@ If you have custom yanks that occur in your vimrc or elsewhere and would like th
 
 ### Disclaimer ###
 
-This plugin is very new and as such may contain bugs.  Feedback and contributions welcome!
+This plugin is very new and as such may contain bugs.  Please submit any bugs that you find as github issues.  Pull requests are also more than welcome!
 
 ### Todo ###
 
