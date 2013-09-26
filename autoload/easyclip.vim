@@ -10,3 +10,7 @@ function! easyclip#GetDefaultReg()
     endif
 endfunction
 
+function! easyclip#Yank(str)
+    EasyClipBeforeYank
+    exec "let @". easyclip#GetDefaultReg() . "='". a:str . "'"
+endfunction

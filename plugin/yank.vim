@@ -92,6 +92,10 @@ function! s:YankMotion(type)
     endif
 
     EasyClipBeforeYank
+
+    let oldVisualStart = getpos("'<")
+    let oldVisualEnd = getpos("'>")
+
     if a:type ==# 'line'
         exe "keepjumps normal! `[V`]".excl_right."\"".s:activeRegister."y"
     elseif a:type ==# 'char'
@@ -100,6 +104,9 @@ function! s:YankMotion(type)
         echom "Unexpected selection type"
         return
     endif
+
+    call setpos("'<", oldVisualStart)
+    call setpos("'>", oldVisualEnd)
 
     call setpos('.', s:preYankPos)
 endfunction
@@ -137,6 +144,6 @@ if !exists('g:EasyClipUseYankDefaults') || g:EasyClipUseYankDefaults
     nmap y <Plug>YankPreserveCursorPosition
     nmap yy <Plug>YankLinePreserveCursorPosition
 
-    xnoremap <silent> y :<c-u>EasyClipBeforeYank<cr>gvy
+    xnoremap <silent> <expr> y ':<c-u>EasyClipBeforeYank<cr>gv"'. v:register . 'y'
 endif
 
