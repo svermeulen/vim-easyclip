@@ -161,3 +161,7 @@ This plugin is very new and as such may contain bugs.  Please submit any bugs th
 ### License ###
 
 Distributed under the same terms as Vim itself.  See the vim license.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/svermeulen/vim-easyclip/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
