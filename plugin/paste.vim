@@ -94,7 +94,9 @@ function! s:PasteText(reg, count, op, format, plugName)
         let i = i + 1
     endwhile
 
-    call repeat#set("\<plug>". a:plugName, a:count)
+    let fullPlugName = "\<plug>". a:plugName
+    silent! call repeat#setreg(fullPlugName, reg)
+    silent! call repeat#set(fullPlugName, a:count)
 endfunction
 
 " Change to use the same paste routine above when pasting things in insert mode
