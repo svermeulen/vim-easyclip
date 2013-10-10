@@ -108,7 +108,10 @@ function! s:YankMotion(type)
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
 
-    call setpos('.', s:preYankPos)
+    if !empty(s:preYankPos)
+        call setpos('.', s:preYankPos)
+        let s:preYankPos = []
+    endif
 endfunction
 
 function! s:YankLine()
