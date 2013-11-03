@@ -1,13 +1,22 @@
 
+"""""""""""""""""""""""
+" Variables
+"""""""""""""""""""""""
 let s:activeRegister = easyclip#GetDefaultReg()
 
+"""""""""""""""""""""""
+" Plugs
+"""""""""""""""""""""""
 nnoremap <silent> <plug>MoveMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$"_d$:call repeat#set("\<plug>MoveMotionEndOfLinePlug")<cr>
 nnoremap <silent> <plug>MoveMotionReplaceLinePlug :<c-u>EasyClipBeforeYank<cr>0y$"_d$:call repeat#set("\<plug>MoveMotionReplaceLinePlug")<cr>
 nnoremap <silent> <expr> <plug>MoveMotionLinePlug ':<c-u>EasyClipBeforeYank<cr>'. v:count .'yy'. v:count . '"_dd:call repeat#set("\<plug>MoveMotionLinePlug")<cr>'
 xnoremap <silent> <plug>MoveMotionXPlug :<c-u>EasyClipBeforeYank<cr>gvygv"_d
-nnoremap <silent> <plug>MoveMotionPlug :call <sid>PreMoveMotion()<cr>:set opfunc=<sid>MoveMotion<cr>g@
+nnoremap <silent> <plug>MoveMotionPlug :call easyclip#move#PreMoveMotion()<cr>:set opfunc=easyclip#move#MoveMotion<cr>g@
 
-function! s:PreMoveMotion( )
+"""""""""""""""""""""""
+" Functions
+"""""""""""""""""""""""
+function! easyclip#move#PreMoveMotion( )
     let s:activeRegister = v:register
 
     " This is necessary to get around a bug in vim where the active register persists to
@@ -17,7 +26,7 @@ function! s:PreMoveMotion( )
     endif
 endfunction
 
-function! s:MoveMotion(type)
+function! easyclip#move#MoveMotion(type)
 
     if &selection ==# 'exclusive'
       let excl_right = "\<right>"
@@ -33,7 +42,7 @@ function! s:MoveMotion(type)
     exec "normal! \"_d"
 endfunction
 
-if !exists('g:EasyClipUseCutDefaults') || g:EasyClipUseCutDefaults
+function! easyclip#move#SetDefaultBindings()
 
     "" "m" = "move" to a different location
     nmap m <Plug>MoveMotionPlug
@@ -43,4 +52,11 @@ if !exists('g:EasyClipUseCutDefaults') || g:EasyClipUseCutDefaults
     " Leave these commented to avoid shadowing M (go to middle of screen)
     "nmap M <Plug>MoveMotionEndOfLinePlug
     "nmap mM <Plug>MoveMotionReplaceLinePlug
-endif
+endfunction
+
+function! easyclip#move#Init()
+
+    if g:EasyClipUseCutDefaults
+        call easyclip#move#SetDefaultBindings()
+    endif
+endfunction
