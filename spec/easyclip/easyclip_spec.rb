@@ -387,12 +387,12 @@ describe "Easyclip" do
     end
 
     describe "main" do
-        #it_has_behavior "basic substitution"
-        #it_has_behavior "basic cutting/moving"
-        #it_has_behavior "basic pasting"
+        it_has_behavior "basic substitution"
+        it_has_behavior "basic cutting/moving"
+        it_has_behavior "basic pasting"
         it_has_behavior "basic pasting 2"
-        #it_has_behavior "basic yanks"
-        #it_has_behavior "black hole redirection"
+        it_has_behavior "basic yanks"
+        it_has_behavior "black hole redirection"
     end
 
     ###################

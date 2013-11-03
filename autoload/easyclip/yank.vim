@@ -39,7 +39,9 @@ function! easyclip#yank#OnBeforeYank()
         let s:isFirstYank = 0
         return
     endif
+
     let head = easyclip#yank#GetYankstackHead()
+
     if !empty(head.text) && (empty(s:yankstackTail) || (head != s:yankstackTail[0]))
         call insert(s:yankstackTail, head)
         let s:yankstackTail = s:yankstackTail[: g:EasyClipYankHistorySize-1]
@@ -47,10 +49,16 @@ function! easyclip#yank#OnBeforeYank()
 endfunction
 
 function! easyclip#yank#Rotate(offset)
-    if empty(s:yankstackTail) | return | endif
+
+    if empty(s:yankstackTail)
+        return
+    endif
+
     let offset_left = a:offset
+
     while offset_left != 0
         let head = easyclip#yank#GetYankstackHead()
+
         if offset_left > 0
             let entry = remove(s:yankstackTail, 0)
             call add(s:yankstackTail, head)
@@ -60,6 +68,7 @@ function! easyclip#yank#Rotate(offset)
             call insert(s:yankstackTail, head)
             let offset_left += 1
         endif
+
         call easyclip#yank#SetYankStackHead(entry)
     endwhile
 endfunction
@@ -71,6 +80,7 @@ endfunction
 
 function! easyclip#yank#GetYankstackHead()
     let reg = easyclip#GetDefaultReg()
+
     return { 'text': getreg(reg), 'type': getregtype(reg) }
 endfunction
 

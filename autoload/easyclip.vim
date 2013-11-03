@@ -14,6 +14,7 @@ let g:EasyClipUsePasteToggleDefaults = get(g:, 'EasyClipUsePasteToggleDefaults',
 let g:EasyClipUsePasteDefaults = get(g:, 'EasyClipUsePasteDefaults', 0)
 let g:EasyClipUseYankDefaults = get(g:, 'EasyClipUseYankDefaults', 0)
 let g:EasyClipDoSystemSync = get(g:, 'EasyClipDoSystemSync', 0)
+let g:EasyClipEnableInsertModePaste = get(g:, 'EasyClipEnableInsertModePaste', 0)
 
 """""""""""""""""""""""
 " Functions

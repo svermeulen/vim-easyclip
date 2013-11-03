@@ -3,41 +3,22 @@
 """""""""""""""""""""""
 let s:pasteOverrideRegister = ''
 let s:lastPasteRegister =''
-let s:insertModePasteRegister=''
-let s:swapPasteFromInsertModeStarted = 0
-let s:oldCompleteFunc = ''
-let s:waitingToExitInsertModePaste = 0
 let s:lastPasteChangedtick = -1
-let s:commandModeColPosStart = 0
-let s:commandModeColPosEnd = 0
+let s:offsetSum = 0
+let s:isSwapping = 0
 
 """""""""""""""""""""""
 " Plugs
 """""""""""""""""""""""
 
-inoremap <plug>EasyClipInsertModeSwapPasteForward <c-r>=easyclip#paste#PreInsertModeSwapPaste()<cr><c-o>:call easyclip#paste#SwapPaste(1)<cr><right>
-inoremap <plug>EasyClipInsertModeSwapPasteBackwards <c-r>=easyclip#paste#PreInsertModeSwapPaste()<cr><c-o>:call easyclip#paste#SwapPaste(0)<cr><right>
+set pastetoggle=<plug>PasteToggle
 
-nnoremap <plug>InsertModePaste :call easyclip#paste#InsertModePaste()<cr>
-
-inoremap <expr> <plug>EasyClipInsertModePaste easyclip#paste#FakeUserExitingAndThenPasting(easyclip#GetDefaultReg())
-
-cnoremap <plug>EasyClipCommandModePaste <c-f>:call easyclip#paste#CommandModePaste()<cr><right>
-cnoremap <plug>EasyClipCommandModeSwapPasteForward <c-f>:call easyclip#paste#CommandModeSwapPaste(1)<cr><right>
-cnoremap <plug>EasyClipCommandModeSwapPasteBackward <c-f>:call easyclip#paste#CommandModeSwapPaste(-1)<cr><right>
+" Always toggle to 'paste mode' before pasting in insert mode
+exec "imap <plug>EasyClipInsertModePaste <plug>PasteToggle<C-r>" . easyclip#GetDefaultReg() . "<plug>PasteToggle"
 
 nnoremap <silent> <plug>EasyClipSwapPasteForward :call easyclip#paste#SwapPaste(1)<cr>
 nnoremap <silent> <plug>EasyClipSwapPasteBackwards :call easyclip#paste#SwapPaste(0)<cr>
 
-" Our Paste options are:
-" p - paste after newline if multiline, paste after character if non-multiline
-" P - paste before newline if multiline, paste before character if non-multiline
-" gp - same as p but keep old cursor position
-" gP - same as P but keep old cursor position
-" <c-p> - same as p but does not auto-format
-" <c-s-p> - same as P but does not auto-format
-" g<c-p> - same as c-p but keeps cursor position
-" g<c-P> - same as c-p but keeps cursor position
 nnoremap <silent> <plug>EasyClipPasteAfter :<c-u>call easyclip#paste#PasteText(v:register, v:count, 'p', 1, "EasyClipPasteAfter")<cr>
 nnoremap <silent> <plug>EasyClipPasteBefore :<c-u>call easyclip#paste#PasteText(v:register, v:count, 'P', 1, "EasyClipPasteBefore")<cr>
 xnoremap <silent> <expr> <plug>XEasyClipPaste '"_d:<c-u>call easyclip#paste#PasteText("' . v:register . '",' . v:count . ', "P", 1, "EasyClipPasteBefore")<cr>'
@@ -137,6 +118,24 @@ function! easyclip#paste#Paste(op, format, reg, inline)
         " a:op ==# 'P' || a:op ==# 'p'
         exec "keepjumps normal! `]"
     endif
+
+endfunction
+
+function! s:EndSwapPaste()
+
+    if !s:isSwapping
+        " Should never happen
+        throw "Unknown Error detected during EasyClip paste"
+    endif
+
+    let s:isSwapping = 0
+
+    augroup SwapPasteMoveDetect
+        autocmd!
+    augroup END
+
+    " Return yank positions to their original state before we started swapping
+    call easyclip#yank#Rotate(-s:offsetSum)
 endfunction
 
 function! easyclip#paste#WasLastChangePaste()
@@ -169,178 +168,51 @@ function! easyclip#paste#PasteText(reg, count, op, format, plugName)
     endif
 endfunction
 
-function! easyclip#paste#InsertLeaveCheckEndInsertModePaste()
-    call ave#Assert(s:waitingToExitInsertModePaste)
-
-    if s:swapPasteFromInsertModeStarted
-        " We leave insert mode briefly when swapping pastes, so we don't 
-        " want to re-enable completion just yet
-        let s:swapPasteFromInsertModeStarted = 0
-    else
-        call easyclip#paste#EndWaitInsertMode()
-    endif
-endfunction
-
-function! easyclip#paste#CheckEndInsertModePaste()
-
-    call ave#Assert(s:waitingToExitInsertModePaste)
-
-    if !easyclip#paste#WasLastChangePaste()
-        call easyclip#paste#EndWaitInsertMode()
-
-        if !empty(&completefunc)
-            " This is necessary to trigger YCM completion
-            " Otherwise we have to wait until the next character is typed
-            call feedkeys( "\<C-X>\<C-U>\<C-P>", 'n' )
-        endif
-    endif
-endfunction
-
-function! easyclip#paste#EndWaitInsertMode()
-
-    augroup _tempDisableCompleteFunc
-        autocmd!
-    augroup END
-
-    exec "set completefunc=" . s:oldCompleteFunc
-
-    let s:waitingToExitInsertModePaste = 0
-endfunction
-
-function! easyclip#paste#InsertModePaste()
-
-    " In order to get insert mode swap-paste to work we need to temporarily 
-    " disable the current completion function
-    " This is necessary for YouCompleteMe to work alongside insert mode swap-paste 
-    " since YouCompleteMe causes a change in b:changedtick when it brings up
-    " the menu, and since we use undo to swap pastes, it wouldn't work
-
-    let s:waitingToExitInsertModePaste = 1
-    let s:oldCompleteFunc = &completefunc
-    set completefunc=
-
-    let s:pasteOverrideRegister=s:insertModePasteRegister
-    exec "normal \<plug>EasyClipPasteAfter"
-    let s:pasteOverrideRegister=''
-
-    augroup _tempDisableCompleteFunc
-        autocmd!
-        autocmd InsertCharPre * call easyclip#paste#CheckEndInsertModePaste()
-        autocmd CursorMovedI * call easyclip#paste#CheckEndInsertModePaste()
-        autocmd CursorMoved * call easyclip#paste#CheckEndInsertModePaste()
-        autocmd CursorHold,CursorHoldI * call easyclip#paste#CheckEndInsertModePaste()
-        autocmd InsertLeave * call easyclip#paste#InsertLeaveCheckEndInsertModePaste()
-    augroup END
-endfunction
-
-function! easyclip#paste#PreInsertModeSwapPaste()
-    let s:swapPasteFromInsertModeStarted = 1
-    return ""
-endfunction
-
-function! easyclip#paste#FakeUserExitingAndThenPasting(reg)
-    let s:insertModePasteRegister = a:reg
-
-    " This is a hack but the only way to accomplish what I want as far as I can tell
-    " We need the paste during insert mode to be a seperate 'undo' action
-    " So that swap paste will work correctly
-    " So we need to use feedkeys to pretend as if the user exitted insert mode,
-    " pasted text, then returned to insert mode for this to work
-    call feedkeys("\<esc>\<plug>InsertModePastea", 't')
-    return ""
-endfunction
-
-" Make sure paste works the same in insert mode
-function! easyclip#paste#FixInsertModePaste()
-
-    " Note that we don't include the '.' register because
-    " this will not work as expected since we leave insert mode to paste
-    let registers = '"1234567890abcdefghijklmnopqrstuvwxyz*'
-
-    for i in range(strlen(registers))
-        let chr = strpart(registers, i, 1)
-
-        " Note: This doesn't work when completion is enabled
-        " As far as I can tell it's impossible to remap <c-r>[key] once completion is started
-        exec "inoremap <expr> <c-r>". chr . " easyclip#paste#FakeUserExitingAndThenPasting('". chr ."')"
-    endfor
-endfunction
-
 function! easyclip#paste#SwapPaste(forward)
     if easyclip#paste#WasLastChangePaste()
 
+        if s:isSwapping
+            " Stop checking to end the swap session
+            augroup SwapPasteMoveDetect
+                autocmd!
+            augroup END
+        else
+            let s:isSwapping = 1
+            let s:offsetSum = 0
+        endif
+
         if s:lastPasteRegister == easyclip#GetDefaultReg()
-            if a:forward
-                call easyclip#yank#Rotate(1)
-            else
-                call easyclip#yank#Rotate(-1)
-            endif
+            let offset = (a:forward ? 1 : -1)
+
+            call easyclip#yank#Rotate(offset)
+            let s:offsetSum += offset
         endif
 
         let s:pasteOverrideRegister = easyclip#GetDefaultReg()
         exec "normal u."
         let s:pasteOverrideRegister = ''
+
+        " Wait until the cursor moves and then reset the yank stack 
+        augroup SwapPasteMoveDetect
+            autocmd!
+            " Wait an extra CursorMoved event since there always seems to be one fired after this function ends
+            autocmd CursorMoved <buffer> autocmd SwapPasteMoveDetect CursorMoved <buffer> call <sid>EndSwapPaste()
+        augroup END
     else
-        echo 'was not last paste, ' . b:changedtick . ' != '. s:lastPasteChangedtick
+        echo 'Last action was not paste, swap ignored'
+        "echo  b:changedtick . ' != '. s:lastPasteChangedtick
     endif
 endfunction 
 
-function! easyclip#paste#CommandModePaste()
-
-    if getreg(easyclip#GetDefaultReg()) =~ '\n'
-        " Multi-line, ignore
-        exec "normal! \<c-c>"
-        return
-    endif
-
-    let s:commandModeColPosStart = getpos('.')[2]
-    let oldVirtualEdit=&virtualedit
-    set virtualedit=onemore
-    exec "normal P"
-    let s:commandModeColPosEnd = getpos('.')[2]
-    exec "normal! \<c-c>"
-    exec 'set virtualedit=' . oldVirtualEdit
-endfunction
-
-function! easyclip#paste#CommandModeSwapPaste(offset)
-
-    if getpos('.')[2] != (s:commandModeColPosEnd+1)
-        " Cursor was moved since last paste, ignore
-        exec "normal! \<c-c>"
-        return
-    endif
-
-    let curPos = getpos('.')
-    let curPos[2] = s:commandModeColPosStart
-    call setpos('.', curPos)
-
-    call easyclip#yank#Rotate(a:offset)
-
-    let cnt = 0
-    let foundYank = 1
-
-    " Swapping paste in command mode only works for non-multiline yanks
-    " So keep rotating yanks until you find one or give up if there is none
-    while getreg(easyclip#GetDefaultReg()) =~ '\n'
-
-        if cnt == easyclip#yank#EasyClipGetNumYanks()
-            let foundYank = 0
-            break
-        endif
-
-        call easyclip#yank#Rotate(a:offset)
-        let cnt = cnt + 1
-    endwhile
-
-    if foundYank
-        exec "normal! \"_d$"
-        exec "normal p"
-        let s:commandModeColPosEnd = getpos('.')[2]
-    endif
-
-    exec "normal! A\<c-c>"
-endfunction
-
+" Default Paste Behaviour is:
+" p - paste after newline if multiline, paste after character if non-multiline
+" P - paste before newline if multiline, paste before character if non-multiline
+" gp - same as p but keep old cursor position
+" gP - same as P but keep old cursor position
+" <c-p> - same as p but does not auto-format
+" <c-s-p> - same as P but does not auto-format
+" g<c-p> - same as c-p but keeps cursor position
+" g<c-P> - same as c-p but keeps cursor position
 function! easyclip#paste#SetDefaultMappings()
 
     xmap p <plug>XEasyClipPaste
@@ -370,8 +242,6 @@ function! easyclip#paste#SetDefaultMappings()
 endfunction
 
 function! easyclip#paste#Init()
-
-    call easyclip#paste#FixInsertModePaste()
 
     if g:EasyClipUsePasteDefaults
         call easyclip#paste#SetDefaultMappings()
