@@ -127,13 +127,11 @@ function! easyclip#substitute#SetDefaultBindings()
     nmap <silent> s <plug>SubstituteOverMotionMap
     nmap <silent> gs <plug>G_SubstituteOverMotionMap
 
-    if g:EasyClipRemapCapitals
-        nmap <silent> S <plug>SubstituteToEndOfLine
-        nmap <silent> gS <plug>G_SubstituteToEndOfLine
-    endif
-
     nmap ss <plug>SubstituteLine
     xmap s p
+
+    "nmap <silent> S <plug>SubstituteToEndOfLine
+    "nmap <silent> gS <plug>G_SubstituteToEndOfLine
 endfunction
 
 function! easyclip#substitute#Init()

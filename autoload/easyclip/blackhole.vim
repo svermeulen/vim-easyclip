@@ -35,7 +35,6 @@ function! easyclip#blackhole#AddDefaultBindings()
 
     " This is more consistent with yy and dd
     nnoremap cc "_S
-    nnoremap cC "_S
 
     if g:EasyClipRemapCapitals
         nnoremap C "_C

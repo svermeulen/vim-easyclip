@@ -4,17 +4,15 @@
 " By default easy clip does nothing
 """""""""""""""""""""""
 let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 30)
-let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)
-let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 0)
-let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 0)
-let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 0)
-let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 0)
-let g:EasyClipUseSubstituteDefaults = get(g:, 'EasyClipUseSubstituteDefaults', 0)
-let g:EasyClipUsePasteToggleDefaults = get(g:, 'EasyClipUsePasteToggleDefaults', 0)
-let g:EasyClipUsePasteDefaults = get(g:, 'EasyClipUsePasteDefaults', 0)
-let g:EasyClipUseYankDefaults = get(g:, 'EasyClipUseYankDefaults', 0)
-let g:EasyClipDoSystemSync = get(g:, 'EasyClipDoSystemSync', 0)
-let g:EasyClipEnableInsertModePaste = get(g:, 'EasyClipEnableInsertModePaste', 0)
+let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 1)
+let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 1)
+let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)
+let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 1)
+let g:EasyClipUseSubstituteDefaults = get(g:, 'EasyClipUseSubstituteDefaults', 1)
+let g:EasyClipUsePasteToggleDefaults = get(g:, 'EasyClipUsePasteToggleDefaults', 1)
+let g:EasyClipUsePasteDefaults = get(g:, 'EasyClipUsePasteDefaults', 1)
+let g:EasyClipUseYankDefaults = get(g:, 'EasyClipUseYankDefaults', 1)
+let g:EasyClipDoSystemSync = get(g:, 'EasyClipDoSystemSync', 1)
 
 """""""""""""""""""""""
 " Functions
