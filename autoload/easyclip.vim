@@ -4,7 +4,7 @@
 " By default easy clip does nothing
 """""""""""""""""""""""
 let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
-let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 1)
+let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)
 let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 1)
 let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)
 let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 1)
