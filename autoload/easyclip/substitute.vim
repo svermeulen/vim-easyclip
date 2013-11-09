@@ -86,11 +86,16 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
 endfunction
 
 function! easyclip#substitute#SubstituteLine(reg, count)
-    if getreg(a:reg) !~ '\n'
+
+    " Check for black hole register to get around a bug in vim where the active 
+    " register persists to the next command
+    let reg = (a:reg == "_" ? easyclip#GetDefaultReg() : a:reg)
+
+    if getreg(reg) !~ '\n'
 
         exec "normal! 0\"_d$"
         " Use our own version of paste so it autoformats and positions the cursor correctly
-        call easyclip#paste#Paste("P", 1, a:reg, 0)
+        call easyclip#paste#Paste("P", 1, reg, 0)
     else
         let isLastLine = (line(".") == line("$"))
 
@@ -100,7 +105,7 @@ function! easyclip#substitute#SubstituteLine(reg, count)
         let i = 0
         while i < cnt
             " Use our own version of paste so it autoformats and positions the cursor correctly
-            call easyclip#paste#Paste(isLastLine ? "p" : "P", 1, a:reg, 0)
+            call easyclip#paste#Paste(isLastLine ? "p" : "P", 1, reg, 0)
 
             let i = i + 1
         endwhile
