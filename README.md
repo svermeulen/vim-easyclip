@@ -12,17 +12,15 @@ I recommend loading your plugins with [neobundle](https://github.com/Shougo/neob
 
 This plugin also requires that you have Tim Pope's [repeat.vim](https://github.com/tpope/vim-repeat) plugin installed.
 
-*NOTE*: By default, this plugin will not change anything in terms of key bindings.  You have to explictly configure EasyClip yourself in your .vimrc.  This is to ensure that each user is aware of any possible conflicts before they occur
-
 ### Black Hole Redirection ###
 
-By default, Vim's built-in delete operator will yank the deleted text in addition to just deleting it.  This works great when you want to cut text and paste it somewhere else, but in many other cases it can make things more difficult.  For example, if you want to make some tiny edit to fix formatting after cutting some text, you either have to have had the foresight to use a named register, or specify the black hole register explicitly to do your formatting.  This plugin solves that problem by redirecting all change and delete operations to the black hole register and introducing a new operator, 'cut'.  With the default EasyClip mapping enabled (see below) this is executed using the `m` key.
+By default, Vim's built-in delete operator will yank the deleted text in addition to just deleting it.  This works great when you want to cut text and paste it somewhere else, but in many other cases it can make things more difficult.  For example, if you want to make some tiny edit to fix formatting after cutting some text, you either have to have had the foresight to use a named register, or specify the black hole register explicitly to do your formatting.  This plugin solves that problem by redirecting all change and delete operations to the black hole register and introducing a new operator, 'cut' (by default this is mapped to the `m` key).
 
 There is simply no need to clutter up the yank history with every single edit, when you almost always know at the time you are deleting text whether it's something that is worth keeping around or not.
 
 ### Substitution Operator ###
 
-Because replacing text is such a common operation, EasyClip includes a motion for it.  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, assuming you map the operator to the `s` key, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
+Because replacing text is such a common operation, EasyClip includes a motion for it.  It is essentially equivalent to doing a change operation then pasting using the specified register.  By default this is mapped to the `s` key.  For example, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
 
 It can also take a register to use for the substitution (eg. `"asip`), and is fully repeatable using the `.` key.
 
@@ -31,6 +29,12 @@ It can also take a register to use for the substitution (eg. `"asip`), and is fu
 Easyclip allows you to yank and cut things without worrying about losing text that you copied previously.  It achieves this by storing all yanks into a buffer, which you can cycle through forward or backwards to choose the yank that you want
 
 This works very similar to the way [YankRing](https://github.com/vim-scripts/YankRing.vim) and [YankStack](https://github.com/maxbrunsfeld/vim-yankstack) work, in that you can use a key binding to toggle between different yanks immediately after triggering a paste or substitute.  (Most of the functionality is actually taken and adapted from Yankstack, with changes to make it work with substitute)
+
+By default, the keys to toggle the paste are mapped to `<c-n>` and `<c-p>` (similar to yankring).  For example, executing `p<c-p>` will paste, then toggle it to the most recent yank before that.  You can continue toggling forwards/backwards in the yank history to replace the most recent paste as much as you want.  Note that the toggle action will of course not be included in the undo history.  That is, pressing undo after any number of swaps will undo the paste and not the swap.
+
+This method of toggling the chosen yank after paste as will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<c-p>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
+
+Alternatively, you can execute (by default) keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank.  Subsequent pastes will use the same yank.
 
 You can view the full list of yanks at any time by running the command `:Yanks`
 
