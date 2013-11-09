@@ -3,7 +3,7 @@
 " Global Options
 " By default easy clip does nothing
 """""""""""""""""""""""
-let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 30)
+let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
 let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 1)
 let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 1)
 let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)

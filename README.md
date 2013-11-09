@@ -30,13 +30,15 @@ Easyclip allows you to yank and cut things without worrying about losing text th
 
 This works very similar to the way [YankRing](https://github.com/vim-scripts/YankRing.vim) and [YankStack](https://github.com/maxbrunsfeld/vim-yankstack) work, in that you can use a key binding to toggle between different yanks immediately after triggering a paste or substitute.  (Most of the functionality is actually taken and adapted from Yankstack, with changes to make it work with substitute)
 
-By default, the keys to toggle the paste are mapped to `<c-n>` and `<c-p>` (similar to yankring).  For example, executing `p<c-p>` will paste, then toggle it to the most recent yank before that.  You can continue toggling forwards/backwards in the yank history to replace the most recent paste as much as you want.  Note that the toggle action will of course not be included in the undo history.  That is, pressing undo after any number of swaps will undo the paste and not the swap.
+By default, the keys to toggle the paste are mapped to `<c-n>` and `<c-p>` (similar to yankring).  For example, executing `p<c-p>` will paste, then toggle it to the most recent yank before that.  You can continue toggling forwards/backwards in the yank history to replace the most recent paste as much as you want.  Note that the toggle action will of course not be included in the undo history.  That is, pressing undo after any number of swaps will undo the paste and not each swap.
 
-This method of toggling the chosen yank after paste as will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<c-p>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
+This method of toggling the chosen yank after paste will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<c-p>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
 
-Alternatively, you can execute (by default) keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank.  Subsequent pastes will use the same yank.
+Alternatively, you can execute (by default) keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank.  Subsequent pastes will use the same yank, until you go forwards again using `]y`.
 
 You can view the full list of yanks at any time by running the command `:Yanks`
+
+Note that you can swap substitution operations in the same way as paste.
 
 Another difference worth noting is that the cursor position does not change when a yank occurs.
 
@@ -44,10 +46,10 @@ Another difference worth noting is that the cursor position does not change when
 
 Easy clip makes the following changes to Vim's default paste
 - Adds previously position to jump list
+    - Note that this only occurs if the paste/substitution is multiline.
     - This allows you to easily return to the position the cursor was before pasting by pressing `<c-o>`
     - Note that the substitute operator also adds previous position to the jumplist, so you can hit `<c-o>` in that case as well
-    - Note that this only occurs if the paste/substitution is multiline.
-- Auto formats pasted text (disabled by default)
+- Auto formats pasted text (disabled by default - see below)
 - `p` and `P` behaviour
     - Always positions the cursor directly after the pasted text
     - `p` (lowercase) pastes text after the current line if multiline (or after the current character if non-multiline)
@@ -63,7 +65,7 @@ Every time you leave and return to vim, easy clip will check whether you copied 
 
 `g:EasyClipAutoFormat` - Default: 0.  Set this to 1 to enable auto-formatting pasting text
 
-`g:EasyClipYankHistorySize` - Default: 30. Change this to limit yank history
+`g:EasyClipYankHistorySize` - Default: 50. Change this to limit yank history
 
 `g:EasyClipDoSystemSync` - Default: 1. Set this to zero to disable system clipboard sync.
 
