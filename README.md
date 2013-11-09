@@ -44,7 +44,7 @@ Another difference worth noting is that the cursor position does not change when
 
 ### Paste ###
 
-Easy clip makes the following changes to Vim's default paste
+Easy Clip makes the following changes to Vim's default paste
 - Adds previously position to jump list
     - Note that this only occurs if the paste/substitution is multiline.
     - This allows you to easily return to the position the cursor was before pasting by pressing `<c-o>`
@@ -54,6 +54,10 @@ Easy clip makes the following changes to Vim's default paste
     - Always positions the cursor directly after the pasted text
     - `p` (lowercase) pastes text after the current line if multiline (or after the current character if non-multiline)
     - `P` (uppercase) behaves the same except acts before the current line (or before the current character)
+
+Easy Clip also includes a mapping for insert mode paste, which automatically turns on 'paste' mode for the duration of the paste.  Using 'paste' mode will work much more intuitively when pasting text with multiple lines while in insert mode.  You can enable by including something similar to the following in your .vimrc:
+
+    imap <c-v> <plug>EasyClipInsertModePaste
 
 ### System Clipboard Sync ###
 
