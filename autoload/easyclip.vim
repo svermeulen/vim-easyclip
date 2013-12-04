@@ -28,6 +28,14 @@ function! easyclip#GetDefaultReg()
     endif
 endfunction
 
+function! easyclip#GetCurrentYank()
+    return getreg(easyclip#GetDefaultReg())
+endfunction
+
+function! easyclip#SetCurrentYank(yank)
+    call setreg(easyclip#GetDefaultReg(), a:yank)
+endfunction
+
 function! easyclip#Yank(str)
     EasyClipBeforeYank
     exec "let @". easyclip#GetDefaultReg() . "='". a:str . "'"
