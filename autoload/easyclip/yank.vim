@@ -148,7 +148,7 @@ function! easyclip#yank#YankMotion(type)
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
 
-    if !empty(s:preYankPos)
+    if g:EasyClipPreserveCursorPositionAfterYank && !empty(s:preYankPos)
         call setpos('.', s:preYankPos)
         let s:preYankPos = []
     endif

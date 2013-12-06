@@ -77,8 +77,6 @@ EasyClip can be easily customized to whatever mapping you wish, using the follow
 
 `g:EasyClipDoSystemSync` - Default: 1. Set this to zero to disable system clipboard sync.
 
-`g:EasyClipRemapCapitals` - Default: 1. Set this to 0 to disable mappings for `C`, `D`, and `Y` 
-
 You can also disable the default mappings by setting one or more of the following to zero.  By default they are set to 1 (ie. enabled)
 
     `g:EasyClipUseYankDefaults`
@@ -117,6 +115,8 @@ Or to use `gs` for substitute include the following:
     xmap gs <plug>XEasyClipPaste
 
 For reference, or other kinds of mappings, see the bottom of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
+
+Note that EasyClip will only enable a default mapping if it hasn't already been mapped to something in your .vimrc.
 
 ### Default Key Mappings ###
 
