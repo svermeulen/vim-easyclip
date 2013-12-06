@@ -79,6 +79,8 @@ EasyClip can be easily customized to whatever mapping you wish, using the follow
 
 `g:EasyClipYankHistorySize` - Default: 50. Change this to limit yank history
 
+`g:EasyClipAlwaysMoveCursorToEndOfPaste` - Default: 0.  Set this to 1 to always position cursor at the end of the pasted text for both multi-line and non-multiline pastes.
+
 `g:EasyClipDoSystemSync` - Default: 1. Set this to zero to disable system clipboard sync.
 
 `g:EasyClipPreserveCursorPositionAfterYank` - Default 0 (ie. disabled).  Vim's default behaviour is to position the cursor at the beginning of the yanked text, which is consistent with other motions.  However if you prefer the cursor position to remain unchanged when performing yanks, enable this option.
