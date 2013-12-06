@@ -45,8 +45,9 @@ Another difference worth noting is that the cursor position does not change when
 ### Paste ###
 
 By default EasyClip preserves the default vim paste behaviour, which is the following:
-    - `p` (lowercase) pastes text after the current line if the pasted text is multiline (or after the current character if non-multiline)
-    - `P` (uppercase) behaves the same except acts before the current line (or before the current character if non-multiline)
+
+*  `p` (lowercase) pastes text after the current line if the pasted text is multiline (or after the current character if non-multiline)
+*  `P` (uppercase) behaves the same except acts before the current line (or before the current character if non-multiline)
 
 When the text is multi-line, the cursor is placed at the start of the new text.  When the paste is non-multiline, the cursor is placed at the end.
 
