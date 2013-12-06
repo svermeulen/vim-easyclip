@@ -5,7 +5,6 @@
 """""""""""""""""""""""
 let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
 let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)
-let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 1)
 let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)
 let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 1)
 let g:EasyClipUseSubstituteDefaults = get(g:, 'EasyClipUseSubstituteDefaults', 0)
@@ -29,6 +28,22 @@ function! easyclip#GetDefaultReg()
     endif
 endfunction
 
+" Only add the given mapping if it doesn't already exist
+function! easyclip#AddWeakMapping(left, right, modes, ...)
+
+    let recursive = a:0 > 0 ? a:1 : 0
+
+    for mode in split(a:modes, '\zs')
+        if !easyclip#HasMapping(a:left, mode)
+            exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:left . " " . a:right
+        endif
+    endfor
+endfunction
+
+function! easyclip#HasMapping(mapping, mode)
+    return maparg(a:mapping, a:mode) != ''
+endfunction
+
 function! easyclip#GetCurrentYank()
     return getreg(easyclip#GetDefaultReg())
 endfunction
@@ -44,9 +59,12 @@ endfunction
 
 function! easyclip#Init()
 
-    call easyclip#blackhole#Init()
     call easyclip#paste#Init()
     call easyclip#move#Init()
     call easyclip#substitute#Init()
     call easyclip#yank#Init()
+
+    " Add black hole bindings last so that it only
+    " adds bindings if they are not taken
+    call easyclip#blackhole#Init()
 endfunction

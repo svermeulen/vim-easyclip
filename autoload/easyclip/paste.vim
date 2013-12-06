@@ -219,31 +219,29 @@ endfunction
 " g<c-P> - same as c-p but keeps cursor position
 function! easyclip#paste#SetDefaultMappings()
 
-    xmap p <plug>XEasyClipPaste
-    xmap P <plug>XEasyClipPaste
+    let bindings = 
+    \ [
+    \   ['p',  '<plug>XEasyClipPaste',  'x',  1],
+    \   ['P',  '<plug>XEasyClipPaste',  'x',  1],
+    \   ['gp',  '<plug>XG_EasyClipPaste',  'x',  1],
+    \   ['gP',  '<plug>XG_EasyClipPaste',  'x',  1],
+    \   ['<leader>p',  '<plug>XEasyClipPasteUnformatted',  'x',  1],
+    \   ['<leader>P',  '<plug>XEasyClipPasteUnformatted',  'x',  1],
+    \   ['P',  '<plug>EasyClipPasteBefore',  'n',  1],
+    \   ['p',  '<plug>EasyClipPasteAfter',  'n',  1],
+    \   ['gp',  '<plug>G_EasyClipPasteAfter',  'n',  1],
+    \   ['gP',  '<plug>G_EasyClipPasteBefore',  'n',  1],
+    \   ['<leader>p',  '<plug>EasyClipPasteUnformattedAfter',  'n',  1],
+    \   ['<leader>P',  '<plug>EasyClipPasteUnformattedBefore',  'n',  1],
+    \   ['g<leader>p',  '<plug>G_EasyClipPasteUnformattedAfter',  'n',  1],
+    \   ['g<leader>P',  '<plug>G_EasyClipPasteUnformattedBefore',  'n',  1],
+    \   ['<c-p>',  '<plug>EasyClipSwapPasteForward',  'n',  1],
+    \   ['<c-n>',  '<plug>EasyClipSwapPasteBackwards',  'n',  1],
+    \ ]
 
-    xmap gp <plug>XG_EasyClipPaste
-    xmap gP <plug>XG_EasyClipPaste
-
-    xmap <leader>p <plug>XEasyClipPasteUnformatted
-    xmap <leader>P <plug>XEasyClipPasteUnformatted
-
-    nmap P <plug>EasyClipPasteBefore
-    nmap p <plug>EasyClipPasteAfter
-
-    nmap gp <plug>G_EasyClipPasteAfter
-    nmap gP <plug>G_EasyClipPasteBefore
-
-    nmap <leader>p <plug>EasyClipPasteUnformattedAfter
-    nmap <leader>P <plug>EasyClipPasteUnformattedBefore
-
-    nmap g<leader>p <plug>G_EasyClipPasteUnformattedAfter
-    nmap g<leader>P <plug>G_EasyClipPasteUnformattedBefore
-
-    if g:EasyClipUsePasteToggleDefaults
-        nmap <c-p> <plug>EasyClipSwapPasteForward
-        nmap <c-n> <plug>EasyClipSwapPasteBackwards
-    endif
+    for binding in bindings
+        call call("easyclip#AddWeakMapping", binding)
+    endfor
 endfunction
 
 function! easyclip#paste#Init()

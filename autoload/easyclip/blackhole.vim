@@ -20,32 +20,24 @@ endfunction
 
 function! easyclip#blackhole#AddDefaultBindings()
 
-    nnoremap d "_d
-    nnoremap dd "_dd
+    let bindings = 
+    \ [
+    \   ['d', '"_d', 'nx'],
+    \   ['dd', '"_dd', 'n'],
+    \   ['dD', '0"_d$', 'n'],
+    \   ['x', '"_x', 'nx'],
+    \   ['c', '"_c', 'nx'],
+    \   ['cc', '"_S', 'n'],
+    \   ['s', '"_s', 'nx'],
+    \   ['S', '"_S', 'nx'],
+    \   ['C', '"_C', 'nx'],
+    \   ['D', '"_D', 'nx'],
+    \ ]
 
-    nnoremap dD 0"_d$
+    for binding in bindings
+        call call("easyclip#AddWeakMapping", binding)
+    endfor
 
-    noremap x "_x
-    xnoremap x "_x
-
-    xnoremap d "_d
-
-    nnoremap c "_c
-    xnoremap c "_c
-
-    nnoremap s "_s
-    nnoremap S "_S
-
-    " This is more consistent with yy and dd
-    nnoremap cc "_S
-
-    if g:EasyClipRemapCapitals
-        nnoremap C "_C
-        xnoremap C "_C
-
-        nnoremap D "_d$
-        xnoremap D <nop>
-    endif
 endfunction
 
 function! easyclip#blackhole#Init()

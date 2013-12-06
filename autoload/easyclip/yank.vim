@@ -173,16 +173,18 @@ endfunction
 
 function! easyclip#yank#SetDefaultMappings()
 
-    nmap [y <plug>EasyClipRotateYanksForward
-    nmap ]y <plug>EasyClipRotateYanksBackward
+    let bindings = 
+    \ [
+    \   ['[y',  '<plug>EasyClipRotateYanksForward',  'n',  1],
+    \   [']y',  '<plug>EasyClipRotateYanksBackward',  'n',  1],
+    \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0], 
+    \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
+    \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
+    \ ]
 
-    if g:EasyClipRemapCapitals
-        " Make Y more consistent with C and D
-        nnoremap <silent> Y :EasyClipBeforeYank<cr>y$
-    endif
-
-    nmap y <Plug>YankPreserveCursorPosition
-    nmap yy <Plug>YankLinePreserveCursorPosition
+    for binding in bindings
+        call call("easyclip#AddWeakMapping", binding)
+    endfor
 
     xnoremap <silent> <expr> y ':<c-u>EasyClipBeforeYank<cr>gv"'. v:register . 'y'
 endfunction
