@@ -42,7 +42,7 @@ You can view the full list of yanks at any time by running the command `:Yanks`
 
 Note that you can swap substitution operations in the same way as paste.
 
-Another difference worth noting is that the cursor position does not change when a yank occurs.
+Also, see `g:EasyClipPreserveCursorPositionAfterYank` option below for an extra non standard customization to yank
 
 ### Paste ###
 
@@ -95,7 +95,7 @@ One exception to the above is substitute, which is 0 by default (ie. disabled)
 
     `g:EasyClipUseSubstituteDefaults`
 
-You can then map to the specific `<plug>` mappings to define whatever mappings you want.  For example, to change the mapping for cut (by default set to `m`) to `x`, include the following in your vimrc:`
+To change from the default mappings, you can disable one of the options above and then map to the specific `<plug>` mappings of your choice.  For example, to change the mapping for cut (by default set to `m`) to `x`, include the following in your vimrc:`
 
     let g:EasyClipUseCutDefaults = 0
 
@@ -110,7 +110,7 @@ Or to change the bindings for toggling paste from `<c-n>` and `<c-p>` to `<c-d>`
     nmap <c-f> <plug>EasyClipSwapPasteForward
     nmap <c-d> <plug>EasyClipSwapPasteBackwards
 
-Or to use `gs` for substitute include the following:
+Or to use `gs` for substitute include the following:  (in this case you don't need to turn off the default since the default is already disabled)
 
     nmap <silent> gs <plug>SubstituteOverMotionMap
     nmap gss <plug>SubstituteLine
@@ -132,25 +132,23 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 `x` - Delete the character under cursor and *do not* change clipboard
 
+`s` - Delete the character under cursor then enter insert mode and *do not* change clipboard
+
+`S` - Delete the line under cursor then enter insert mode and *do not* change clipboard
+
 `c<motion>` - Enter insert mode over top the given area and *do not* change clipboard
 
 `cc` - Enter insert mode over top the current line and *do not* change clipboard
 
 `C` - Enter insert mode from cursor to the end of the line and *do not* change clipboard
 
-`s<motion>` - Substitute over the given motion with specified register (or default register if unspecified).  Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
-
-`ss` - Substitute over the current line with specified register (or default register if unspecified). Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
-
-`gs` - Same as s but preserves the current cursor position. Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
-
 `p` - Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
 
 `P` - Same as p except inserts text before current line/character
 
-`<leader>p` - Same as `p` except does not auto-format text
+`<leader>p` - Same as `p` except does not auto-format text.  This is only relevant if the auto-format option is enabled
 
-`<leader>P` - Same as `P` except does not auto-format text
+`<leader>P` - Same as `P` except does not auto-format text. This is only relevant if the auto-format option is enabled
 
 `gp` - Same as p but preserves the current cursor position
 
@@ -173,6 +171,14 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 `]y` - Go forward in the yank buffer. This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using `<c-n>` instead)
 
 `Y` - Copy text from cursor position to the end of line to the clipboard
+
+When the option `g:EasyClipUseSubstituteDefaults` is enabled, the following mappings are added:
+
+`s<motion>` - Substitute over the given motion with specified register (or default register if unspecified).  Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
+
+`ss` - Substitute over the current line with specified register (or default register if unspecified). Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
+
+`gs` - Same as s but preserves the current cursor position. Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
 
 ### Custom Yanks ###
 
