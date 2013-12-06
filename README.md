@@ -44,16 +44,15 @@ Another difference worth noting is that the cursor position does not change when
 
 ### Paste ###
 
-Easy Clip makes the following changes to Vim's default paste
-- Adds previously position to jump list
-    - Note that this only occurs if the paste/substitution is multiline.
-    - This allows you to easily return to the position the cursor was before pasting by pressing `<c-o>`
-    - Note that the substitute operator also adds previous position to the jumplist, so you can hit `<c-o>` in that case as well
-- Auto formats pasted text (disabled by default - see below)
-- `p` and `P` behaviour
-    - Always positions the cursor directly after the pasted text
-    - `p` (lowercase) pastes text after the current line if multiline (or after the current character if non-multiline)
-    - `P` (uppercase) behaves the same except acts before the current line (or before the current character)
+By default EasyClip preserves the default vim paste behaviour, which is the following:
+    - `p` (lowercase) pastes text after the current line if the pasted text is multiline (or after the current character if non-multiline)
+    - `P` (uppercase) behaves the same except acts before the current line (or before the current character if non-multiline)
+
+When the text is multi-line, the cursor is placed at the start of the new text.  When the paste is non-multiline, the cursor is placed at the end.
+
+Alternatively, you can enable the option `g:EasyClipAlwaysMoveCursorToEndOfPaste` to have the cursor positioned at the end in both cases (off by default).  Note that when this option is enabled, the beginning of the multi-line text is added to the jumplist, so you can still return to the start of the paste by pressing `<c-o>` (and this applies to multi-line substitutions as well)
+
+Another non-standard option is `g:EasyClipAutoFormat` (off by default), which will, as the name implies, automatically format text immediately after it is pasted.  This can be useful when pasting text from one indent level to another.
 
 Easy Clip also includes a mapping for insert mode paste, which automatically turns on 'paste' mode for the duration of the paste.  Using 'paste' mode will work much more intuitively when pasting text with multiple lines while in insert mode.  You can enable this by including something similar to the following in your .vimrc:
 

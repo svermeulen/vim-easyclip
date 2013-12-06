@@ -75,7 +75,7 @@ function! easyclip#paste#Paste(op, format, reg, inline)
         " Save their old position to jumplist
         " Except for gp since the cursor pos shouldn't change
         " in that case
-        if isMultiLine
+        if isMultiLine && g:EasyClipAlwaysMoveCursorToEndOfPaste
             if a:op ==# 'P'
                 " just doing m` doesn't work in this case so do it one line above
                 exec "normal! km`j"
@@ -115,8 +115,11 @@ function! easyclip#paste#Paste(op, format, reg, inline)
         exec "keepjumps normal! `["
 
     else
-        " a:op ==# 'P' || a:op ==# 'p'
-        exec "keepjumps normal! `]"
+        if !isMultiLine || g:EasyClipAlwaysMoveCursorToEndOfPaste
+            exec "keepjumps normal! `]"
+        else
+            exec "keepjumps normal! `["
+        endif
     endif
 
 endfunction
