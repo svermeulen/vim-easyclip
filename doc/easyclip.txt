@@ -31,6 +31,9 @@ Neil's post:
 Registers: The Good, the Bad, and the Ugly Parts
 (http://vimcasts.org/blog/2013/11/25/registers-the-good-the-bad-and-the-ugly-parts)
 
+The most recent version of this plugin can be found at
+https://github.com/svermeulen/vim-easyclip
+
 INSTALLATION                                    *easyclip-installation*
 
 I recommend loading your plugins with neobundle
@@ -232,88 +235,63 @@ mapped to something in your .vimrc.
 
 KEY MAPPINGS                                    *easyclip-mappings*
 
-*d*
-'d<motion>' - Delete over the given motion and *do not* change clipboard
+*d* <motion> - Delete over the given motion and *do not* change clipboard
 
-*dd*
-'dd' - Delete the line and *do not* change clipboard
+*dd* - Delete the line and *do not* change clipboard
 
-*D*
-'D' - Delete from cursor to the end of the line and *do not* change clipboard
+*D* - Delete from cursor to the end of the line and *do not* change clipboard
 
-*dD*
-'dD' - Delete the contents of line except the newline character (that is, make it blank) and *do not* change clipboard
+*dD* - Delete the contents of line except the newline character (that is, make it blank) and *do not* change clipboard
 
-*x*
-'x' - Delete the character under cursor and *do not* change clipboard
+*x* - Delete the character under cursor and *do not* change clipboard
 
-*s*
-'s' - Delete the character under cursor then enter insert mode and *do not* change clipboard
+*s* - Delete the character under cursor then enter insert mode and *do not* change clipboard
 
-*S*
-'S' - Delete the line under cursor then enter insert mode and *do not* change clipboard
+*S* - Delete the line under cursor then enter insert mode and *do not* change clipboard
 
-*c*
-'c<motion>' - Enter insert mode over top the given area and *do not* change clipboard
+*c* - Enter insert mode over top the given area and *do not* change clipboard
 
-*cc*
-'cc' - Enter insert mode over top the current line and *do not* change clipboard
+*cc* - Enter insert mode over top the current line and *do not* change clipboard
 
-*C*
-'C' - Enter insert mode from cursor to the end of the line and *do not* change clipboard
+*C* - Enter insert mode from cursor to the end of the line and *do not* change clipboard
 
-*p*
-'p' - Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
+*p* - Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
 
-*P*
-'P' - Same as p except inserts text before current line/character
+*P* - Same as p except inserts text before current line/character
 
-*<leader>p*
-'<leader>p' - Same as 'p' except does not auto-format text.  This is only relevant if the auto-format option is enabled
+*<leader>p* - Same as 'p' except does not auto-format text.  This is only relevant if the auto-format option is enabled
 
-*<leader>P*
-'<leader>P' - Same as 'P' except does not auto-format text. This is only relevant if the auto-format option is enabled
+*<leader>P* - Same as 'P' except does not auto-format text. This is only relevant if the auto-format option is enabled
 
-*gp*
-'gp' - Same as p but preserves the current cursor position
+*gp* - Same as p but preserves the current cursor position
 
-*gP*
-'gP' - Same as P but preserves the current cursor position
+*gP* - Same as P but preserves the current cursor position
 
-*g<leader>P*
-'g<leader>P' - Same as '<leader>P' but preserves the current cursor position
+*g<leader>P* - Same as '<leader>P' but preserves the current cursor position
 
-*g<leader>p*
-'g<leader>p' - Same as '<leader>p' but preserves the current cursor position
+*g<leader>p* - Same as '<leader>p' but preserves the current cursor position
 
-*m*
-'m<motion>' - Delete over the given motion and copy text to clipboard
+*m* <motion> - Delete over the given motion and copy text to clipboard
 
-*mm*
-'mm' - Delete the current line and copy text to clipboard
+*mm* - Delete the current line and copy text to clipboard
 
-*<c-p>*
-'<c-p>' - Rotate the previous paste forward in yank buffer.  Note that this binding will only work if executed immediately after a paste
+*<c-p>* -p>' - Rotate the previous paste forward in yank buffer.  Note that this binding will only work if executed immediately after a paste
 
-*<c-n>*
-'<c-n>' - Rotate the previous paste backward in yank buffer.  Note that this binding will only work if executed immediately after a paste
+*<c-n>* -n>' - Rotate the previous paste backward in yank buffer.  Note that this binding will only work if executed immediately after a paste
 
-*[y*
-'[y' - Go backward in the yank buffer.  This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using '<c-p>' instead)
+*[y* - Go backward in the yank buffer.  This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using '<c-p>' instead)
 
-*]y*
-']y' - Go forward in the yank buffer. This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using '<c-n>' instead)
+*]y* - Go forward in the yank buffer. This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using '<c-n>' instead)
 
-*Y*
-'Y' - Copy text from cursor position to the end of line to the clipboard
+*Y* - Copy text from cursor position to the end of line to the clipboard
 
 When the option |g:EasyClipUseSubstituteDefaults| is enabled, the following mappings are added:
 
-'s<motion>' - Substitute over the given motion with specified register (or default register if unspecified).
+s<motion> - Substitute over the given motion with specified register (or default register if unspecified).
 
-'ss' - Substitute over the current line with specified register (or default register if unspecified).
+ss - Substitute over the current line with specified register (or default register if unspecified).
 
-'gs' - Same as s but preserves the current cursor position.
+gs - Same as s but preserves the current cursor position.
 
 CUSTOM YANKS                                        *easyclip-custom-yanks*
 
