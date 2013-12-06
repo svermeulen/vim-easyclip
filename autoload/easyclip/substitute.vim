@@ -69,8 +69,8 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
         " Adds an extra line at the end, so delete instead
         exe "normal! \"_d"
 
-        " Use our own version of paste so it autoformats and positions the cursor correctly, also note: pasting inline
-        call easyclip#paste#Paste("P", 1, reg, 1)
+        " Use our own version of paste so it autoformats and positions the cursor correctly
+        call easyclip#paste#Paste("P", 1, reg, 0)
     else
         exe "normal! \"_c\<c-r>". reg
     endif
