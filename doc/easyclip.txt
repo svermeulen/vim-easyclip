@@ -7,29 +7,39 @@ Brunsfeld <http://www.github.com/maxbrunsfeld>
 |easyclip-installation|    Installation
 |easyclip-cut|             Black hole redirection / cut
 |easyclip-substitute|      Substitute operator
-|easyclip-defaultoverride| Default Override
 |easyclip-yankbuffer|      Yank Buffer
 |easyclip-paste|           Paste
 |easyclip-ossync|          OS Sync
 |easyclip-options|         Options
 |easyclip-mappings|        Mappings
 |easyclip-custom-yanks|    Custom Yanks
-|easyclip-disclaimer|      Disclaimer
-|easyclip-todo|            TODO
+|easyclip-feedback|        Feedback
 |easyclip-changelog|       Changelog
 |easyclip-license|         License
 
 INTRODUCTION                                    *easyclip-introduction*
 
-[EasyClip.vim](https://github.com/svermeulen/vim-easyclip) is a collection of
-clipboard related functionality with the goal of making using vim simpler
-without losing any of its power.  (https://github.com/svermeulen/vim-easyclip)
+Author:  Steve Vermeulen (https://github.com/svermeulen), based on work by
+Max Brunsfeld (http://www.github.com/maxbrunsfeld)
+
+EasyClip is a plugin for Vim which contains a collection of clipboard related
+functionality with the goal of making using Vim simpler and more intuitive
+without losing any of its power.
+
+A good starting point for the motivation behind this plugin can be found in Drew
+Neil's post: 
+Registers: The Good, the Bad, and the Ugly Parts
+(http://vimcasts.org/blog/2013/11/25/registers-the-good-the-bad-and-the-ugly-parts)
 
 INSTALLATION                                    *easyclip-installation*
 
-I recommend loading your plugins with either Pathogen 
-(https://github.com/tpope/vim-pathogen) or Vundle 
-(https://github.com/gmarik/vundle) (I personally prefer Vundle).
+I recommend loading your plugins with neobundle
+(https://github.com/Shougo/neobundle.vim) or vundle
+(https://github.com/gmarik/vundle) or pathogen
+(https://github.com/tpope/vim-pathogen)
+
+This plugin also requires that you have Tim Pope's repeat.vim
+(https://github.com/tpope/vim-repeat) plugin installed.
 
 BLACK HOLE REDIRECTION                          *easyclip-cut*
 
@@ -39,10 +49,9 @@ paste it somewhere else, but in many other cases it can make things more
 difficult.  For example, if you want to make some tiny edit to fix formatting
 after cutting some text, you either have to have had the foresight to use a
 named register, or specify the black hole register explicitly to do your
-formatting, both of which seem overly cumbersome.  This plugin solves that
-problem by redirecting all change and delete operations to the black hole
-register and introducing a new operator, cut (by default mapped to 'm' for
-'move' but can be redefined to your liking)
+formatting.  This plugin solves that problem by redirecting all change and
+delete operations to the black hole register and introducing a new operator,
+'cut' (by default this is mapped to the 'm' key).
 
 There is simply no need to clutter up the yank history with every single edit,
 when you almost always know at the time you are deleting text whether it's
@@ -50,190 +59,297 @@ something that is worth keeping around or not.
 
 SUBSTITUTION OPERATOR                           *easyclip-substitute*
 
-Because replacing text is such a common operation, this plugin includes a motion
-for it (by default mapped to `s` key, for 'substitute' but again this can be
-redefined).  It is essentially equivalent to doing a change operation then
-pasting using the specified register.  For example, to paste over the word under
-the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
+Because replacing text is such a common operation, EasyClip includes a motion
+for it.  It is essentially equivalent to doing a change operation then pasting
+using the specified register.  For example, assuming you have mapped this motion
+to the 's' key, to paste over the word under the cursor you would type 'siw', or
+to paste inside brackets, 'si(', etc.
 
-It can also take a register to use for the substitution (eg. `"asip`), and is
-fully repeatable using the `.` key.
+It can also take a register to use for the substitution (eg. '"asip'), and is
+fully repeatable using the '.' key.
 
-DEFAULT OVERRIDE                                *easyclip-defaultoverride*
-
-One implication of the default Easyclip mapping is that we shadow two of vim's
-defaults: `s` (substitute character) and `m` (set mark).  Both keys just happen
-to be perfect mnemonic's for Easyclip (`s` for substitute and `m` for move text)
-and (in my humble opinion) both keys also happen to be among the lesser
-important default mappings.
-
-`s` can be substituted for `cl` and `S` can be substituted for `cc`
-
-`m` or 'set mark' however, does not have an alternative so will require a
-remapping.  Good alternatives might be `gm`, `!`, or `\`, which you can apply by
-including the following in your vimrc:
-
-`nnoremap gm m`
-
-Of course, you can pick and choose which parts of EasyClip you want to use, and
-redefine these operations however you want.  I do believe substitution and cut
-are common enough operations to justify a dedicated key but your opinion may
-differ.
+NOTE // This feature is off by default.  To use, you have to either enable the
+option |g:EasyClipUseSubstituteDefaults| (in which case it will be mapped to the
+'s' key) or map the key/keys of your choice to the '<plug>' mappings found
+in substitute.vim.
 
 YANK BUFFER                                     *easyclip-yankbuffer*
 
 Easyclip allows you to yank and cut things without worrying about losing text
 that you copied previously.  It achieves this by storing all yanks into a
 buffer, which you can cycle through forward or backwards to choose the yank that
-you want.  (By default, cycle backward using `[y` and cycle forward using `]y`).  
+you want
 
-The first line of the currently selected yank will be displayed in the status
-line.
+This works very similar to the way YankRing
+(https://github.com/vim-scripts/YankRing.vim) and YankStack
+(https://github.com/maxbrunsfeld/vim-yankstack) work, in that you can use a key
+binding to toggle between different yanks immediately after triggering a paste
+or substitute.  (Most of the functionality is actually taken and adapted from
+Yankstack, with changes to make it work with substitute)
 
-You can view the full list of yanks at any time by running the command `:Yanks`
+By default, the keys to toggle the paste are mapped to '<c-n>' and '<c-p>'
+(similar to yankring).  For example, executing 'p<c-p>' will paste, then toggle
+it to the most recent yank before that.  You can continue toggling
+forwards/backwards in the yank history to replace the most recent paste as much
+as you want.  Note that the toggle action will of course not be included in the
+undo history.  That is, pressing undo after any number of swaps will undo the
+paste and not each swap.
 
-Note: Most of the yank functionality is shamelessly stolen and adapted from the
-great yankstack plugin, which can be found
-[here](https://github.com/maxbrunsfeld/vim-yankstack)
+This method of toggling the chosen yank after paste will probably be your
+primary method of digging back into the yank buffer.  Note that in this case the
+yank buffer is unchanged.  What this means for example is that you can toggle a
+given paste back using '<c-p>' 10 times, then if you perform a new paste in a
+different location it will still use the most recent yank (and not the final
+yank you arrived at after 10 swaps).
 
-One difference you'll find with yankstack is that it does not replace the most
-recent paste, and instead just moves the current register forward or backwards
-in the yank buffer (still working on this)
+Alternatively, you can execute (by default) keys '[y' or ']y' to navigate the
+yank buffer 'head' forwards or backwards.  In this case the change will be
+permanent.  That is, pressing '[y[yp' will paste the third most recent yank.
+Subsequent pastes will use the same yank, until you go forwards again using
+']y'.
+
+You can view the full list of yanks at any time by running the command ':Yanks'
+
+Note that you can swap substitution operations in the same way as paste.
+
+Every time the yank buffer changes, it also populates all the numbered
+registers.  "1 is therefore the previous yank, "2 is the yank before that, etc.
+This is similar to how the numbered registers work by default (but a bit more
+sane).  (Credit to Drew Neil for the suggestion)
+
+Also, see |g:EasyClipPreserveCursorPositionAfterYank| option below for an
+optional non standard customization to yank
 
 PASTE                                           *easyclip-paste*
 
-Easy clip makes the following changes to Vim's default paste
-- Adds previously position to jump list
-- This allows you to easily return to the position the cursor was before pasting
-  by pressing `<c-o>`
-- Note that the substitute operator also adds previous position to the jumplist,
-  so you can hit `<c-o>` in that case to return to previous position as well
-- Auto formats pasted text
-- Also automatically corrects the `[` and `]` marks according to the formatted
-  text
-- `p` and `P` behaviour
-    - Always positions the cursor directly after the pasted text
-    - `P` pastes text after the current line if multiline (or after the current
-      character if non-multiline)
-- `P` behaves the same except acts before the current line (or before the
-  current character)
-    - `gp` and `gP` behaviour
-    - Same as `p` and `P` except the cursor does not move
-    - Note there is a similar operator (`gs` / `gS`) for the substitute operator
-    - `<c-p>` behaviour
-    - When the autoformat option is on, `<c-p>` can be used in place of `p` to
-      paste without any formatting applied
+By default EasyClip preserves the default vim paste behaviour, which is the
+following:
+
+*  'p' (lowercase) pastes text after the current line if the pasted text is
+multiline (or after the current character if non-multiline) 
+
+* 'P' (uppercase) behaves the same except acts before the current line 
+(or before the current character if non-multiline)
+
+When the text is multi-line, the cursor is placed at the start of the new text.
+When the paste is non-multiline, the cursor is placed at the end.
+
+Alternatively, you can enable the option
+|g:EasyClipAlwaysMoveCursorToEndOfPaste| to have the cursor positioned at the
+end in both cases (off by default).  Note that when this option is enabled, the
+beginning of the multi-line text is added to the jumplist, so you can still
+return to the start of the paste by pressing '<c-o>' (and this applies to
+multi-line substitutions as well)
+
+Another non-standard option is |g:EasyClipAutoFormat| (see below)
+
+Easy Clip also includes a mapping for insert mode paste, which automatically
+turns on 'paste' mode for the duration of the paste.  Using 'paste' mode will
+work much more intuitively when pasting text with multiple lines while in insert
+mode.  You can enable this by including something similar to the following in
+your .vimrc:
+
+    imap <c-v> <plug>EasyClipInsertModePaste
 
 SYSTEM CLIPBOARD SYNC                           *easyclip-ossync*
 
-Easyclip will also automatically sync with your system clipboard.
+EasyClip will also automatically sync with your system clipboard.
 
 Every time you leave and return to vim, easy clip will check whether you copied
 anything from outside Vim and add it to the yank history.
 
 OPTIONS                                         *easyclip-options*
 
-            *g:EasyClipAutoFormat*
-g:EasyClipAutoFormat        Set this to 0 to disable auto-formatting pasting text
+EasyClip can be easily customized to whatever mapping you wish, using the
+following options:
 
-            *g:EasyClipYankHistorySize*
-g:EasyClipYankHistorySize   Change this to limit yank history, defaults to 30
+*g:EasyClipAlwaysMoveCursorToEndOfPaste*    Default: 0.  Set this to 1 to always
+position cursor at the end of the pasted text for both multi-line and
+non-multiline pastes.
 
-            *g:EasyClipDoSystemSync*
-g:EasyClipDoSystemSync      Set this to zero to disable system clipboard sync. Defaults to on.
+*g:EasyClipAutoFormat*        Default: 0.  Set this to 1 to enable
+auto-formatting.  This can be useful when pasting text from one indent level to
+another.
 
-You can also disable the default mappings by setting one or more of the following to zero:
+*g:EasyClipYankHistorySize*   Default: 50. Change this to limit yank history
 
-    g:EasyClipUseYankDefaults
-    g:EasyClipUseCutDefaults
-    g:EasyClipUsePasteDefaults
-    g:EasyClipUseSubstituteDefaults
-    g:EasyClipUseBlackHoleDefaults
+*g:EasyClipDoSystemSync*  Default: 1. Set this to zero to disable system
+clipboard sync.
 
-You can then map to the specific `<plug>` mappings to define whatever mappings
-you want.  For example, to change the mapping for cut (by default set to `m`) to
-`yd`, include the following in your vimrc:`
+*g:EasyClipPreserveCursorPositionAfterYank* - Default 0 (ie. disabled).  Vim's
+default behaviour is to position the cursor at the beginning of the yanked text,
+which is consistent with other motions.  However if you prefer the
+cursor position to remain unchanged when performing yanks, enable this
+option.
+
+You can also disable the default mappings by setting one or more of the
+following to zero.  By default they are set to 1 (ie. enabled)
+
+    *g:EasyClipUseYankDefaults*
+
+    *g:EasyClipUseCutDefaults*
+
+    *g:EasyClipUsePasteDefaults*
+
+    *g:EasyClipEnableBlackHoleRedirect*
+
+    *g:EasyClipUsePasteToggleDefaults*
+
+One exception to the above is substitute, which is 0 by default (ie. disabled)
+
+    *g:EasyClipUseSubstituteDefaults*
+
+To change from the default mappings, you can disable one of the options above
+and then map to the specific <plug> mappings of your choice.  For example, to
+change the mapping for cut (by default set to `m`) to `x`, include the following
+in your vimrc:`
 
     let g:EasyClipUseCutDefaults = 0
 
-    nmap yd <Plug>MoveMotionPlug
-    xmap yd <Plug>MoveMotionXPlug
-    nmap ydd <Plug>MoveMotionLinePlug
+    nmap x <Plug>MoveMotionPlug xmap x <Plug>MoveMotionXPlug nmap xx
+    <Plug>MoveMotionLinePlug
+
+Or to change the bindings for toggling paste from '<c-n>' and '<c-p>' to '<c-d>'
+and '<c-f>' include the following:
+
+    let g:EasyClipUsePasteToggleDefaults = 0
+
+    nmap <c-f> <plug>EasyClipSwapPasteForward nmap <c-d>
+    <plug>EasyClipSwapPasteBackwards
+
+Or to use 'gs' for substitute include the following:  (in this case you don't
+need to turn off the default since the default is already disabled)
+
+    nmap <silent> gs <plug>SubstituteOverMotionMap nmap gss <plug>SubstituteLine
+    xmap gs <plug>XEasyClipPaste
+
+For reference, or other kinds of mappings, see the bottom of the file with the
+name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim /
+move.vim / yank.vim /etc.)
+
+Note that EasyClip will only enable a default mapping if it hasn't already been
+mapped to something in your .vimrc.
 
 KEY MAPPINGS                                    *easyclip-mappings*
 
-*s*
-s<motion>       Substitute specified text with specified register
+*d*
+'d<motion>' - Delete over the given motion and *do not* change clipboard
 
-*ss*
-ss              Substitute current line with specified register
+*dd*
+'dd' - Delete the line and *do not* change clipboard
+
+*D*
+'D' - Delete from cursor to the end of the line and *do not* change clipboard
+
+*dD*
+'dD' - Delete the contents of line except the newline character (that is, make it blank) and *do not* change clipboard
+
+*x*
+'x' - Delete the character under cursor and *do not* change clipboard
+
+*s*
+'s' - Delete the character under cursor then enter insert mode and *do not* change clipboard
 
 *S*
-S               Substitute to end of line, similar to C/D/Y
+'S' - Delete the line under cursor then enter insert mode and *do not* change clipboard
 
-*gs*
-gs/gS           Same as s/S but preserves the current cursor position
+*c*
+'c<motion>' - Enter insert mode over top the given area and *do not* change clipboard
 
-*sS*
-sS              Substitute current line with specified register, except the 
-newline character
+*cc*
+'cc' - Enter insert mode over top the current line and *do not* change clipboard
+
+*C*
+'C' - Enter insert mode from cursor to the end of the line and *do not* change clipboard
 
 *p*
-p               Paste from specified register. Inserts after current line if 
-text is multiline, after current character if text is non-multiline.  Leaves 
-cursor at end of pasted text.
+'p' - Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
 
 *P*
-P               Same as p except inserts text before current line/character
+'P' - Same as p except inserts text before current line/character
 
-*gp* *gP*
-gp/gP           Same as p/P but preserves the current cursor position
+*<leader>p*
+'<leader>p' - Same as 'p' except does not auto-format text.  This is only relevant if the auto-format option is enabled
+
+*<leader>P*
+'<leader>P' - Same as 'P' except does not auto-format text. This is only relevant if the auto-format option is enabled
+
+*gp*
+'gp' - Same as p but preserves the current cursor position
+
+*gP*
+'gP' - Same as P but preserves the current cursor position
+
+*g<leader>P*
+'g<leader>P' - Same as '<leader>P' but preserves the current cursor position
+
+*g<leader>p*
+'g<leader>p' - Same as '<leader>p' but preserves the current cursor position
 
 *m*
-m<motion>       Cut operator
+'m<motion>' - Delete over the given motion and copy text to clipboard
 
 *mm*
-mm              Cut line
+'mm' - Delete the current line and copy text to clipboard
 
-*mM*
-mM              Cut line but except newline
+*<c-p>*
+'<c-p>' - Rotate the previous paste forward in yank buffer.  Note that this binding will only work if executed immediately after a paste
+
+*<c-n>*
+'<c-n>' - Rotate the previous paste backward in yank buffer.  Note that this binding will only work if executed immediately after a paste
 
 *[y*
-[y              Go backward in the yank buffer
+'[y' - Go backward in the yank buffer.  This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using '<c-p>' instead)
 
 *]y*
-]y              Go forward in the yank buffer
-
-*yd*
-yd              Display contents of yank buffer
+']y' - Go forward in the yank buffer. This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using '<c-n>' instead)
 
 *Y*
-Y               Yank to end of line
+'Y' - Copy text from cursor position to the end of line to the clipboard
+
+When the option |g:EasyClipUseSubstituteDefaults| is enabled, the following mappings are added:
+
+'s<motion>' - Substitute over the given motion with specified register (or default register if unspecified).
+
+'ss' - Substitute over the current line with specified register (or default register if unspecified).
+
+'gs' - Same as s but preserves the current cursor position.
 
 CUSTOM YANKS                                        *easyclip-custom-yanks*
 
 If you have custom yanks that occur in your vimrc or elsewhere and would like
-them to be included in the yank history, simply call the command
-`EasyClipBeforeYank` before the yank occurs.  For example, I have the following
-line in my vimrc to yank the current file name:
+them to be included in the yank history, you can either call easyclip#Yank() to
+record the string or call the command *EasyClipBeforeYank* before the yank
+occurs.  For example, to yank the current file name you could do either of the
+following:
 
-`nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>`
+    nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>
 
-DISCLAIMER                                      *easyclip-disclaimer*
+    nnoremap <leader>yfn :call easyclip#Yank(expand('%'))<cr>
 
-This plugin is very new and as such most certainly contains bugs.  Feedback and 
-contributions welcome!
+FEEDBACK                                            *easyclip-feedback*
 
-TODO                                            *easyclip-todo*
-
-- Add back ability to toggle most recent paste between pastes after pasting,
-  similar to yankstack/yankring 
-- `:Yanks` command should open up the list of yanks in a scratch buffer so that
-  it is searchable
+Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com.
+Or, feel free to create a github issue.
 
 CHANGELOG                                       *easyclip-changelog*
 
-0.1 (2013-07-08)
+2.1 (2013-12-06)
+    - Bug fixes
+    - Disabled substitution operator by default
+
+2.0 (2013-09-22)
+    - Many bug fixes
+    - Yankring/Yankstack style post-paste swap
+    - RSPEC unit tests added for stability
+
+1.2 (2013-09-22)
+  - More bug fixes
+
+1.1 (2013-09-03)
+  - Bunch of bug fixes
+
+1.0 (2013-07-08)
   - Initial release
 
                                                 *easyclip-license*
