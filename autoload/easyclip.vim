@@ -13,7 +13,7 @@ let g:EasyClipUsePasteDefaults = get(g:, 'EasyClipUsePasteDefaults', 1)
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = get(g:, 'EasyClipAlwaysMoveCursorToEndOfPaste', 0)
 let g:EasyClipUseYankDefaults = get(g:, 'EasyClipUseYankDefaults', 1)
 let g:EasyClipDoSystemSync = get(g:, 'EasyClipDoSystemSync', 1)
-let g:EasyClipPreserveCursorPositionAfterYank = get(g:, 'EasyClipDoSystemSync', 0)
+let g:EasyClipPreserveCursorPositionAfterYank = get(g:, 'EasyClipPreserveCursorPositionAfterYank', 0)
 
 """""""""""""""""""""""
 " Functions
