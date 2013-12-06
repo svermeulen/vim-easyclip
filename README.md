@@ -6,6 +6,8 @@ Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Ma
 
 [EasyClip](https://github.com/svermeulen/vim-easyclip) is a plugin for Vim which contains a collection of clipboard related functionality with the goal of making using Vim simpler and more intuitive without losing any of its power.
 
+A good starting point for the motivation behind this plugin can be found in Drew Neil's post [Registers: The Good, the Bad, and the Ugly Parts](http://vimcasts.org/blog/2013/11/25/registers-the-good-the-bad-and-the-ugly-parts)
+
 ### Installation ###
 
 I recommend loading your plugins with [neobundle](https://github.com/Shougo/neobundle.vim) or [vundle](https://github.com/gmarik/vundle) or [pathogen](https://github.com/tpope/vim-pathogen)
