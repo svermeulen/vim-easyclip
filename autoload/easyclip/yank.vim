@@ -46,6 +46,16 @@ function! easyclip#yank#OnBeforeYank()
         call insert(s:yankstackTail, head)
         let s:yankstackTail = s:yankstackTail[: g:EasyClipYankHistorySize-1]
     endif
+
+    call s:OnYankBufferChanged()
+endfunction
+
+function! s:OnYankBufferChanged()
+    for i in range(1, min([len(s:yankstackTail), 9]))
+        let entry = s:yankstackTail[i-1]
+
+        call setreg(i, entry.text, entry.type)
+    endfor
 endfunction
 
 function! easyclip#yank#Rotate(offset)
@@ -71,6 +81,8 @@ function! easyclip#yank#Rotate(offset)
 
         call easyclip#yank#SetYankStackHead(entry)
     endwhile
+
+    call s:OnYankBufferChanged()
 endfunction
 
 function! easyclip#yank#ClearYanks()
