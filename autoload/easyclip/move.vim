@@ -44,14 +44,20 @@ endfunction
 
 function! easyclip#move#SetDefaultBindings()
 
-    "" "m" = "move" to a different location
-    nmap m <Plug>MoveMotionPlug
-    nmap mm <Plug>MoveMotionLinePlug
-    xmap m <Plug>MoveMotionXPlug
+    let bindings = 
+    \ [
+    \   ['m',  '<Plug>MoveMotionPlug',  'n',  1],
+    \   ['mm',  '<Plug>MoveMotionLinePlug',  'n',  1],
+    \   ['m',  '<Plug>MoveMotionXPlug',  'x',  1],
+    \ ]
 
     " Leave these commented to avoid shadowing M (go to middle of screen)
-    "nmap M <Plug>MoveMotionEndOfLinePlug
-    "nmap mM <Plug>MoveMotionReplaceLinePlug
+    "\   ['M',  '<Plug>MoveMotionEndOfLinePlug',  'n',  1],
+    "\   ['mM',  '<Plug>MoveMotionReplaceLinePlug',  'n',  1],
+
+    for binding in bindings
+        call call("easyclip#AddWeakMapping", binding)
+    endfor
 endfunction
 
 function! easyclip#move#Init()

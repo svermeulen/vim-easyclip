@@ -69,8 +69,8 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
         " Adds an extra line at the end, so delete instead
         exe "normal! \"_d"
 
-        " Use our own version of paste so it autoformats and positions the cursor correctly, also note: pasting inline
-        call easyclip#paste#Paste("P", 1, reg, 1)
+        " Use our own version of paste so it autoformats and positions the cursor correctly
+        call easyclip#paste#Paste("P", 1, reg, 0)
     else
         exe "normal! \"_c\<c-r>". reg
     endif
@@ -128,15 +128,19 @@ endfunction
 
 function! easyclip#substitute#SetDefaultBindings()
 
-    " Make the s key more useful, paste over a given motion
-    nmap <silent> s <plug>SubstituteOverMotionMap
-    nmap <silent> gs <plug>G_SubstituteOverMotionMap
+    let bindings = 
+    \ [
+    \   ['s',  '<plug>SubstituteOverMotionMap',  'n',  1],
+    \   ['gs',  '<plug>G_SubstituteOverMotionMap',  'n',  1],
+    \   ['ss',  '<plug>SubstituteLine',  'n',  1],
+    \   ['s',  '<plug>XEasyClipPaste',  'x',  1],
+    \   ['S',  '<plug>SubstituteToEndOfLine',  'n',  1],
+    \   ['gS',  '<plug>G_SubstituteToEndOfLine',  'n',  1],
+    \ ]
 
-    nmap ss <plug>SubstituteLine
-    xmap s p
-
-    "nmap <silent> S <plug>SubstituteToEndOfLine
-    "nmap <silent> gS <plug>G_SubstituteToEndOfLine
+    for binding in bindings
+        call call("easyclip#AddWeakMapping", binding)
+    endfor
 endfunction
 
 function! easyclip#substitute#Init()
