@@ -188,6 +188,10 @@ If you have custom yanks that occur in your vimrc or elsewhere and would like th
 
 `nnoremap <leader>yfn :call easyclip#Yank(expand('%'))<cr>`
 
+### Feedback ###
+
+Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com.  Or, feel free to create a github issue.
+
 ### Todo ###
 
 - `:Yanks` command should maybe open up the list of yanks in a scratch buffer so that it is searchable
