@@ -20,6 +20,10 @@ By default, Vim's built-in delete operator will yank the deleted text in additio
 
 There is simply no need to clutter up the yank history with every single edit, when you almost always know at the time you are deleting text whether it's something that is worth keeping around or not.
 
+**NOTE** As a result of the above, by default easyclip will shadow an import vim function: The Add Mark key (`m`).  Therefore either you will want to use a different key for the 'cut' operator or remap something else to 'add mark'.  For example, to use `gm` for 'add mark' instead of `m`, include the following in your vimrc:
+
+    nnoremap gm m
+
 ### Substitution Operator ###
 
 Because replacing text is such a common operation, EasyClip includes a motion for it.  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, assuming you have mapped this motion to the `s` key, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
