@@ -119,6 +119,7 @@ function! easyclip#paste#Paste(op, format, reg, inline)
             exec "keepjumps normal! `]"
         else
             exec "keepjumps normal! `["
+            normal! ^
         endif
     endif
 

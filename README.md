@@ -114,7 +114,7 @@ Or to use `gs` for substitute include the following:
 
     nmap <silent> gs <plug>SubstituteOverMotionMap
     nmap gss <plug>SubstituteLine
-    xmap gs p
+    xmap gs <plug>XEasyClipPaste
 
 For reference, or other kinds of mappings, see the bottom of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
 

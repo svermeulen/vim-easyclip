@@ -133,7 +133,7 @@ function! easyclip#substitute#SetDefaultBindings()
     nmap <silent> gs <plug>G_SubstituteOverMotionMap
 
     nmap ss <plug>SubstituteLine
-    xmap s p
+    xmap s <plug>XEasyClipPaste
 
     "nmap <silent> S <plug>SubstituteToEndOfLine
     "nmap <silent> gS <plug>G_SubstituteToEndOfLine
