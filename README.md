@@ -172,7 +172,7 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 `Y` - Copy text from cursor position to the end of line to the clipboard
 
-When the option `g:EasyClipUseSubstituteDefaults` is enabled, the following mappings are added:
+**When the option `g:EasyClipUseSubstituteDefaults` is enabled, the following mappings are added:**
 
 `s<motion>` - Substitute over the given motion with specified register (or default register if unspecified).  Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
 
