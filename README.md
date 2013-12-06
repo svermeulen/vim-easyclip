@@ -205,14 +205,14 @@ Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com. 
 ### Changelog ###
 
 2.1 (2013-12-06)
-    - Bug fixes
-    - Disabled substitution operator by default
-    - Added numbered registers
+  - Bug fixes
+  - Disabled substitution operator by default
+  - Added numbered registers
 
 2.0 (2013-09-22)
-    - Many bug fixes
-    - Yankring/Yankstack style post-paste swap
-    - RSPEC unit tests added for stability
+  - Many bug fixes
+  - Yankring/Yankstack style post-paste swap
+  - RSPEC unit tests added for stability
 
 1.2 (2013-09-22)
   - More bug fixes
