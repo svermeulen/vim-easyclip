@@ -44,7 +44,7 @@ You can view the full list of yanks at any time by running the command `:Yanks`
 
 Note that you can swap substitution operations in the same way as paste.
 
-Every time the yank buffer changes, it also populates all the numbered registers.  "1 is therefore the previous yank, "2 is the yank before that, etc.  This is similar to how the numbered registers work by default (but a bit more sane).  (Credit to Drew Neil for the suggestion)
+Every time the yank buffer changes, it also populates all the numbered registers.  `"1` is therefore the previous yank, `"2` is the yank before that, etc.  This is similar to how the numbered registers work by default (but a bit more sane).  (Credit to Drew Neil for the suggestion)
 
 Also, see `g:EasyClipPreserveCursorPositionAfterYank` option below for an optional non standard customization to yank
 
