@@ -20,9 +20,11 @@ There is simply no need to clutter up the yank history with every single edit, w
 
 ### Substitution Operator ###
 
-Because replacing text is such a common operation, EasyClip includes a motion for it.  It is essentially equivalent to doing a change operation then pasting using the specified register.  By default this is mapped to the `s` key.  For example, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
+Because replacing text is such a common operation, EasyClip includes a motion for it.  It is essentially equivalent to doing a change operation then pasting using the specified register.  For example, assuming you have mapped this motion to the `s` key, to paste over the word under the cursor you would type `siw`, or to paste inside brackets, `si(`, etc.
 
 It can also take a register to use for the substitution (eg. `"asip`), and is fully repeatable using the `.` key.
+
+**NOTE** This feature is off by default.  To use, you have to either enable the option `g:EasyClipUseSubstituteDefaults` (in which case it will be mapped to the `s` key) or map the key/keys of your choice to the `<plug>` mappings found in substitute.vim.
 
 ### Yank Buffer ###
 
@@ -61,11 +63,13 @@ Easy Clip also includes a mapping for insert mode paste, which automatically tur
 
 ### System Clipboard Sync ###
 
-Easyclip will also automatically sync with your system clipboard.
+EasyClip will also automatically sync with your system clipboard.
 
 Every time you leave and return to vim, easy clip will check whether you copied anything from outside Vim and add it to the yank history.
 
 ### Options ###
+
+EasyClip can be easily customized to whatever mapping you wish, using the following options:
 
 `g:EasyClipAutoFormat` - Default: 0.  Set this to 1 to enable auto-formatting pasting text
 
@@ -83,19 +87,21 @@ You can also disable the default mappings by setting one or more of the followin
 
     `g:EasyClipUsePasteDefaults`
 
-    `g:EasyClipUseSubstituteDefaults`
-
     `g:EasyClipEnableBlackHoleRedirect`
 
     `g:EasyClipUsePasteToggleDefaults`
 
-You can then map to the specific `<plug>` mappings to define whatever mappings you want.  For example, to change the mapping for cut (by default set to `m`) to `yd`, include the following in your vimrc:`
+One exception to the above is substitute, which is 0 by default (ie. disabled)
+
+    `g:EasyClipUseSubstituteDefaults`
+
+You can then map to the specific `<plug>` mappings to define whatever mappings you want.  For example, to change the mapping for cut (by default set to `m`) to `x`, include the following in your vimrc:`
 
     let g:EasyClipUseCutDefaults = 0
 
-    nmap yd <Plug>MoveMotionPlug
-    xmap yd <Plug>MoveMotionXPlug
-    nmap ydd <Plug>MoveMotionLinePlug
+    nmap x <Plug>MoveMotionPlug
+    xmap x <Plug>MoveMotionXPlug
+    nmap xx <Plug>MoveMotionLinePlug
 
 Or to change the bindings for toggling paste from `<c-n>` and `<c-p>` to `<c-d>` and `<c-f>` include the following:
 
@@ -104,7 +110,13 @@ Or to change the bindings for toggling paste from `<c-n>` and `<c-p>` to `<c-d>`
     nmap <c-f> <plug>EasyClipSwapPasteForward
     nmap <c-d> <plug>EasyClipSwapPasteBackwards
 
-For reference, see the bottom of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
+Or to use `gs` for substitute include the following:
+
+    nmap <silent> gs <plug>SubstituteOverMotionMap
+    nmap gss <plug>SubstituteLine
+    xmap gs p
+
+For reference, or other kinds of mappings, see the bottom of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
 
 ### Default Key Mappings ###
 
@@ -124,11 +136,11 @@ For reference, see the bottom of the file with the name of the operation you wis
 
 `C` - Enter insert mode from cursor to the end of the line and *do not* change clipboard
 
-`s<motion>` - Substitute over the given motion with specified register (or default register if unspecified)
+`s<motion>` - Substitute over the given motion with specified register (or default register if unspecified).  Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
 
-`ss` - Substitute over the current line with specified register (or default register if unspecified)
+`ss` - Substitute over the current line with specified register (or default register if unspecified). Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
 
-`gs` - Same as s but preserves the current cursor position
+`gs` - Same as s but preserves the current cursor position. Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
 
 `p` - Paste from specified register. Inserts after current line if text is multiline, after current character if text is non-multiline.  Leaves cursor at end of pasted text.
 

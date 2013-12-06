@@ -33,6 +33,9 @@ function! easyclip#blackhole#AddDefaultBindings()
     nnoremap c "_c
     xnoremap c "_c
 
+    nnoremap s "_s
+    nnoremap S "_S
+
     " This is more consistent with yy and dd
     nnoremap cc "_S
 

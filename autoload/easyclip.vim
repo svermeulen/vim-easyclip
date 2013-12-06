@@ -8,7 +8,7 @@ let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)
 let g:EasyClipRemapCapitals = get(g:, 'EasyClipRemapCapitals', 1)
 let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)
 let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 1)
-let g:EasyClipUseSubstituteDefaults = get(g:, 'EasyClipUseSubstituteDefaults', 1)
+let g:EasyClipUseSubstituteDefaults = get(g:, 'EasyClipUseSubstituteDefaults', 0)
 let g:EasyClipUsePasteToggleDefaults = get(g:, 'EasyClipUsePasteToggleDefaults', 1)
 let g:EasyClipUsePasteDefaults = get(g:, 'EasyClipUsePasteDefaults', 1)
 let g:EasyClipAlwaysMoveCursorToEndOfPaste = get(g:, 'EasyClipAlwaysMoveCursorToEndOfPaste', 0)
@@ -44,8 +44,8 @@ endfunction
 
 function! easyclip#Init()
 
-    call easyclip#paste#Init()
     call easyclip#blackhole#Init()
+    call easyclip#paste#Init()
     call easyclip#move#Init()
     call easyclip#substitute#Init()
     call easyclip#yank#Init()
