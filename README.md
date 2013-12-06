@@ -77,6 +77,8 @@ EasyClip can be easily customized to whatever mapping you wish, using the follow
 
 `g:EasyClipDoSystemSync` - Default: 1. Set this to zero to disable system clipboard sync.
 
+`g:EasyClipPreserveCursorPositionAfterYank` - Default 0 (ie. disabled).  Vim's default behaviour is to position the cursor at the beginning of the yanked text, which is consistent with other motions.  However if you prefer the cursor position to remain unchanged when performing yanks, enable this option.
+
 You can also disable the default mappings by setting one or more of the following to zero.  By default they are set to 1 (ie. enabled)
 
     `g:EasyClipUseYankDefaults`
