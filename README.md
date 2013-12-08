@@ -126,7 +126,7 @@ Or to use `gs` for substitute include the following:  (in this case you don't ne
     nmap gss <plug>SubstituteLine
     xmap gs <plug>XEasyClipPaste
 
-For reference, or other kinds of mappings, see the bottom of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
+For reference, or other kinds of mappings, see the Plugs section of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
 
 Note that EasyClip will only enable a default mapping if it hasn't already been mapped to something in your .vimrc.
 
