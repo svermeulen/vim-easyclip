@@ -21,7 +21,7 @@ nnoremap <silent> <plug>EasyClipSwapPasteBackwards :call easyclip#paste#SwapPast
 
 nnoremap <silent> <plug>EasyClipPasteAfter :<c-u>call easyclip#paste#PasteText(v:register, v:count, 'p', 1, "EasyClipPasteAfter")<cr>
 nnoremap <silent> <plug>EasyClipPasteBefore :<c-u>call easyclip#paste#PasteText(v:register, v:count, 'P', 1, "EasyClipPasteBefore")<cr>
-xnoremap <silent> <expr> <plug>XEasyClipPaste '"_d:<c-u>call easyclip#paste#PasteText("' . v:register . '",' . v:count . ', "P", 1, "EasyClipPasteBefore")<cr>'
+xnoremap <silent> <expr> <plug>XEasyClipPaste '"_d:<c-u>call easyclip#paste#PasteText(''' . v:register . ''',' . v:count . ', "P", 1, "EasyClipPasteBefore")<cr>'
 
 nnoremap <silent> <plug>G_EasyClipPasteAfter :<c-u>call easyclip#paste#PasteText(v:register, v:count, 'gp', 1, "G_EasyClipPasteAfter")<cr>
 nnoremap <silent> <plug>G_EasyClipPasteBefore :<c-u>call easyclip#paste#PasteText(v:register, v:count, 'gP', 1, "G_EasyClipPasteBefore")<cr>
