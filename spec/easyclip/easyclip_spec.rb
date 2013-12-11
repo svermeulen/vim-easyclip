@@ -232,6 +232,13 @@ describe "Easyclip" do
             @vim.line.should == "fourth"
         end
 
+        it "pastes in visual mode" do
+            @vim.type "vip"
+            @vim.type "p"
+            @vim.line.should == "fourth"
+            @vim.line_number.should == 1
+        end
+
         it "pressing the repeat key with '.'" do
             @vim.type "."
             @vim.line.should == "fourthfourth"
@@ -257,7 +264,7 @@ describe "Easyclip" do
     ###################
     # PASTE 2
     ###################
-    shared_examples "basic pasting 2" do
+    shared_examples "basic paste auto formatting" do
 
         before do
             AddExampleText()
@@ -386,13 +393,41 @@ describe "Easyclip" do
         end
     end
 
-    describe "main" do
+    shared_examples "all tests" do
+
         it_has_behavior "basic substitution"
         it_has_behavior "basic cutting/moving"
         it_has_behavior "basic pasting"
-        it_has_behavior "basic pasting 2"
+        it_has_behavior "basic paste auto formatting"
         it_has_behavior "basic yanks"
         it_has_behavior "black hole redirection"
+    end
+
+    describe "clipboard default" do
+
+        before do
+            @vim.command("set clipboard=")
+        end
+
+        it_has_behavior "all tests"
+    end
+
+    describe "clipboard unnamed" do
+
+        before do
+            @vim.command("set clipboard=unnamed")
+        end
+
+        it_has_behavior "all tests"
+    end
+
+    describe "clipboard unnamed,unnamedplus" do
+
+        before do
+            @vim.command("set clipboard=unnamed,unnamedplus")
+        end
+
+        it_has_behavior "all tests"
     end
 
     ###################
