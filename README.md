@@ -20,7 +20,7 @@ By default, Vim's built-in delete operator will yank the deleted text in additio
 
 There is simply no need to clutter up the yank history with every single edit, when you almost always know at the time you are deleting text whether it's something that is worth keeping around or not.
 
-**NOTE** As a result of the above, by default easyclip will shadow an import vim function: The Add Mark key (`m`).  Therefore either you will want to use a different key for the 'cut' operator or remap something else to 'add mark'.  For example, to use `gm` for 'add mark' instead of `m`, include the following in your vimrc:
+**NOTE** As a result of the above, by default easyclip will shadow an import vim function: The Add Mark key (`m`).  Therefore either you will want to use a different key for the 'cut' operator (see options section below for this) or remap something else to 'add mark'.  For example, to use `gm` for 'add mark' instead of `m`, include the following in your vimrc:
 
     nnoremap gm m
 
@@ -126,7 +126,7 @@ Or to use `gs` for substitute include the following:  (in this case you don't ne
     nmap gss <plug>SubstituteLine
     xmap gs <plug>XEasyClipPaste
 
-For reference, or other kinds of mappings, see the bottom of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
+For reference, or other kinds of mappings, see the Plugs section of the file with the name of the operation you wish to remap (vim-easy-clip/autoload/substitute.vim / move.vim / yank.vim /etc.)
 
 Note that EasyClip will only enable a default mapping if it hasn't already been mapped to something in your .vimrc.
 
