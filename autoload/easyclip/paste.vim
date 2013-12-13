@@ -87,7 +87,7 @@ function! easyclip#paste#Paste(op, format, reg, inline)
         exec "normal! \"".reg.a:op
     endif
 
-    if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat
+    if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat && get(b:, 'EasyClipAutoFormat', 1)
         " Only auto-format if it's multiline or pasting into an empty line
 
         keepjumps normal! `]
