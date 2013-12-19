@@ -72,10 +72,11 @@ function! easyclip#paste#Paste(op, format, reg, inline)
         " Do not save to jumplist when pasting inline
         exec "normal! ". (a:op ==# 'p' ? 'a' : 'i') . "\<c-r>". reg . "\<right>"
     else
+        let hasMoreThanOneLine = (text =~# "\n.*\n")
         " Save their old position to jumplist
         " Except for gp since the cursor pos shouldn't change
         " in that case
-        if isMultiLine && g:EasyClipAlwaysMoveCursorToEndOfPaste
+        if hasMoreThanOneLine && g:EasyClipAlwaysMoveCursorToEndOfPaste
             if a:op ==# 'P'
                 " just doing m` doesn't work in this case so do it one line above
                 exec "normal! km`j"
@@ -115,11 +116,16 @@ function! easyclip#paste#Paste(op, format, reg, inline)
         exec "keepjumps normal! `["
 
     else
-        if !isMultiLine || g:EasyClipAlwaysMoveCursorToEndOfPaste
-            exec "keepjumps normal! `]"
-        else
-            exec "keepjumps normal! `["
+        if isMultiLine
+            if g:EasyClipAlwaysMoveCursorToEndOfPaste
+                exec "keepjumps normal! `]"
+            else
+                exec "keepjumps normal! `["
+            endif
+
             normal! ^
+        else
+            exec "keepjumps normal! `]"
         endif
     endif
 
