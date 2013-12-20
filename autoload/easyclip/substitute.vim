@@ -45,6 +45,9 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
       let excl_right = ""
     endif
 
+    let oldVirtualEdit=&virtualedit
+    set virtualedit=onemore
+
     " use keepjumps since we only want to change jumplist
     " if it's multiline
     if a:type ==# 'line'
@@ -53,27 +56,26 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
         exe "keepjump normal! `[v`]".excl_right
     else
         echom "Unexpected selection type"
+        exec "set virtualedit=". oldVirtualEdit
         return
     endif
 
     let reg = s:activeRegister
 
     if (getreg(reg) =~# "\n")
-
         if s:moveCursor
             " Record the start of the substitution to the jump list
             exec "normal! m`"
         endif
-
-        " Using "c" change doesn't work correctly for multiline,
-        " Adds an extra line at the end, so delete instead
-        exe "normal! \"_d"
-
-        " Use our own version of paste so it autoformats and positions the cursor correctly
-        call easyclip#paste#Paste("P", 1, reg, 0)
-    else
-        exe "normal! \"_c\<c-r>". reg
     endif
+
+    " Using "c" change doesn't work correctly for multiline,
+    " Adds an extra line at the end, so delete instead
+    exe "normal! \"_d"
+
+    " Use our own version of paste so it autoformats and positions the cursor correctly
+    call easyclip#paste#Paste("P", 1, reg, 0)
+    exec "set virtualedit=". oldVirtualEdit
 
     let g:lastSubChangedtick = b:changedtick
 
