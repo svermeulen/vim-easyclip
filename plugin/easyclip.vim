@@ -1,2 +1,2 @@
 
-call easyclip#Init()
+call EasyClip#Init()

@@ -296,14 +296,14 @@ gs - Same as s but preserves the current cursor position.
 CUSTOM YANKS                                        *easyclip-custom-yanks*
 
 If you have custom yanks that occur in your vimrc or elsewhere and would like
-them to be included in the yank history, you can either call easyclip#Yank() to
+them to be included in the yank history, you can either call EasyClip#Yank() to
 record the string or call the command *EasyClipBeforeYank* before the yank
 occurs.  For example, to yank the current file name you could do either of the
 following:
 
     nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>
 
-    nnoremap <leader>yfn :call easyclip#Yank(expand('%'))<cr>
+    nnoremap <leader>yfn :call EasyClip#Yank(expand('%'))<cr>
 
 FEEDBACK                                            *easyclip-feedback*
 

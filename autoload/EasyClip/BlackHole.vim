@@ -1,5 +1,5 @@
 
-function! easyclip#blackhole#AddSelectBindings()
+function! EasyClip#BlackHole#AddSelectBindings()
 
     let i = 33
 
@@ -18,7 +18,7 @@ function! easyclip#blackhole#AddSelectBindings()
     snoremap \| <c-o>"_c|
 endfunction
 
-function! easyclip#blackhole#AddDefaultBindings()
+function! EasyClip#BlackHole#AddDefaultBindings()
 
     let bindings = 
     \ [
@@ -35,16 +35,16 @@ function! easyclip#blackhole#AddDefaultBindings()
     \ ]
 
     for binding in bindings
-        call call("easyclip#AddWeakMapping", binding)
+        call call("EasyClip#AddWeakMapping", binding)
     endfor
 
 endfunction
 
-function! easyclip#blackhole#Init()
+function! EasyClip#BlackHole#Init()
 
     if g:EasyClipEnableBlackHoleRedirect
-        call easyclip#blackhole#AddDefaultBindings()
+        call EasyClip#BlackHole#AddDefaultBindings()
 
-        call easyclip#blackhole#AddSelectBindings()
+        call EasyClip#BlackHole#AddSelectBindings()
     endif
 endfunction

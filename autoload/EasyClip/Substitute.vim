@@ -6,36 +6,36 @@
 " This is made global because it's changed in paste.vim
 let g:lastSubChangedtick = -1
 
-let s:activeRegister = easyclip#GetDefaultReg()
+let s:activeRegister = EasyClip#GetDefaultReg()
 let s:moveCursor = 0
 
 """""""""""""""""""""""
 " Plugs
 """""""""""""""""""""""
-nnoremap <silent> <plug>SubstituteOverMotionMap :<c-u>call easyclip#substitute#OnPreSubstitute(v:register, 1)<cr>:set opfunc=easyclip#substitute#SubstituteMotion<cr>g@
-nnoremap <silent> <plug>G_SubstituteOverMotionMap :<c-u>call easyclip#substitute#OnPreSubstitute(v:register, 0)<cr>:set opfunc=easyclip#substitute#SubstituteMotion<cr>g@
+nnoremap <silent> <plug>SubstituteOverMotionMap :<c-u>call EasyClip#Substitute#OnPreSubstitute(v:register, 1)<cr>:set opfunc=EasyClip#Substitute#SubstituteMotion<cr>g@
+nnoremap <silent> <plug>G_SubstituteOverMotionMap :<c-u>call EasyClip#Substitute#OnPreSubstitute(v:register, 0)<cr>:set opfunc=EasyClip#Substitute#SubstituteMotion<cr>g@
 
-nnoremap <silent> <plug>SubstituteToEndOfLine :<c-u>call easyclip#substitute#SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
-nnoremap <silent> <plug>G_SubstituteToEndOfLine :<c-u>call easyclip#substitute#SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
+nnoremap <silent> <plug>SubstituteToEndOfLine :<c-u>call EasyClip#Substitute#SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
+nnoremap <silent> <plug>G_SubstituteToEndOfLine :<c-u>call EasyClip#Substitute#SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
 
-nnoremap <silent> <plug>SubstituteLine :<c-u>call easyclip#substitute#SubstituteLine(v:register, v:count)<cr>:call repeat#set("\<plug>SubstituteLine")<cr>
+nnoremap <silent> <plug>SubstituteLine :<c-u>call EasyClip#Substitute#SubstituteLine(v:register, v:count)<cr>:call repeat#set("\<plug>SubstituteLine")<cr>
 
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
-function! easyclip#substitute#OnPreSubstitute(register, moveCursor)
+function! EasyClip#Substitute#OnPreSubstitute(register, moveCursor)
     let s:activeRegister = a:register
 
     " This is necessary to get around a bug in vim where the active register persists to
     " the next command. Repro by doing "_d and then a command that uses v:register
     if a:register == "_"
-        let s:activeRegister = easyclip#GetDefaultReg()
+        let s:activeRegister = EasyClip#GetDefaultReg()
     endif
 
     let s:moveCursor = a:moveCursor
 endfunction
 
-function! easyclip#substitute#SubstituteMotion(type, ...)
+function! EasyClip#Substitute#SubstituteMotion(type, ...)
 
     let startPos = getpos('.')
 
@@ -74,7 +74,7 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
     exe "normal! \"_d"
 
     " Use our own version of paste so it autoformats and positions the cursor correctly
-    call easyclip#paste#Paste("P", 1, reg, 0)
+    call EasyClip#Paste#Paste("P", 1, reg, 0)
     exec "set virtualedit=". oldVirtualEdit
 
     let g:lastSubChangedtick = b:changedtick
@@ -87,17 +87,17 @@ function! easyclip#substitute#SubstituteMotion(type, ...)
     end
 endfunction
 
-function! easyclip#substitute#SubstituteLine(reg, count)
+function! EasyClip#Substitute#SubstituteLine(reg, count)
 
     " Check for black hole register to get around a bug in vim where the active 
     " register persists to the next command
-    let reg = (a:reg == "_" ? easyclip#GetDefaultReg() : a:reg)
+    let reg = (a:reg == "_" ? EasyClip#GetDefaultReg() : a:reg)
 
     if getreg(reg) !~ '\n'
 
         exec "normal! 0\"_d$"
         " Use our own version of paste so it autoformats and positions the cursor correctly
-        call easyclip#paste#Paste("P", 1, reg, 0)
+        call EasyClip#Paste#Paste("P", 1, reg, 0)
     else
         let isLastLine = (line(".") == line("$"))
 
@@ -107,7 +107,7 @@ function! easyclip#substitute#SubstituteLine(reg, count)
         let i = 0
         while i < cnt
             " Use our own version of paste so it autoformats and positions the cursor correctly
-            call easyclip#paste#Paste(isLastLine ? "p" : "P", 1, reg, 0)
+            call EasyClip#Paste#Paste(isLastLine ? "p" : "P", 1, reg, 0)
 
             let i = i + 1
         endwhile
@@ -116,19 +116,19 @@ function! easyclip#substitute#SubstituteLine(reg, count)
     let g:lastSubChangedtick = b:changedtick
 endfunction
 
-function! easyclip#substitute#SubstituteToEndOfLine(reg, moveCursor)
+function! EasyClip#Substitute#SubstituteToEndOfLine(reg, moveCursor)
     let startPos = getpos('.')
     exec "normal! \"_d$"
 
     " Use our own version of paste so it autoformats and positions the cursor correctly
-    call easyclip#paste#Paste("p", 1, a:reg, 0)
+    call EasyClip#Paste#Paste("p", 1, a:reg, 0)
 
     if !a:moveCursor
         call setpos('.', startPos)
     endif
 endfunction
 
-function! easyclip#substitute#SetDefaultBindings()
+function! EasyClip#Substitute#SetDefaultBindings()
 
     let bindings = 
     \ [
@@ -141,13 +141,13 @@ function! easyclip#substitute#SetDefaultBindings()
     \ ]
 
     for binding in bindings
-        call call("easyclip#AddWeakMapping", binding)
+        call call("EasyClip#AddWeakMapping", binding)
     endfor
 endfunction
 
-function! easyclip#substitute#Init()
+function! EasyClip#Substitute#Init()
 
     if g:EasyClipUseSubstituteDefaults
-        call easyclip#substitute#SetDefaultBindings()
+        call EasyClip#Substitute#SetDefaultBindings()
     endif
 endfunction

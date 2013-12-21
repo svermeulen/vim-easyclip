@@ -47,10 +47,10 @@ describe "Easyclip" do
     end
 
     def AddExampleYanks
-        @vim.command("call easyclip#Yank('one')")
-        @vim.command("call easyclip#Yank('two')")
-        @vim.command("call easyclip#Yank('three')")
-        @vim.command("call easyclip#Yank('four')")
+        @vim.command("call EasyClip#Yank('one')")
+        @vim.command("call EasyClip#Yank('two')")
+        @vim.command("call EasyClip#Yank('three')")
+        @vim.command("call EasyClip#Yank('four')")
     end
 
     def LinesAreUnchanged

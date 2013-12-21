@@ -17,7 +17,7 @@ let g:EasyClipPreserveCursorPositionAfterYank = get(g:, 'EasyClipPreserveCursorP
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
-function! easyclip#GetDefaultReg()
+function! EasyClip#GetDefaultReg()
     let clipboard_flags = split(&clipboard, ',')
     if index(clipboard_flags, 'unnamedplus') >= 0
         return "+"
@@ -29,42 +29,42 @@ function! easyclip#GetDefaultReg()
 endfunction
 
 " Only add the given mapping if it doesn't already exist
-function! easyclip#AddWeakMapping(left, right, modes, ...)
+function! EasyClip#AddWeakMapping(left, right, modes, ...)
 
     let recursive = a:0 > 0 ? a:1 : 0
 
     for mode in split(a:modes, '\zs')
-        if !easyclip#HasMapping(a:left, mode)
+        if !EasyClip#HasMapping(a:left, mode)
             exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:left . " " . a:right
         endif
     endfor
 endfunction
 
-function! easyclip#HasMapping(mapping, mode)
+function! EasyClip#HasMapping(mapping, mode)
     return maparg(a:mapping, a:mode) != ''
 endfunction
 
-function! easyclip#GetCurrentYank()
-    return getreg(easyclip#GetDefaultReg())
+function! EasyClip#GetCurrentYank()
+    return getreg(EasyClip#GetDefaultReg())
 endfunction
 
-function! easyclip#SetCurrentYank(yank)
-    call setreg(easyclip#GetDefaultReg(), a:yank)
+function! EasyClip#SetCurrentYank(yank)
+    call setreg(EasyClip#GetDefaultReg(), a:yank)
 endfunction
 
-function! easyclip#Yank(str)
+function! EasyClip#Yank(str)
     EasyClipBeforeYank
-    exec "let @". easyclip#GetDefaultReg() . "='". a:str . "'"
+    exec "let @". EasyClip#GetDefaultReg() . "='". a:str . "'"
 endfunction
 
-function! easyclip#Init()
+function! EasyClip#Init()
 
-    call easyclip#paste#Init()
-    call easyclip#move#Init()
-    call easyclip#substitute#Init()
-    call easyclip#yank#Init()
+    call EasyClip#Paste#Init()
+    call EasyClip#Move#Init()
+    call EasyClip#Substitute#Init()
+    call EasyClip#Yank#Init()
 
     " Add black hole bindings last so that it only
     " adds bindings if they are not taken
-    call easyclip#blackhole#Init()
+    call EasyClip#BlackHole#Init()
 endfunction

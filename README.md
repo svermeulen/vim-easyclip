@@ -192,11 +192,11 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 ### Custom Yanks ###
 
-If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, you can either call easyclip#Yank() to record the string or call the command `EasyClipBeforeYank` before the yank occurs.  For example, to yank the current file name you could do either of the following:
+If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, you can either call EasyClip#Yank() to record the string or call the command `EasyClipBeforeYank` before the yank occurs.  For example, to yank the current file name you could do either of the following:
 
 `nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>`
 
-`nnoremap <leader>yfn :call easyclip#Yank(expand('%'))<cr>`
+`nnoremap <leader>yfn :call EasyClip#Yank(expand('%'))<cr>`
 
 ### Feedback ###
 

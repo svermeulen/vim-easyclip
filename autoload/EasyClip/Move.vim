@@ -2,7 +2,7 @@
 """""""""""""""""""""""
 " Variables
 """""""""""""""""""""""
-let s:activeRegister = easyclip#GetDefaultReg()
+let s:activeRegister = EasyClip#GetDefaultReg()
 
 """""""""""""""""""""""
 " Plugs
@@ -11,22 +11,22 @@ nnoremap <silent> <plug>MoveMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$"_
 nnoremap <silent> <plug>MoveMotionReplaceLinePlug :<c-u>EasyClipBeforeYank<cr>0y$"_d$:call repeat#set("\<plug>MoveMotionReplaceLinePlug")<cr>
 nnoremap <silent> <expr> <plug>MoveMotionLinePlug ':<c-u>EasyClipBeforeYank<cr>'. v:count .'yy'. v:count . '"_dd:call repeat#set("\<plug>MoveMotionLinePlug")<cr>'
 xnoremap <silent> <plug>MoveMotionXPlug :<c-u>EasyClipBeforeYank<cr>gvygv"_d
-nnoremap <silent> <plug>MoveMotionPlug :call easyclip#move#PreMoveMotion()<cr>:set opfunc=easyclip#move#MoveMotion<cr>g@
+nnoremap <silent> <plug>MoveMotionPlug :call EasyClip#Move#PreMoveMotion()<cr>:set opfunc=EasyClip#Move#MoveMotion<cr>g@
 
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
-function! easyclip#move#PreMoveMotion( )
+function! EasyClip#Move#PreMoveMotion( )
     let s:activeRegister = v:register
 
     " This is necessary to get around a bug in vim where the active register persists to
     " the next command. Repro by doing "_d and then a command that uses v:register
     if s:activeRegister ==# "_"
-        let s:activeRegister = easyclip#GetDefaultReg( )
+        let s:activeRegister = EasyClip#GetDefaultReg( )
     endif
 endfunction
 
-function! easyclip#move#MoveMotion(type)
+function! EasyClip#Move#MoveMotion(type)
 
     if &selection ==# 'exclusive'
       let excl_right = "\<right>"
@@ -42,7 +42,7 @@ function! easyclip#move#MoveMotion(type)
     exec "normal! \"_d"
 endfunction
 
-function! easyclip#move#SetDefaultBindings()
+function! EasyClip#Move#SetDefaultBindings()
 
     let bindings = 
     \ [
@@ -56,13 +56,13 @@ function! easyclip#move#SetDefaultBindings()
     "\   ['mM',  '<Plug>MoveMotionReplaceLinePlug',  'n',  1],
 
     for binding in bindings
-        call call("easyclip#AddWeakMapping", binding)
+        call call("EasyClip#AddWeakMapping", binding)
     endfor
 endfunction
 
-function! easyclip#move#Init()
+function! EasyClip#Move#Init()
 
     if g:EasyClipUseCutDefaults
-        call easyclip#move#SetDefaultBindings()
+        call EasyClip#Move#SetDefaultBindings()
     endif
 endfunction
