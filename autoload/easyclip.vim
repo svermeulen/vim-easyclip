@@ -1,7 +1,6 @@
 
 """""""""""""""""""""""
 " Global Options
-" By default easy clip does nothing
 """""""""""""""""""""""
 let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
 let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)

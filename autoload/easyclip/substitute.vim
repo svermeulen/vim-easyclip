@@ -3,7 +3,7 @@
 " Variables
 """""""""""""""""""""""
 
-" This made global because it's changed in paste.vim
+" This is made global because it's changed in paste.vim
 let g:lastSubChangedtick = -1
 
 let s:activeRegister = easyclip#GetDefaultReg()
@@ -12,13 +12,13 @@ let s:moveCursor = 0
 """""""""""""""""""""""
 " Plugs
 """""""""""""""""""""""
-nnoremap <plug>SubstituteOverMotionMap :<c-u>call easyclip#substitute#OnPreSubstitute(v:register, 1)<cr>:set opfunc=easyclip#substitute#SubstituteMotion<cr>g@
-nnoremap <plug>G_SubstituteOverMotionMap :<c-u>call easyclip#substitute#OnPreSubstitute(v:register, 0)<cr>:set opfunc=easyclip#substitute#SubstituteMotion<cr>g@
+nnoremap <silent> <plug>SubstituteOverMotionMap :<c-u>call easyclip#substitute#OnPreSubstitute(v:register, 1)<cr>:set opfunc=easyclip#substitute#SubstituteMotion<cr>g@
+nnoremap <silent> <plug>G_SubstituteOverMotionMap :<c-u>call easyclip#substitute#OnPreSubstitute(v:register, 0)<cr>:set opfunc=easyclip#substitute#SubstituteMotion<cr>g@
 
-nnoremap <plug>SubstituteToEndOfLine :<c-u>call easyclip#substitute#SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
-nnoremap <plug>G_SubstituteToEndOfLine :<c-u>call easyclip#substitute#SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
+nnoremap <silent> <plug>SubstituteToEndOfLine :<c-u>call easyclip#substitute#SubstituteToEndOfLine(v:register, 1)<cr>:call repeat#set("\<plug>SubstituteToEndOfLine")<cr>
+nnoremap <silent> <plug>G_SubstituteToEndOfLine :<c-u>call easyclip#substitute#SubstituteToEndOfLine(v:register, 0)<cr>:call repeat#set("\<plug>G_SubstituteToEndOfLine")<cr>
 
-nnoremap <plug>SubstituteLine :<c-u>call easyclip#substitute#SubstituteLine(v:register, v:count)<cr>:call repeat#set("\<plug>SubstituteLine")<cr>
+nnoremap <silent> <plug>SubstituteLine :<c-u>call easyclip#substitute#SubstituteLine(v:register, v:count)<cr>:call repeat#set("\<plug>SubstituteLine")<cr>
 
 """""""""""""""""""""""
 " Functions
