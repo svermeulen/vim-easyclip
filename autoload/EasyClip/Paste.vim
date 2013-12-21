@@ -6,6 +6,7 @@ let s:lastPasteRegister =''
 let s:lastPasteChangedtick = -1
 let s:offsetSum = 0
 let s:isSwapping = 0
+let s:IgnoreAutoFormat = 0
 
 """""""""""""""""""""""
 " Plugs
@@ -36,6 +37,11 @@ nnoremap <silent> <plug>G_EasyClipPasteUnformattedBefore :<c-u>call EasyClip#Pas
 nnoremap <silent> <plug>XEasyClipPasteUnformatted "_d:<c-u>call EasyClip#Paste#PasteText(v:register, v:count, 'P', 0, "EasyClipPasteUnformattedBefore")<cr>
 
 xnoremap <silent> <plug>XG_EasyClipPasteUnformatted "_d:<c-u>call EasyClip#Paste#PasteText(v:register, v:count, 'gP', 0, "G_EasyClipPasteUnformattedBefore")<cr>
+
+nnoremap <silent> <plug>EasyClipToggleFormattedPaste :call EasyClip#Paste#ToggleFormattedPaste()<cr>
+
+"""""""""""""""""""""""
+" Functions
 
 """""""""""""""""""""""
 " Functions
@@ -88,7 +94,7 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
         exec "normal! \"".reg.a:op
     endif
 
-    if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat && get(b:, 'EasyClipAutoFormat', 1)
+    if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat && get(b:, 'EasyClipAutoFormat', 1) && !s:IgnoreAutoFormat
         " Only auto-format if it's multiline or pasting into an empty line
 
         keepjumps normal! `]
@@ -178,40 +184,53 @@ function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
     endif
 endfunction
 
+function! EasyClip#Paste#ToggleFormattedPaste()
+
+    if !EasyClip#Paste#WasLastChangePaste()
+        echo 'Last action was not paste, toggle unformat command ignored'
+        return
+    endif
+
+    let s:IgnoreAutoFormat = 1
+    let s:pasteOverrideRegister = s:lastPasteRegister
+    exec "normal u."
+    let s:pasteOverrideRegister = ''
+    let s:IgnoreAutoFormat = 0
+
+endfunction
+
 function! EasyClip#Paste#SwapPaste(forward)
-    if EasyClip#Paste#WasLastChangePaste()
+    if !EasyClip#Paste#WasLastChangePaste()
+        echo 'Last action was not paste, swap ignored'
+        return
+    endif
 
-        if s:isSwapping
-            " Stop checking to end the swap session
-            augroup SwapPasteMoveDetect
-                autocmd!
-            augroup END
-        else
-            let s:isSwapping = 1
-            let s:offsetSum = 0
-        endif
-
-        if s:lastPasteRegister == EasyClip#GetDefaultReg()
-            let offset = (a:forward ? 1 : -1)
-
-            call EasyClip#Yank#Rotate(offset)
-            let s:offsetSum += offset
-        endif
-
-        let s:pasteOverrideRegister = EasyClip#GetDefaultReg()
-        exec "normal u."
-        let s:pasteOverrideRegister = ''
-
-        " Wait until the cursor moves and then reset the yank stack 
+    if s:isSwapping
+        " Stop checking to end the swap session
         augroup SwapPasteMoveDetect
             autocmd!
-            " Wait an extra CursorMoved event since there always seems to be one fired after this function ends
-            autocmd CursorMoved <buffer> autocmd SwapPasteMoveDetect CursorMoved <buffer> call <sid>EndSwapPaste()
         augroup END
     else
-        echo 'Last action was not paste, swap ignored'
-        "echo  b:changedtick . ' != '. s:lastPasteChangedtick
+        let s:isSwapping = 1
+        let s:offsetSum = 0
     endif
+
+    if s:lastPasteRegister == EasyClip#GetDefaultReg()
+        let offset = (a:forward ? 1 : -1)
+
+        call EasyClip#Yank#Rotate(offset)
+        let s:offsetSum += offset
+    endif
+
+    let s:pasteOverrideRegister = EasyClip#GetDefaultReg()
+    exec "normal u."
+    let s:pasteOverrideRegister = ''
+
+    augroup SwapPasteMoveDetect
+        autocmd!
+        " Wait an extra CursorMoved event since there always seems to be one fired after this function ends
+        autocmd CursorMoved <buffer> autocmd SwapPasteMoveDetect CursorMoved <buffer> call <sid>EndSwapPaste()
+    augroup END
 endfunction 
 
 " Default Paste Behaviour is:
