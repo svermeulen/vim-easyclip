@@ -1,0 +1,2 @@
+
+call EasyClip#Init()
