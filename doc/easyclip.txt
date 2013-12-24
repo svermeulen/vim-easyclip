@@ -78,7 +78,7 @@ in substitute.vim.
 
 YANK BUFFER                                     *easyclip-yankbuffer*
 
-Easyclip allows you to yank and cut things without worrying about losing text
+EasyClip allows you to yank and cut things without worrying about losing text
 that you copied previously.  It achieves this by storing all yanks into a
 buffer, which you can cycle through forward or backwards to choose the yank that
 you want

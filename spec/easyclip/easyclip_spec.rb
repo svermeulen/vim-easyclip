@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe "Easyclip" do
+describe "EasyClip" do
 
     before(:all) do
         @vim = Vimbot::Driver.new
