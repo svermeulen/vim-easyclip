@@ -163,6 +163,14 @@ function! EasyClip#Yank#YankMotion(type)
     if g:EasyClipPreserveCursorPositionAfterYank && !empty(s:preYankPos)
         call setpos('.', s:preYankPos)
         let s:preYankPos = []
+        " This is necessary for some reason otherwise if you go down a line it will
+        " jump to the column where the yank normally positions the cursor by default
+        " To repro just remove this line, run yiq inside quotes, then go down a line
+        if col('.') == col('$')-1
+            normal! hl
+        else
+            normal! lh
+        endif
     endif
 endfunction
 

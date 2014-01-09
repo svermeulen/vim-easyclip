@@ -22,7 +22,8 @@ nnoremap <silent> <plug>EasyClipSwapPasteBackwards :call EasyClip#Paste#SwapPast
 
 nnoremap <silent> <plug>EasyClipPasteAfter :<c-u>call EasyClip#Paste#PasteText(v:register, v:count, 'p', 1, "EasyClipPasteAfter")<cr>
 nnoremap <silent> <plug>EasyClipPasteBefore :<c-u>call EasyClip#Paste#PasteText(v:register, v:count, 'P', 1, "EasyClipPasteBefore")<cr>
-xnoremap <silent> <expr> <plug>XEasyClipPaste '"_d:<c-u>call EasyClip#Paste#PasteText(''' . v:register . ''',' . v:count . ', "P", 1, "EasyClipPasteBefore")<cr>'
+
+xnoremap <silent> <expr> <plug>XEasyClipPaste ':<c-u>call EasyClip#Paste#PasteTextVisualMode(''' . v:register . ''',' . v:count . ')<cr>'
 
 nnoremap <silent> <plug>G_EasyClipPasteAfter :<c-u>call EasyClip#Paste#PasteText(v:register, v:count, 'gp', 1, "G_EasyClipPasteAfter")<cr>
 nnoremap <silent> <plug>G_EasyClipPasteBefore :<c-u>call EasyClip#Paste#PasteText(v:register, v:count, 'gP', 1, "G_EasyClipPasteBefore")<cr>
@@ -156,6 +157,19 @@ endfunction
 
 function! EasyClip#Paste#WasLastChangePaste()
     return b:changedtick == s:lastPasteChangedtick || b:changedtick == g:lastSubChangedtick
+endfunction
+
+function! EasyClip#Paste#PasteTextVisualMode(reg, count)
+
+    normal! gv
+
+    " If we're pasting a single line yank in visual block mode then repeat paste for each line
+    if mode() ==# '' && getreg(a:reg) !~# '\n'
+        exec "normal! \"_c\<c-r>" . EasyClip#GetDefaultReg()
+    else
+        normal! "_d
+        call EasyClip#Paste#PasteText(a:reg, a:count, "P", 1, "EasyClipPasteBefore")
+    endif
 endfunction
 
 function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)

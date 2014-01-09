@@ -44,7 +44,6 @@ function! EasyClip#BlackHole#Init()
 
     if g:EasyClipEnableBlackHoleRedirect
         call EasyClip#BlackHole#AddDefaultBindings()
-
         call EasyClip#BlackHole#AddSelectBindings()
     endif
 endfunction
