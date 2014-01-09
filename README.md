@@ -61,7 +61,7 @@ When the text is multi-line, the cursor is placed at the start of the new text. 
 
 Alternatively, you can enable the option `g:EasyClipAlwaysMoveCursorToEndOfPaste` to have the cursor positioned at the end in both cases (off by default).  Note that when this option is enabled, the beginning of the multi-line text is added to the jumplist, so you can still return to the start of the paste by pressing `<c-o>` (and this applies to multi-line substitutions as well)
 
-Another non-standard option is `g:EasyClipAutoFormat` (off by default), which will, as the name implies, automatically format text immediately after it is pasted.  This can be useful when pasting text from one indent level to another.
+Another non-standard option is `g:EasyClipAutoFormat` (off by default), which will automatically format text immediately after it is pasted.  This can be useful when pasting text from one indent level to another.
 
 Easy Clip also includes a mapping for insert mode paste, which automatically turns on 'paste' mode for the duration of the paste.  Using 'paste' mode will work much more intuitively when pasting text with multiple lines while in insert mode.  You can enable this by including something similar to the following in your .vimrc:
 
