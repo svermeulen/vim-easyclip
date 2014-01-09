@@ -4,7 +4,7 @@ vim-easyclip
 
 Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Max Brunsfeld] (http://www.github.com/maxbrunsfeld)
 
-[EasyClip](https://github.com/svermeulen/vim-easyclip) is a plugin for Vim which contains a collection of clipboard related functionality with the goal of making using Vim simpler and more intuitive without losing any of its power.
+[EasyClip](https://github.com/svermeulen/vim-easyclip) is a plugin for Vim which contains a collection of clipboard related functionality with the goal of making Vim's clipboard simpler and more intuitive without losing any of its power.
 
 A good starting point for the motivation behind this plugin can be found in Drew Neil's post [Registers: The Good, the Bad, and the Ugly Parts](http://vimcasts.org/blog/2013/11/25/registers-the-good-the-bad-and-the-ugly-parts)
 
@@ -188,7 +188,7 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 `ss` - Substitute over the current line with specified register (or default register if unspecified). Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
 
-`gs` - Same as s but preserves the current cursor position. Note that this only applies if the `g:EasyClipUseSubstituteDefaults` option is set.
+`gs` - Same as s but preserves the current cursor position.
 
 ### Custom Yanks ###
 
