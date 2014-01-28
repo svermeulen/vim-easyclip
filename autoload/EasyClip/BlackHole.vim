@@ -18,32 +18,52 @@ function! EasyClip#BlackHole#AddSelectBindings()
     snoremap \| <c-o>"_c|
 endfunction
 
-function! EasyClip#BlackHole#AddDefaultBindings()
+function! EasyClip#BlackHole#AddDeleteBindings()
 
     let bindings = 
     \ [
     \   ['d', '"_d', 'nx'],
     \   ['dd', '"_dd', 'n'],
     \   ['dD', '0"_d$', 'n'],
-    \   ['x', '"_x', 'nx'],
-    \   ['c', '"_c', 'nx'],
-    \   ['cc', '"_S', 'n'],
-    \   ['s', '"_s', 'nx'],
-    \   ['S', '"_S', 'nx'],
-    \   ['C', '"_C', 'nx'],
     \   ['D', '"_D', 'nx'],
+    \   ['x', '"_x', 'nx'],
     \ ]
 
     for binding in bindings
         call call("EasyClip#AddWeakMapping", binding)
     endfor
+endfunction
 
+function! EasyClip#BlackHole#AddChangeBindings()
+
+    let bindings = 
+    \ [
+    \   ['c', '"_c', 'nx'],
+    \   ['cc', '"_S', 'n'],
+    \   ['C', '"_C', 'nx'],
+    \   ['s', '"_s', 'nx'],
+    \   ['S', '"_S', 'nx'],
+    \ ]
+
+    for binding in bindings
+        call call("EasyClip#AddWeakMapping", binding)
+    endfor
 endfunction
 
 function! EasyClip#BlackHole#Init()
 
     if g:EasyClipEnableBlackHoleRedirect
-        call EasyClip#BlackHole#AddDefaultBindings()
-        call EasyClip#BlackHole#AddSelectBindings()
+
+        if g:EasyClipEnableBlackHoleRedirectForChangeOperator
+            call EasyClip#BlackHole#AddChangeBindings()
+        endif
+
+        if g:EasyClipEnableBlackHoleRedirectForDeleteOperator
+            call EasyClip#BlackHole#AddDeleteBindings()
+        endif
+
+        if g:EasyClipEnableBlackHoleRedirectForSelectOperator
+            call EasyClip#BlackHole#AddSelectBindings()
+        endif
     endif
 endfunction
