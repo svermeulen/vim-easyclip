@@ -14,6 +14,10 @@ let g:EasyClipUseYankDefaults = get(g:, 'EasyClipUseYankDefaults', 1)
 let g:EasyClipDoSystemSync = get(g:, 'EasyClipDoSystemSync', 1)
 let g:EasyClipPreserveCursorPositionAfterYank = get(g:, 'EasyClipPreserveCursorPositionAfterYank', 0)
 
+let g:EasyClipEnableBlackHoleRedirectForChangeOperator = get(g:, 'EasyClipEnableBlackHoleRedirectForChangeOperator', 1)
+let g:EasyClipEnableBlackHoleRedirectForDeleteOperator = get(g:, 'EasyClipEnableBlackHoleRedirectForDeleteOperator', 1)
+let g:EasyClipEnableBlackHoleRedirectForSelectOperator = get(g:, 'EasyClipEnableBlackHoleRedirectForSelectOperator', 1)
+
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
