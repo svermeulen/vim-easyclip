@@ -230,6 +230,4 @@ Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com. 
 Distributed under the same terms as Vim itself.  See the vim license.
 
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/svermeulen/vim-easyclip/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 
