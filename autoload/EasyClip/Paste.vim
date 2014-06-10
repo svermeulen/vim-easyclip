@@ -43,9 +43,6 @@ nnoremap <silent> <plug>EasyClipToggleFormattedPaste :call EasyClip#Paste#Toggle
 
 """""""""""""""""""""""
 " Functions
-
-"""""""""""""""""""""""
-" Functions
 """""""""""""""""""""""
 
 " Adds the following functionality to paste:

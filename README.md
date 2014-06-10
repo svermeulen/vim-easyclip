@@ -229,5 +229,3 @@ Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com. 
 
 Distributed under the same terms as Vim itself.  See the vim license.
 
-
-

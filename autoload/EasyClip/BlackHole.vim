@@ -14,6 +14,7 @@ function! EasyClip#BlackHole#AddSelectBindings()
         let i = i + 1
     endwhile
 
+    snoremap <bs> <c-o>"_c
     snoremap <space> <c-o>"_c<space>
     snoremap \| <c-o>"_c|
 endfunction
