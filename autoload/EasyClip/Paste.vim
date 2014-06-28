@@ -17,6 +17,8 @@ set pastetoggle=<plug>PasteToggle
 " Always toggle to 'paste mode' before pasting in insert mode
 exec "imap <plug>EasyClipInsertModePaste <plug>PasteToggle<C-r>" . EasyClip#GetDefaultReg() . "<plug>PasteToggle"
 
+cnoremap <expr> <plug>EasyClipCommandModePaste '<c-r>' . EasyClip#GetDefaultReg()
+
 nnoremap <silent> <plug>EasyClipSwapPasteForward :call EasyClip#Paste#SwapPaste(1)<cr>
 nnoremap <silent> <plug>EasyClipSwapPasteBackwards :call EasyClip#Paste#SwapPaste(0)<cr>
 

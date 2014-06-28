@@ -216,10 +216,13 @@ endfunction
 " Just automatically copy system clipboard to the default
 " register
 function! EasyClip#Yank#OnFocusGained()
-    if s:lastSystemClipboard !=# @*
+    let newClipboardValue = @*
+
+    " If the clipboard contains binary information then 'newClipboardValue' will be empty
+    if newClipboardValue !=# '' && s:lastSystemClipboard !=# newClipboardValue
         EasyClipBeforeYank
-        let s:lastSystemClipboard = @*
-        exec 'let @'. EasyClip#GetDefaultReg() .' = @*'
+        let s:lastSystemClipboard = newClipboardValue
+        exec 'let @'. EasyClip#GetDefaultReg() .' = newClipboardValue'
     endif
 endfunction
 
