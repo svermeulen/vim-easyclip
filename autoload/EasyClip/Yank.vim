@@ -161,7 +161,8 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
     exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v') 
         \ . "`]".excl_right."\"".a:reg."y"
 
-    " When an explict register is specified it also clobbers the default register
+    " When an explict register is specified it also clobbers the default register, so
+    " restore that
     if a:reg !=# EasyClip#GetDefaultReg()
         call EasyClip#SetCurrentYank(oldDefaultReg)
     endif
