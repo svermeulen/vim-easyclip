@@ -136,26 +136,44 @@ function! EasyClip#Yank#PreYankMotion()
     let s:preYankPos = getpos('.')
 endfunction
 
-function! EasyClip#Yank#YankMotion(type)
+function! EasyClip#Yank#_YankLastChangedText(type, reg)
+
     if &selection ==# 'exclusive'
-      let excl_right = "\<right>"
+        let excl_right = "\<right>"
     else
-      let excl_right = ""
+        let excl_right = ""
     endif
 
-    EasyClipBeforeYank
+    let oldDefaultReg = ''
+
+    if a:reg ==# EasyClip#GetDefaultReg()
+        " If register is declared explicitly then don't add it to yank history
+        EasyClipBeforeYank
+    else
+        let oldDefaultReg = EasyClip#GetCurrentYank()
+    endif
+
+    if a:type !=# 'line' && a:type !=# 'char'
+        echoerr "Unexpected selection type '" . a:type . "'"
+        return
+    endif
+
+    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v') 
+        \ . "`]".excl_right."\"".a:reg."y"
+
+    " When an explict register is specified it also clobbers the default register, so
+    " restore that
+    if a:reg !=# EasyClip#GetDefaultReg()
+        call EasyClip#SetCurrentYank(oldDefaultReg)
+    endif
+endfunction
+
+function! EasyClip#Yank#YankMotion(type)
 
     let oldVisualStart = getpos("'<")
     let oldVisualEnd = getpos("'>")
 
-    if a:type ==# 'line'
-        exe "keepjumps normal! `[V`]".excl_right."\"".s:activeRegister."y"
-    elseif a:type ==# 'char'
-        exe "keepjumps normal! `[v`]".excl_right."\"".s:activeRegister."y"
-    else
-        echom "Unexpected selection type"
-        return
-    endif
+    call EasyClip#Yank#_YankLastChangedText(a:type, s:activeRegister)
 
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
@@ -216,10 +234,13 @@ endfunction
 " Just automatically copy system clipboard to the default
 " register
 function! EasyClip#Yank#OnFocusGained()
-    if s:lastSystemClipboard !=# @*
+    let newClipboardValue = @*
+
+    " If the clipboard contains binary information then 'newClipboardValue' will be empty
+    if newClipboardValue !=# '' && s:lastSystemClipboard !=# newClipboardValue
         EasyClipBeforeYank
-        let s:lastSystemClipboard = @*
-        exec 'let @'. EasyClip#GetDefaultReg() .' = @*'
+        let s:lastSystemClipboard = newClipboardValue
+        exec 'let @'. EasyClip#GetDefaultReg() .' = newClipboardValue'
     endif
 endfunction
 

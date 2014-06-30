@@ -28,18 +28,17 @@ endfunction
 
 function! EasyClip#Move#MoveMotion(type)
 
-    if &selection ==# 'exclusive'
-      let excl_right = "\<right>"
-    else
-      let excl_right = ""
-    endif
+    let oldVisualStart = getpos("'<")
+    let oldVisualEnd = getpos("'>")
 
-    EasyClipBeforeYank
-    let selectType = (a:type ==# 'line' ? "'[V']".excl_right : "`[v`]".excl_right)
-    exe "keepjumps normal! ". selectType . "\"".s:activeRegister."y"
+    call EasyClip#Yank#_YankLastChangedText(a:type, s:activeRegister)
 
     exec "normal! gv"
     exec "normal! \"_d"
+
+    call setpos("'<", oldVisualStart)
+    call setpos("'>", oldVisualEnd)
+
 endfunction
 
 function! EasyClip#Move#SetDefaultBindings()
