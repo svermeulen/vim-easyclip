@@ -27,6 +27,8 @@ nnoremap <plug>EasyClipRotateYanksBackward :<c-u>call EasyClip#Yank#ManuallyRota
 nnoremap <silent> <plug>YankLinePreserveCursorPosition :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>
 nnoremap <silent> <plug>YankPreserveCursorPosition :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>g@
 
+xnoremap <silent> <expr> <plug>VisualModeYank ':<c-u>EasyClipBeforeYank<cr>gv"'. v:register . 'y'
+
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
@@ -159,7 +161,7 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
     endif
 
     exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v') 
-        \ . "`]".excl_right."\"".a:reg."y"
+    \ . "`]".excl_right."\"".a:reg."y"
 
     " When an explict register is specified it also clobbers the default register, so
     " restore that
@@ -218,16 +220,19 @@ function! EasyClip#Yank#SetDefaultMappings()
     \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0], 
     \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
     \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
+    \   ['y',  '<Plug>VisualModeYank',  'x',  1],
     \ ]
 
     for binding in bindings
         call call("EasyClip#AddWeakMapping", binding)
     endfor
-
-    xnoremap <silent> <expr> y ':<c-u>EasyClipBeforeYank<cr>gv"'. v:register . 'y'
 endfunction
 
 function! EasyClip#Yank#OnFocusLost()
+    if EasyClip#GetDefaultReg() ==# '"'
+        call setreg('*', EasyClip#GetCurrentYank())
+    endif
+
     let s:lastSystemClipboard = @*
 endfunction
 
