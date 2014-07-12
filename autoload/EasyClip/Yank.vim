@@ -27,11 +27,22 @@ nnoremap <plug>EasyClipRotateYanksBackward :<c-u>call EasyClip#Yank#ManuallyRota
 nnoremap <silent> <plug>YankLinePreserveCursorPosition :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>
 nnoremap <silent> <plug>YankPreserveCursorPosition :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>g@
 
-xnoremap <silent> <expr> <plug>VisualModeYank ':<c-u>EasyClipBeforeYank<cr>gv"'. v:register . 'y'
+xnoremap <silent> <plug>VisualModeYank :<c-u>call <sid>VisualModeYank(v:register)<cr>
 
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
+function! s:VisualModeYank(reg)
+    if a:reg == EasyClip#GetDefaultReg()
+        EasyClipBeforeYank
+        normal! gvy
+    else
+        " If register is specified explicitly then do not change default register
+        " or add to yank history
+        exec "normal! gv\"" . a:reg . "y"
+    endif
+endfunction
+
 function! EasyClip#Yank#EasyClipGetNumYanks()
     return len(s:yankstackTail) + 1
 endfunction

@@ -10,12 +10,26 @@ let s:activeRegister = EasyClip#GetDefaultReg()
 nnoremap <silent> <plug>MoveMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$"_d$:call repeat#set("\<plug>MoveMotionEndOfLinePlug")<cr>
 nnoremap <silent> <plug>MoveMotionReplaceLinePlug :<c-u>EasyClipBeforeYank<cr>0y$"_d$:call repeat#set("\<plug>MoveMotionReplaceLinePlug")<cr>
 nnoremap <silent> <expr> <plug>MoveMotionLinePlug ':<c-u>EasyClipBeforeYank<cr>'. v:count .'yy'. v:count . '"_dd:call repeat#set("\<plug>MoveMotionLinePlug")<cr>'
-xnoremap <silent> <plug>MoveMotionXPlug :<c-u>EasyClipBeforeYank<cr>gvygv"_d
+xnoremap <silent> <plug>MoveMotionXPlug :<c-u>call <sid>VisualModeMoveMotion(v:register)<cr>
 nnoremap <silent> <expr> <plug>MoveMotionPlug ":<c-u>call EasyClip#Move#PreMoveMotion()<cr>:set opfunc=EasyClip#Move#MoveMotion<cr>" . (v:count > 0 ? v:count : 1) . "g@"
 
 """""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
+function! s:VisualModeMoveMotion(reg)
+
+    if a:reg == EasyClip#GetDefaultReg()
+        EasyClipBeforeYank
+        normal! gvy
+        normal! gv"_d
+    else
+        " If register is specified explicitly then do not change default register
+        " or add to yank history
+        exec "normal! gv\"" . a:reg . "y"
+        normal! gv"_d
+    endif
+endfunction
+
 function! EasyClip#Move#PreMoveMotion( )
     let s:activeRegister = v:register
 

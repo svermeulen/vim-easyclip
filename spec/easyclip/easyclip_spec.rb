@@ -37,13 +37,13 @@ describe "EasyClip" do
     end
 
     before(:each) do
-        @vim.clear_buffer 
+        @vim.clear_buffer
         ClearYanks()
     end
 
     def AddExampleText
         @vim.insert "first<CR>", "second<CR>", "third<CR>", "fourth"
-        @vim.normal "o", "<Esc>" 
+        @vim.normal "o", "<Esc>"
     end
 
     def AddExampleYanks
@@ -76,7 +76,7 @@ describe "EasyClip" do
     shared_examples "black hole redirection" do
 
         before do
-            @vim.clear_buffer 
+            @vim.clear_buffer
             ClearYanks()
 
             AddExampleText()
@@ -150,7 +150,7 @@ describe "EasyClip" do
 
         it "yank rotation 1" do
             @vim.normal "p"
-            @vim.normal "<c-p>" 
+            @vim.normal "<c-p>"
 
             currentYanks = GetYanks()
 
@@ -163,28 +163,28 @@ describe "EasyClip" do
         it "yank rotation 2" do
             @vim.normal "p"
 
-            @vim.normal "<c-p>" 
+            @vim.normal "<c-p>"
             @vim.line.should == "third"
 
-            @vim.normal "<c-p>" 
+            @vim.normal "<c-p>"
             @vim.line.should == "second"
 
-            @vim.normal "<c-p>" 
+            @vim.normal "<c-p>"
             @vim.line.should == "first"
 
-            @vim.normal "<c-n>" 
+            @vim.normal "<c-n>"
             @vim.line.should == "second"
 
-            @vim.normal "<c-n>" 
+            @vim.normal "<c-n>"
             @vim.line.should == "third"
 
-            @vim.normal "<c-n>" 
+            @vim.normal "<c-n>"
             @vim.line.should == "fourth"
 
-            @vim.normal "<c-n>" 
+            @vim.normal "<c-n>"
             @vim.line.should == "first"
 
-            @vim.normal "<c-n>" 
+            @vim.normal "<c-n>"
             @vim.line.should == "second"
 
             # undo should undo the original paste completely
