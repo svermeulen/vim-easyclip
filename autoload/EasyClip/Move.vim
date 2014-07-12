@@ -23,10 +23,12 @@ function! s:VisualModeMoveMotion(reg)
         normal! gvy
         normal! gv"_d
     else
+        let oldDefault = EasyClip#GetDefaultReg()
         " If register is specified explicitly then do not change default register
         " or add to yank history
         exec "normal! gv\"" . a:reg . "y"
         normal! gv"_d
+        call EasyClip#SetCurrentYank(oldDefault)
     endif
 endfunction
 
