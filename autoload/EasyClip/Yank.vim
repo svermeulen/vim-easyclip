@@ -10,6 +10,7 @@ let s:isFirstYank = 1
 let s:preYankPos = []
 let s:yankCount = 0
 let s:lastSystemClipboard = ''
+let s:preYankWinView = {}
 
 """""""""""""""""""""""
 " Commands
@@ -149,6 +150,7 @@ function! EasyClip#Yank#PreYankMotion()
     endif
 
     let s:preYankPos = getpos('.')
+    let s:preYankWinView = winsaveview()
 endfunction
 
 function! EasyClip#Yank#_YankLastChangedText(type, reg)
@@ -193,9 +195,11 @@ function! EasyClip#Yank#YankMotion(type)
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
 
-    if g:EasyClipPreserveCursorPositionAfterYank && !empty(s:preYankPos)
-        call setpos('.', s:preYankPos)
-        let s:preYankPos = []
+    if g:EasyClipPreserveCursorPositionAfterYank && !empty(s:preYankWinView)
+
+        call winrestview(s:preYankWinView)
+        let s:preYankWinView = {}
+
         " This is necessary for some reason otherwise if you go down a line it will
         " jump to the column where the yank normally positions the cursor by default
         " To repro just remove this line, run yiq inside quotes, then go down a line
