@@ -43,10 +43,8 @@ function! s:VisualModeYank(reg)
         exec "normal! gv\"" . a:reg . "y"
         call EasyClip#SetCurrentYank(oldDefault)
     endif
-endfunction
 
-function! EasyClip#Yank#EasyClipGetNumYanks()
-    return len(s:yankstackTail) + 1
+    call EasyClip#Yank#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#OnBeforeYank()
@@ -66,6 +64,7 @@ function! EasyClip#Yank#OnBeforeYank()
 endfunction
 
 function! s:OnYankBufferChanged()
+
     for i in range(1, min([len(s:yankstackTail), 9]))
         let entry = s:yankstackTail[i-1]
 
@@ -80,29 +79,32 @@ function! EasyClip#Yank#Rotate(offset)
     endif
 
     let offset_left = a:offset
-
     while offset_left != 0
+
         let head = EasyClip#Yank#GetYankstackHead()
 
         if offset_left > 0
-            let entry = remove(s:yankstackTail, 0)
+            let l:entry = remove(s:yankstackTail, 0)
             call add(s:yankstackTail, head)
             let offset_left -= 1
         elseif offset_left < 0
-            let entry = remove(s:yankstackTail, -1)
+            let l:entry = remove(s:yankstackTail, -1)
             call insert(s:yankstackTail, head)
             let offset_left += 1
         endif
 
-        call EasyClip#Yank#SetYankStackHead(entry)
+        call EasyClip#Yank#SetYankStackHead(l:entry)
     endwhile
 
     call s:OnYankBufferChanged()
+
+    call EasyClip#Yank#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#ClearYanks()
     let s:yankstackTail = []
     let s:isFirstYank = 1
+    call EasyClip#Yank#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#GetYankstackHead()
@@ -173,7 +175,7 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
         return
     endif
 
-    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v') 
+    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v')
     \ . "`]".excl_right."\"".a:reg."y"
 
     " When an explict register is specified it also clobbers the default register, so
@@ -212,9 +214,14 @@ function! EasyClip#Yank#YankLine()
     exec 'normal! '. s:yankCount . '"'. s:activeRegister .'yy'
 
     call setpos('.', s:preYankPos)
+    call EasyClip#Yank#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#EasyClipGetAllYanks()
+    if g:EasyClipShareYanks
+        call EasyClip#Yank#LoadSharedYanks()
+    endif
+
     return [EasyClip#Yank#GetYankstackHead()] + s:yankstackTail
 endfunction
 
@@ -226,11 +233,11 @@ endfunction
 
 function! EasyClip#Yank#SetDefaultMappings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['[y',  '<plug>EasyClipRotateYanksForward',  'n',  1],
     \   [']y',  '<plug>EasyClipRotateYanksBackward',  'n',  1],
-    \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0], 
+    \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0],
     \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
     \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
     \   ['y',  '<Plug>VisualModeYank',  'x',  1],
@@ -264,13 +271,73 @@ endfunction
 
 function! EasyClip#Yank#InitSystemSync()
 
-    " Check whether the system clipboard changed while focus was lost and 
+    " Check whether the system clipboard changed while focus was lost and
     " add it to our yank buffer
     augroup _sync_clipboard
         au!
         autocmd FocusGained * call EasyClip#Yank#OnFocusGained()
         autocmd FocusLost * call EasyClip#Yank#OnFocusLost()
     augroup END
+endfunction
+
+function! EasyClip#Yank#SaveSharedYanks()
+    if !g:EasyClipShareYanks
+        return
+    endif
+
+    let l:yankstackStrings = []
+
+    for yankStackItem in [EasyClip#Yank#GetYankstackHead()] + s:yankstackTail
+        let l:yankstackItemCopy = yankStackItem
+        let l:yankstackItemCopy.text = substitute(yankStackItem.text, "\n", '\\n', 'g')
+        call add(l:yankstackStrings, string(l:yankstackItemCopy))
+    endfor
+
+    " Thanks https://github.com/xolox/vim-misc/blob/master/autoload/xolox/misc/list.vim
+    " Remove duplicate values from the given list in-place (preserves order).
+    call reverse(l:yankstackStrings)
+    call filter(l:yankstackStrings, 'count(l:yankstackStrings, v:val) == 1')
+    let l:yankstackStrings = reverse(l:yankstackStrings)
+
+    let fileWriteStatus = writefile(l:yankstackStrings, s:shareYanksFile)
+    if fileWriteStatus != 0
+        echohl ErrorMsg
+        echo 'Failed to save EasyClip stack'
+        echohl None
+    endif
+endfunction
+
+function! EasyClip#Yank#LoadSharedYanks()
+    if !g:EasyClipShareYanks
+        return
+    endif
+
+    for dir in split(g:EasyClipShareYanksDirectory, ",")
+        if isdirectory(expand(dir))
+            let g:EasyClipShareYanksDirectory = expand(dir)
+            break
+        endif
+    endfor
+    let s:shareYanksFile = g:EasyClipShareYanksDirectory . '/' . g:EasyClipShareYanksFile
+
+    if filereadable(s:shareYanksFile)
+        let l:allYanksFileContent = readfile(s:shareYanksFile)
+        let l:allYanks = []
+        for allYanksFileContentLine in l:allYanksFileContent
+            let l:allYanksItem = eval(allYanksFileContentLine)
+            let l:allYanksItem.text = substitute(l:allYanksItem.text, '\\n', "\n", 'g')
+            call add(l:allYanks, l:allYanksItem)
+        endfor
+
+        if len(l:allYanks)
+            call EasyClip#Yank#SetYankStackHead(remove(l:allYanks, 0))
+            let s:yankstackTail = l:allYanks
+        endif
+    endif
+endfunction
+
+function! EasyClip#Yank#InitSharedYanks()
+    call EasyClip#Yank#LoadSharedYanks()
 endfunction
 
 function! EasyClip#Yank#Init()
@@ -281,6 +348,10 @@ function! EasyClip#Yank#Init()
 
     if g:EasyClipDoSystemSync
         call EasyClip#Yank#InitSystemSync()
+    endif
+
+    if g:EasyClipShareYanks
+        call EasyClip#Yank#InitSharedYanks()
     endif
 endfunction
 
