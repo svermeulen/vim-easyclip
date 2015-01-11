@@ -159,6 +159,7 @@ function! EasyClip#Paste#WasLastChangePaste()
 endfunction
 
 function! EasyClip#Paste#PasteTextVisualMode(reg, count)
+    call EasyClip#Yank#LoadSharedYanks()
 
     normal! gv
 
@@ -172,6 +173,8 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
 endfunction
 
 function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
+    call EasyClip#Yank#LoadSharedYanks()
+
     let reg = a:reg
 
     " This is necessary to get around a bug in vim where the active register persists to
@@ -181,7 +184,7 @@ function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
     end
 
     let i = 0
-    let cnt = a:count > 0 ? a:count : 1 
+    let cnt = a:count > 0 ? a:count : 1
 
     while i < cnt
         call EasyClip#Paste#Paste(a:op, a:format, reg, 0)
@@ -244,7 +247,7 @@ function! EasyClip#Paste#SwapPaste(forward)
         " Wait an extra CursorMoved event since there always seems to be one fired after this function ends
         autocmd CursorMoved <buffer> autocmd SwapPasteMoveDetect CursorMoved <buffer> call <sid>EndSwapPaste()
     augroup END
-endfunction 
+endfunction
 
 " Default Paste Behaviour is:
 " p - paste after newline if multiline, paste after character if non-multiline
@@ -257,7 +260,7 @@ endfunction
 " g<c-P> - same as c-p but keeps cursor position
 function! EasyClip#Paste#SetDefaultMappings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['p',  '<plug>XEasyClipPaste',  'x',  1],
     \   ['P',  '<plug>XEasyClipPaste',  'x',  1],
