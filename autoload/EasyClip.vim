@@ -13,6 +13,9 @@ let g:EasyClipAlwaysMoveCursorToEndOfPaste = get(g:, 'EasyClipAlwaysMoveCursorTo
 let g:EasyClipUseYankDefaults = get(g:, 'EasyClipUseYankDefaults', 1)
 let g:EasyClipDoSystemSync = get(g:, 'EasyClipDoSystemSync', 1)
 let g:EasyClipPreserveCursorPositionAfterYank = get(g:, 'EasyClipPreserveCursorPositionAfterYank', 0)
+let g:EasyClipShareYanks = get(g:, 'EasyClipShareYanks', 0)
+let g:EasyClipShareYanksFile = get(g:, 'EasyClipShareYanksFile', '.easyclip')
+let g:EasyClipShareYanksDirectory = get(g:, 'EasyClipShareYanksDirectory', '$HOME')
 
 let g:EasyClipEnableBlackHoleRedirectForChangeOperator = get(g:, 'EasyClipEnableBlackHoleRedirectForChangeOperator', 1)
 let g:EasyClipEnableBlackHoleRedirectForDeleteOperator = get(g:, 'EasyClipEnableBlackHoleRedirectForDeleteOperator', 1)
