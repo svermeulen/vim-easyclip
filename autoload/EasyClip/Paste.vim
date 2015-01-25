@@ -167,7 +167,11 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         exec "normal! \"_c\<c-r>" . EasyClip#GetDefaultReg()
     else
         normal! "_d
-        call EasyClip#Paste#PasteText(a:reg, a:count, "P", 1, "EasyClipPasteBefore")
+        if line('.') < line('$')
+            call EasyClip#Paste#PasteText(a:reg, a:count, "P", 1, "EasyClipPasteBefore")
+        else
+            call EasyClip#Paste#PasteText(a:reg, a:count, "p", 1, "EasyClipPasteAfter")
+        endif
     endif
 endfunction
 
@@ -181,7 +185,7 @@ function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
     end
 
     let i = 0
-    let cnt = a:count > 0 ? a:count : 1 
+    let cnt = a:count > 0 ? a:count : 1
 
     while i < cnt
         call EasyClip#Paste#Paste(a:op, a:format, reg, 0)
@@ -244,7 +248,7 @@ function! EasyClip#Paste#SwapPaste(forward)
         " Wait an extra CursorMoved event since there always seems to be one fired after this function ends
         autocmd CursorMoved <buffer> autocmd SwapPasteMoveDetect CursorMoved <buffer> call <sid>EndSwapPaste()
     augroup END
-endfunction 
+endfunction
 
 " Default Paste Behaviour is:
 " p - paste after newline if multiline, paste after character if non-multiline
@@ -257,7 +261,7 @@ endfunction
 " g<c-P> - same as c-p but keeps cursor position
 function! EasyClip#Paste#SetDefaultMappings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['p',  '<plug>XEasyClipPaste',  'x',  1],
     \   ['P',  '<plug>XEasyClipPaste',  'x',  1],
