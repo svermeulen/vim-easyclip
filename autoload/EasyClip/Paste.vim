@@ -118,6 +118,14 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
     if a:op ==# 'gp'
         call setpos('.', oldPos)
 
+        " This is necessary to avoid the bug where going up or down
+        " does not use the right column number
+        if col('.') == col('$')-1
+            normal! hl
+        else
+            normal! lh
+        endif
+
     elseif a:op ==# 'gP'
         exec "keepjumps normal! `["
 
