@@ -211,6 +211,8 @@ function! EasyClip#Yank#YankMotion(type)
             normal! lh
         endif
     endif
+
+    call EasyClip#Yank#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#YankLine()
