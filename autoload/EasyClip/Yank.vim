@@ -151,6 +151,7 @@ function! EasyClip#Yank#PreYankMotion()
     endif
 
     let s:preYankPos = getpos('.')
+    call EasyClip#Yank#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#_YankLastChangedText(type, reg)
