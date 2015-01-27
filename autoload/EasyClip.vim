@@ -66,7 +66,20 @@ function! EasyClip#Yank(str)
     EasyClipOnYanksChanged
 endfunction
 
+function! EasyClip#CheckRequiredDependencies()
+
+    if !exists("g:repeat_tick")
+        echohl ErrorMsg
+        echo 'Could not find vim-repeat installed.  EasyClip requires vim-repeat to function properly.  Please install vim-repeat and restart Vim'
+        echohl None
+    endif
+endfunction
 function! EasyClip#Init()
+
+    augroup easyclip_checkdependencies
+        autocmd!
+        autocmd VimEnter * call EasyClip#CheckRequiredDependencies()
+    augroup END
 
     call EasyClip#Paste#Init()
     call EasyClip#Move#Init()

@@ -4,7 +4,7 @@ vim-easyclip
 
 Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Max Brunsfeld] (http://www.github.com/maxbrunsfeld)
 
-A good starting point for the motivation behind this Vim plugin can be found in Drew Neil's post [Registers: The Good, the Bad, and the Ugly Parts](http://vimcasts.org/blog/2013/11/25/registers-the-good-the-bad-and-the-ugly-parts)
+A good starting point for the motivation behind this Vim plugin can be found in Drew Neil's post [Registers: The Good, the Bad, and the Ugly Parts](http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/)
 
 ### Installation ###
 
