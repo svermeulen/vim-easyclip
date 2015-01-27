@@ -176,9 +176,6 @@ another.
 
 *g:EasyClipYankHistorySize*   Default: 50. Change this to limit yank history
 
-*g:EasyClipDoSystemSync*  Default: 1. Set this to zero to disable system
-clipboard sync.
-
 *g:EasyClipPreserveCursorPositionAfterYank* - Default 0 (ie. disabled).  Vim's
 default behaviour is to position the cursor at the beginning of the yanked text,
 which is consistent with other motions.  However if you prefer the

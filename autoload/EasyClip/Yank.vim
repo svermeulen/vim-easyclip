@@ -11,7 +11,6 @@ let s:yankstackTail = []
 let s:isFirstYank = 1
 let s:preYankPos = []
 let s:yankCount = 0
-let s:lastSystemClipboard = ''
 let s:preYankWinView = {}
 
 """""""""""""""""""""""
@@ -57,12 +56,14 @@ function! EasyClip#Yank#OnBeforeYank()
     endif
 
     let head = EasyClip#Yank#GetYankstackHead()
+    call s:AddToTail(head)
+endfunction
 
-    if !empty(head.text) && (empty(s:yankstackTail) || (head != s:yankstackTail[0]))
-        call insert(s:yankstackTail, head)
+function! s:AddToTail(entry)
+    if !empty(a:entry.text) && (empty(s:yankstackTail) || (a:entry != s:yankstackTail[0]))
+        call insert(s:yankstackTail, a:entry)
         let s:yankstackTail = s:yankstackTail[: g:EasyClipYankHistorySize-1]
     endif
-
 endfunction
 
 function! EasyClip#Yank#OnYanksChanged()
@@ -261,34 +262,33 @@ function! EasyClip#Yank#SetDefaultMappings()
 endfunction
 
 function! EasyClip#Yank#OnFocusLost()
-
-    if g:EasyClipDoSystemSync
-        if EasyClip#GetDefaultReg() ==# '"'
-            call setreg('*', EasyClip#GetCurrentYank())
-        endif
-
-        let s:lastSystemClipboard = @*
-    endif
-
     call EasyClip#Shared#SaveToFileIfDirty()
+
+    if EasyClip#GetDefaultReg() ==# '*'
+        let s:yankHeadBeforeFocusLost = EasyClip#Yank#GetYankstackHead()
+    endif
 endfunction
 
-" Just automatically copy system clipboard to the default
-" register
 function! EasyClip#Yank#OnFocusGained()
-
     call EasyClip#Shared#LoadFileIfChanged()
 
-    if g:EasyClipDoSystemSync
-        let newClipboardValue = @*
+    " If we are using the system register as our yank head,
+    " then we have to make sure that it doesn't get clobbered
+    " when the user leaves and then returns to vim
+    " To do this, we check if the yank head before leaving is
+    " the same as when it returns, and if not add a new entry properly
+    " for the previous yank head
+    if EasyClip#GetDefaultReg() ==# '*' && exists("s:yankHeadBeforeFocusLost")
+        let newYankHead = @*
 
-        " If the clipboard contains binary information then 'newClipboardValue' will be empty
-        if newClipboardValue !=# '' && s:lastSystemClipboard !=# newClipboardValue
-            EasyClipBeforeYank
-            let s:lastSystemClipboard = newClipboardValue
-            exec 'let @'. EasyClip#GetDefaultReg() .' = newClipboardValue'
-            EasyClipOnYanksChanged
+        " If the clipboard contains binary information then 'newYankHead' will be empty
+        " Restore old yank in this case
+        if s:yankHeadBeforeFocusLost.text !=# newYankHead
+            " User copied something externally
+            call s:AddToTail(s:yankHeadBeforeFocusLost)
         endif
+
+        unlet s:yankHeadBeforeFocusLost
     endif
 endfunction
 
