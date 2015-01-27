@@ -7,9 +7,9 @@ let s:activeRegister = EasyClip#GetDefaultReg()
 """""""""""""""""""""""
 " Plugs
 """""""""""""""""""""""
-nnoremap <silent> <plug>MoveMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$"_d$:call repeat#set("\<plug>MoveMotionEndOfLinePlug")<cr>
-nnoremap <silent> <plug>MoveMotionReplaceLinePlug :<c-u>EasyClipBeforeYank<cr>0y$"_d$:call repeat#set("\<plug>MoveMotionReplaceLinePlug")<cr>
-nnoremap <silent> <expr> <plug>MoveMotionLinePlug ':<c-u>EasyClipBeforeYank<cr>'. v:count .'yy'. v:count . '"_dd:call repeat#set("\<plug>MoveMotionLinePlug")<cr>'
+nnoremap <silent> <plug>MoveMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>"_d$:call repeat#set("\<plug>MoveMotionEndOfLinePlug")<cr>
+nnoremap <silent> <plug>MoveMotionReplaceLinePlug :<c-u>EasyClipBeforeYank<cr>0y$:EasyClipOnYanksChanged<cr>"_d$:call repeat#set("\<plug>MoveMotionReplaceLinePlug")<cr>
+nnoremap <silent> <expr> <plug>MoveMotionLinePlug ':<c-u>EasyClipBeforeYank<cr>'. v:count .'yy'. v:count . '"_dd:EasyClipOnYanksChanged<cr>:call repeat#set("\<plug>MoveMotionLinePlug")<cr>'
 xnoremap <silent> <plug>MoveMotionXPlug :<c-u>call <sid>VisualModeMoveMotion(v:register)<cr>
 nnoremap <silent> <expr> <plug>MoveMotionPlug ":<c-u>call EasyClip#Move#PreMoveMotion()<cr>:set opfunc=EasyClip#Move#MoveMotion<cr>" . (v:count > 0 ? v:count : '') . "g@"
 

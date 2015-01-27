@@ -255,7 +255,7 @@ function! EasyClip#Yank#SetDefaultMappings()
     \ [
     \   ['[y',  '<plug>EasyClipRotateYanksForward',  'n',  1],
     \   [']y',  '<plug>EasyClipRotateYanksBackward',  'n',  1],
-    \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0],
+    \   ['Y',  ':EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>',  'n',  0],
     \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
     \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
     \   ['y',  '<Plug>VisualModeYank',  'x',  1],
