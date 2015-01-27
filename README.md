@@ -67,9 +67,38 @@ Easy Clip also includes a mapping for insert mode paste, which automatically tur
 
     imap <c-v> <plug>EasyClipInsertModePaste
 
+For convenience, there is also a plug for command mode paste, which you can enable with the following
+
+    cmap <c-v> <plug>EasyClipCommandModePaste
+
+### Persistent yank history and sharing clipboard between concurrent Vim instances ###
+
+EasyClip can automatically store the yank history to file, so that it can be restored the next time you start Vim.  Storing it to file also allows other active Vim instances to seamlessly share the same clipboard and yank history.
+
+You can enable this feature by enabling the option `g:EasyClipShareYanks` which is off by default.  You can also customize where the yank history file gets stored (see options section below)
+
+### Clipboard setting ###
+
+Vim's built-in setting for `clipboard` can be set to one of the following:
+
+1. set clipboard=
+1. set clipboard=unnamed
+1. set clipboard=unnamed,unnamedplus
+1. set clipboard=unnamedplus
+
+Leaving it as (1) which is Vim's default, will cause all yank/delete/paste operations to use the `"` register.  The only drawback here is that whenever you want to copy/paste something from another application, you have to explicitly access the system clipboard, which is represented by the `*` register.  For example, to copy the current line to the system clipboard, you would type `"*yy`.  And to paste some text copied from another window, you would type `"*p`
+
+To avoid this extra work, you can use option (2) and set it to `unnamed`.  This will cause all yank/delete/paste operations to use the system register `*`.  This way, you can leave Vim and paste into another application and it will use the same value for the current yank.  And vice versa when returning to vim.
+
+I recommend using one of these two options.  I personally use option (2).
+
+When option (3) is enabled, both Vim and EasyClip will use the `+` register as its default.
+
+Option (4) is the same as option (3), except Vim will also automatically copy the contents of the `+` register to the `*` register.
+
 ### Options ###
 
-EasyClip can be easily customized to whatever mapping you wish, using the following options:
+EasyClip can be easily customized to whatever mappings you wish, using the following options:
 
 `g:EasyClipAutoFormat` - Default: 0.  Set this to 1 to enable auto-formatting pasting text
 
