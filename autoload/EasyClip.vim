@@ -3,6 +3,8 @@
 " Global Options
 """""""""""""""""""""""
 let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
+let g:EasyClipShowYanksWidth = get(g:, 'EasyClipShowYanksWidth', 80)
+let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
 let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)
 let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)
 let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 1)

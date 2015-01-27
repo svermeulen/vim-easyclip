@@ -4,6 +4,8 @@ scriptencoding utf-8
 let s:newLinePattern            = '@@@'
 let s:newLinePatternRegexp      = '\%(\\\)\@<!@@@'
 
+let s:mostRecentYanksFileReadTime = 0
+
 function! EasyClip#Shared#SaveSharedYanks()
     if !g:EasyClipShareYanks
         return
@@ -44,7 +46,16 @@ function! EasyClip#Shared#LoadSharedYanks()
     endfor
     let s:shareYanksFile = g:EasyClipShareYanksDirectory . '/' . g:EasyClipShareYanksFile
 
+
     if filereadable(s:shareYanksFile)
+        " Only read in yanks from disk if the file has been modified since
+        " last read
+        let l:currentYanksFileModificationTime = getftime(s:shareYanksFile)
+        if l:currentYanksFileModificationTime < s:mostRecentYanksFileReadTime
+            return
+        endif
+        let s:mostRecentYanksFileReadTime = l:currentYanksFileModificationTime
+
         let l:allYanksFileContent = readfile(s:shareYanksFile)
         let l:allYanks = []
         for allYanksFileContentLine in l:allYanksFileContent
