@@ -59,6 +59,10 @@ nnoremap <silent> <plug>EasyClipToggleFormattedPaste :call EasyClip#Paste#Toggle
 " That is, add the newline wherever the cursor is rather than above/below the current line
 function! EasyClip#Paste#Paste(op, format, reg, inline)
 
+    " This shouldn't be necessary since we calling this on FocusGained but
+    " we call it here anyway since some console vims don't fire FocusGained
+    call EasyClip#Shared#LoadFileIfChanged()
+
     let reg = empty(s:pasteOverrideRegister) ? a:reg : s:pasteOverrideRegister
 
     let text = getreg(reg)
@@ -171,6 +175,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
 
     " If we're pasting a single line yank in visual block mode then repeat paste for each line
     if mode() ==# '' && getreg(a:reg) !~# '\n'
+        call EasyClip#Shared#LoadFileIfChanged()
         exec "normal! \"_c\<c-r>" . EasyClip#GetDefaultReg()
     else
         normal! "_d

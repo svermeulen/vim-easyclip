@@ -50,6 +50,8 @@ function! s:VisualModeYank(reg)
 endfunction
 
 function! EasyClip#Yank#OnBeforeYank()
+    call EasyClip#Shared#LoadFileIfChanged()
+
     if s:isFirstYank
         let s:isFirstYank = 0
         return
@@ -80,6 +82,8 @@ endfunction
 
 function! EasyClip#Yank#Rotate(offset)
 
+    call EasyClip#Shared#LoadFileIfChanged()
+
     if empty(s:yankstackTail)
         return
     endif
@@ -106,6 +110,7 @@ function! EasyClip#Yank#Rotate(offset)
 endfunction
 
 function! EasyClip#Yank#ClearYanks()
+    call EasyClip#Shared#LoadFileIfChanged()
     let s:yankstackTail = []
     let s:isFirstYank = 1
     EasyClipOnYanksChanged
@@ -113,7 +118,6 @@ endfunction
 
 function! EasyClip#Yank#GetYankstackHead()
     let reg = EasyClip#GetDefaultReg()
-
     return { 'text': getreg(reg), 'type': getregtype(reg) }
 endfunction
 
@@ -235,6 +239,7 @@ function! EasyClip#Yank#YankLine()
 endfunction
 
 function! EasyClip#Yank#EasyClipGetAllYanks()
+    call EasyClip#Shared#LoadFileIfChanged()
     return [EasyClip#Yank#GetYankstackHead()] + s:yankstackTail
 endfunction
 
