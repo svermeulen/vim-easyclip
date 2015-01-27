@@ -75,7 +75,7 @@ For convenience, there is also a plug for command mode paste, which you can enab
 
 EasyClip can automatically store the yank history to file, so that it can be restored the next time you start Vim.  Storing it to file also allows other active Vim instances to seamlessly share the same clipboard and yank history.
 
-You can enable this feature by enabling the option `g:EasyClipShareYanks` which is off by default.  You can also customize where the yank history file gets stored (see options section below)
+You can enable this feature by enabling the option `g:EasyClipShareYanks` (NOTE: off by default).  You can also customize where the yank history file gets stored (see options section below)
 
 ### Clipboard setting ###
 
@@ -88,7 +88,7 @@ Vim's built-in setting for `clipboard` can be set to one of the following:
 
 Leaving it as (1) which is Vim's default, will cause all yank/delete/paste operations to use the `"` register.  The only drawback here is that whenever you want to copy/paste something from another application, you have to explicitly access the system clipboard, which is represented by the `*` register.  For example, to copy the current line to the system clipboard, you would type `"*yy`.  And to paste some text copied from another window, you would type `"*p`
 
-To avoid this extra work, you can use option (2) and set it to `unnamed`.  This will cause all yank/delete/paste operations to use the system register `*`.  This way, you can leave Vim and paste into another application and it will use the same value for the current yank.  And vice versa when returning to vim.
+To avoid this extra work, you can use option (2) and set it to `unnamed`.  This will cause all yank/delete/paste operations to use the system register `*`.  This way, you can copy something in Vim then immediately paste it into another application.  And vice versa when returning to vim.
 
 I recommend using one of these two options.  I personally use option (2).
 
@@ -107,6 +107,14 @@ EasyClip can be easily customized to whatever mappings you wish, using the follo
 `g:EasyClipAlwaysMoveCursorToEndOfPaste` - Default: 0.  Set this to 1 to always position cursor at the end of the pasted text for both multi-line and non-multiline pastes.
 
 `g:EasyClipPreserveCursorPositionAfterYank` - Default 0 (ie. disabled).  Vim's default behaviour is to position the cursor at the beginning of the yanked text, which is consistent with other motions.  However if you prefer the cursor position to remain unchanged when performing yanks, enable this option.
+
+`g:EasyClipShareYanks` - Default: 0 (ie. disabled). When enabled, yank history is saved to file, which allows other concurrent Vim instances to automatically share the yank history, and also allows yank history to be automatically restored when restarting vim.
+
+`g:EasyClipShareYanksFile` - Default: '.easyclip'. The name of the file to save the yank history to when `g:EasyClipShareYanks` is enabled.
+
+`g:EasyClipShareYanksDirectory` - Default: '$HOME'. The directory to use to store the file with name given by `g:EasyClipShareYanksFile` setting.  Only applicable when `g:EasyClipShareYanks` option is enabled.
+
+`g:EasyClipShowYanksWidth` - Default: 80 - The width to display for each line when the `Yanks` command is executed
 
 You can also disable the default mappings by setting one or more of the following to zero.  By default they are set to 1 (ie. enabled)
 
@@ -211,17 +219,24 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 ### Custom Yanks ###
 
-If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, you can either call EasyClip#Yank() to record the string or call the command `EasyClipBeforeYank` before the yank occurs.  For example, to yank the current file name you could do either of the following:
+If you have custom yanks that occur in your vimrc or elsewhere and would like them to be included in the yank history, you should call the EasyClip#Yank().  For example, to add a binding to yank the current file name you could add the following to your .vimrc:
 
-`nnoremap <leader>yfn :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>`
+`nnoremap <leader>yf :call EasyClip#Yank(expand('%'))<cr>`
 
-`nnoremap <leader>yfn :call EasyClip#Yank(expand('%'))<cr>`
+Another way to do the above (which is necessary if you don't control the yank yourself), is to do the following:
+
+`nnoremap <leader>yf :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>:EasyClipOnYanksChanged<cr>`
 
 ### Feedback ###
 
 Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com.  Or, feel free to create a github issue.
 
 ### Changelog ###
+
+2.2 (2015-01-27)
+  - Bug fixes
+  - Removed the 'system sync' option since using unnamed register is sufficient for this
+  - Added support for persistent/shared yanks
 
 2.1 (2013-12-06)
   - Bug fixes
