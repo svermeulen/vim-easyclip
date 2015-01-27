@@ -68,11 +68,16 @@ endfunction
 
 function! EasyClip#CheckRequiredDependencies()
 
-    if !exists("g:repeat_tick")
+    try
+        " This should have no effect when it succeeds
+        call repeat#invalidate()
+    catch /\VUnknown function/
         echohl ErrorMsg
         echo 'Could not find vim-repeat installed.  EasyClip requires vim-repeat to function properly.  Please install vim-repeat and restart Vim'
         echohl None
-    endif
+    catch
+        " function exists, ignore
+    endtry
 endfunction
 function! EasyClip#Init()
 
