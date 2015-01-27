@@ -167,8 +167,6 @@ function! EasyClip#Paste#WasLastChangePaste()
 endfunction
 
 function! EasyClip#Paste#PasteTextVisualMode(reg, count)
-    call EasyClip#Yank#LoadSharedYanks()
-
     normal! gv
 
     " If we're pasting a single line yank in visual block mode then repeat paste for each line
@@ -185,8 +183,6 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
 endfunction
 
 function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
-    call EasyClip#Yank#LoadSharedYanks()
-
     let reg = a:reg
 
     " This is necessary to get around a bug in vim where the active register persists to

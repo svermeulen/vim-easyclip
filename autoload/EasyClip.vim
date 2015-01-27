@@ -3,6 +3,7 @@
 " Global Options
 """""""""""""""""""""""
 let g:EasyClipYankHistorySize = get(g:, 'EasyClipYankHistorySize', 50)
+let g:EasyClipShowYanksWidth = get(g:, 'EasyClipShowYanksWidth', 80)
 let g:EasyClipAutoFormat = get(g:, 'EasyClipAutoFormat', 0)
 let g:EasyClipEnableBlackHoleRedirect = get(g:, 'EasyClipEnableBlackHoleRedirect', 1)
 let g:EasyClipUseCutDefaults = get(g:, 'EasyClipUseCutDefaults', 1)
@@ -70,6 +71,7 @@ function! EasyClip#Init()
     call EasyClip#Move#Init()
     call EasyClip#Substitute#Init()
     call EasyClip#Yank#Init()
+    call EasyClip#Shared#Init()
 
     " Add black hole bindings last so that it only
     " adds bindings if they are not taken
