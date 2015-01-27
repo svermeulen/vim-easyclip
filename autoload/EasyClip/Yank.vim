@@ -68,15 +68,17 @@ function! s:AddToTail(entry)
     endif
 endfunction
 
-function! EasyClip#Yank#OnYanksChanged()
-
-    " Update numbered registers
+function! EasyClip#Yank#SyncNumberedRegisters()
     for i in range(1, min([len(s:yankstackTail), 9]))
         let entry = s:yankstackTail[i-1]
 
         call setreg(i, entry.text, entry.type)
     endfor
+endfunction
 
+function! EasyClip#Yank#OnYanksChanged()
+
+    call EasyClip#Yank#SyncNumberedRegisters()
     call EasyClip#Shared#SaveToFileIfDirty()
 endfunction
 

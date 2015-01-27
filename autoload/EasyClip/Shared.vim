@@ -69,6 +69,7 @@ function! EasyClip#Shared#LoadFileIfChanged()
         call EasyClip#Yank#SetYankStackTail(l:allYanks)
     endif
 
+    call EasyClip#Yank#SyncNumberedRegisters()
     return 1
 endfunction
 
