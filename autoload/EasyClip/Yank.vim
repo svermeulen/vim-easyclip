@@ -113,9 +113,14 @@ endfunction
 
 function! EasyClip#Yank#ClearYanks()
     call EasyClip#Shared#LoadFileIfChanged()
+
+    let l:size = len(s:yankstackTail)
+
     let s:yankstackTail = []
     let s:isFirstYank = 1
     EasyClipOnYanksChanged
+
+    echo "Cleared yank history of " . l:size . " entries"
 endfunction
 
 function! EasyClip#Yank#GetYankstackHead()
