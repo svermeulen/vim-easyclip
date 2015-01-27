@@ -133,8 +133,8 @@ function! EasyClip#Yank#ShowYank(yank, index)
     let index = printf("%-4d", a:index)
     let line = substitute(a:yank.text, '\V\n', '^M', 'g')
 
-    if len(line) > g:EasyClipShowYanksWidth
-        let line = line[: g:EasyClipShowYanksWidth] . '…'
+    if len(line) > 80
+        let line = line[: 80] . '…'
     endif
 
     echohl Directory | echo  index
