@@ -14,8 +14,8 @@ function! EasyClip#Shared#SaveToFileIfDirty()
     let l:yankstackStrings = []
 
     for yankStackItem in [EasyClip#Yank#GetYankstackHead()] + EasyClip#Yank#GetYankstackTail()
-        let l:yankstackItemCopy = yankStackItem
-        let l:yankstackItemCopy.text = substitute(yankStackItem.text, "\n", s:newLinePattern, 'g')
+        let l:yankstackItemCopy = { 'text': yankStackItem.text, 'type': yankStackItem.type }
+        let l:yankstackItemCopy.text = substitute(l:yankstackItemCopy.text, "\n", s:newLinePattern, 'g')
         call add(l:yankstackStrings, string(l:yankstackItemCopy))
     endfor
 
