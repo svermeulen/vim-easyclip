@@ -66,7 +66,6 @@ function! EasyClip#Yank#OnBeforeYank()
 endfunction
 
 function! EasyClip#Yank#OnYanksChanged()
-    call EasyClip#Shared#SaveSharedYanks()
 
     " Update numbered registers
     for i in range(1, min([len(s:yankstackTail), 9]))
@@ -74,6 +73,8 @@ function! EasyClip#Yank#OnYanksChanged()
 
         call setreg(i, entry.text, entry.type)
     endfor
+
+    call EasyClip#Shared#MarkYanksDirty()
 endfunction
 
 function! EasyClip#Yank#Rotate(offset)
@@ -260,35 +261,35 @@ function! EasyClip#Yank#SetDefaultMappings()
 endfunction
 
 function! EasyClip#Yank#OnFocusLost()
-    if EasyClip#GetDefaultReg() ==# '"'
-        call setreg('*', EasyClip#GetCurrentYank())
+
+    if g:EasyClipDoSystemSync
+        if EasyClip#GetDefaultReg() ==# '"'
+            call setreg('*', EasyClip#GetCurrentYank())
+        endif
+
+        let s:lastSystemClipboard = @*
     endif
 
-    let s:lastSystemClipboard = @*
+    call EasyClip#Shared#SaveToFileIfDirty()
 endfunction
 
 " Just automatically copy system clipboard to the default
 " register
 function! EasyClip#Yank#OnFocusGained()
-    let newClipboardValue = @*
 
-    " If the clipboard contains binary information then 'newClipboardValue' will be empty
-    if newClipboardValue !=# '' && s:lastSystemClipboard !=# newClipboardValue
-        EasyClipBeforeYank
-        let s:lastSystemClipboard = newClipboardValue
-        exec 'let @'. EasyClip#GetDefaultReg() .' = newClipboardValue'
+    call EasyClip#Shared#LoadFileIfChanged()
+
+    if g:EasyClipDoSystemSync
+        let newClipboardValue = @*
+
+        " If the clipboard contains binary information then 'newClipboardValue' will be empty
+        if newClipboardValue !=# '' && s:lastSystemClipboard !=# newClipboardValue
+            EasyClipBeforeYank
+            let s:lastSystemClipboard = newClipboardValue
+            exec 'let @'. EasyClip#GetDefaultReg() .' = newClipboardValue'
+            EasyClipOnYanksChanged
+        endif
     endif
-endfunction
-
-function! EasyClip#Yank#InitSystemSync()
-
-    " Check whether the system clipboard changed while focus was lost and
-    " add it to our yank buffer
-    augroup _sync_clipboard
-        au!
-        autocmd FocusGained * call EasyClip#Yank#OnFocusGained()
-        autocmd FocusLost * call EasyClip#Yank#OnFocusLost()
-    augroup END
 endfunction
 
 function! EasyClip#Yank#Init()
@@ -297,8 +298,12 @@ function! EasyClip#Yank#Init()
         call EasyClip#Yank#SetDefaultMappings()
     endif
 
-    if g:EasyClipDoSystemSync
-        call EasyClip#Yank#InitSystemSync()
-    endif
+    " Watch focus to keep the shared clipboard in sync for use by other
+    " vim sessions
+    augroup _easyclip_focuswatch
+        au!
+        autocmd FocusGained * call EasyClip#Yank#OnFocusGained()
+        autocmd FocusLost * call EasyClip#Yank#OnFocusLost()
+    augroup END
 endfunction
 

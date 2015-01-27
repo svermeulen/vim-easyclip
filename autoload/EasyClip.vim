@@ -64,6 +64,7 @@ endfunction
 function! EasyClip#Yank(str)
     EasyClipBeforeYank
     exec "let @". EasyClip#GetDefaultReg() . "='". a:str . "'"
+    EasyClipOnYanksChanged
 endfunction
 
 function! EasyClip#Init()

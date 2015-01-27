@@ -183,6 +183,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
 endfunction
 
 function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
+
     let reg = a:reg
 
     " This is necessary to get around a bug in vim where the active register persists to
