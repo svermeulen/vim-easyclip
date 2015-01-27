@@ -70,6 +70,7 @@ function! EasyClip#Init()
     call EasyClip#Move#Init()
     call EasyClip#Substitute#Init()
     call EasyClip#Yank#Init()
+    call EasyClip#Shared#Init()
 
     " Add black hole bindings last so that it only
     " adds bindings if they are not taken
