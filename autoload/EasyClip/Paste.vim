@@ -159,6 +159,7 @@ function! EasyClip#Paste#WasLastChangePaste()
 endfunction
 
 function! EasyClip#Paste#PasteTextVisualMode(reg, count)
+    call EasyClip#Shared#LoadSharedYanks()
 
     normal! gv
 
@@ -176,6 +177,8 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
 endfunction
 
 function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
+    call EasyClip#Shared#LoadSharedYanks()
+
     let reg = a:reg
 
     " This is necessary to get around a bug in vim where the active register persists to

@@ -1,3 +1,5 @@
+scriptencoding utf-8
+
 " A lot of this is based on yankstack by Max Brunsfeld
 " See originally code here: https://github.com/maxbrunsfeld/vim-yankstack
 
@@ -43,10 +45,8 @@ function! s:VisualModeYank(reg)
         exec "normal! gv\"" . a:reg . "y"
         call EasyClip#SetCurrentYank(oldDefault)
     endif
-endfunction
 
-function! EasyClip#Yank#EasyClipGetNumYanks()
-    return len(s:yankstackTail) + 1
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#OnBeforeYank()
@@ -66,6 +66,7 @@ function! EasyClip#Yank#OnBeforeYank()
 endfunction
 
 function! s:OnYankBufferChanged()
+
     for i in range(1, min([len(s:yankstackTail), 9]))
         let entry = s:yankstackTail[i-1]
 
@@ -80,29 +81,32 @@ function! EasyClip#Yank#Rotate(offset)
     endif
 
     let offset_left = a:offset
-
     while offset_left != 0
+
         let head = EasyClip#Yank#GetYankstackHead()
 
         if offset_left > 0
-            let entry = remove(s:yankstackTail, 0)
+            let l:entry = remove(s:yankstackTail, 0)
             call add(s:yankstackTail, head)
             let offset_left -= 1
         elseif offset_left < 0
-            let entry = remove(s:yankstackTail, -1)
+            let l:entry = remove(s:yankstackTail, -1)
             call insert(s:yankstackTail, head)
             let offset_left += 1
         endif
 
-        call EasyClip#Yank#SetYankStackHead(entry)
+        call EasyClip#Yank#SetYankStackHead(l:entry)
     endwhile
 
     call s:OnYankBufferChanged()
+
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#ClearYanks()
     let s:yankstackTail = []
     let s:isFirstYank = 1
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#GetYankstackHead()
@@ -129,8 +133,8 @@ function! EasyClip#Yank#ShowYank(yank, index)
     let index = printf("%-4d", a:index)
     let line = substitute(a:yank.text, '\V\n', '^M', 'g')
 
-    if len(line) > 80
-        let line = line[: 80] . '…'
+    if len(line) > g:EasyClipShowYanksWidth
+        let line = line[: g:EasyClipShowYanksWidth] . '…'
     endif
 
     echohl Directory | echo  index
@@ -149,6 +153,7 @@ function! EasyClip#Yank#PreYankMotion()
     endif
 
     let s:preYankPos = getpos('.')
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#_YankLastChangedText(type, reg)
@@ -173,7 +178,7 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
         return
     endif
 
-    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v') 
+    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v')
     \ . "`]".excl_right."\"".a:reg."y"
 
     " When an explict register is specified it also clobbers the default register, so
@@ -212,9 +217,14 @@ function! EasyClip#Yank#YankLine()
     exec 'normal! '. s:yankCount . '"'. s:activeRegister .'yy'
 
     call setpos('.', s:preYankPos)
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Yank#EasyClipGetAllYanks()
+    if g:EasyClipShareYanks
+        call EasyClip#Shared#LoadSharedYanks()
+    endif
+
     return [EasyClip#Yank#GetYankstackHead()] + s:yankstackTail
 endfunction
 
@@ -226,11 +236,11 @@ endfunction
 
 function! EasyClip#Yank#SetDefaultMappings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['[y',  '<plug>EasyClipRotateYanksForward',  'n',  1],
     \   [']y',  '<plug>EasyClipRotateYanksBackward',  'n',  1],
-    \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0], 
+    \   ['Y',  ':EasyClipBeforeYank<cr>y$',  'n',  0],
     \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
     \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
     \   ['y',  '<Plug>VisualModeYank',  'x',  1],
@@ -264,7 +274,7 @@ endfunction
 
 function! EasyClip#Yank#InitSystemSync()
 
-    " Check whether the system clipboard changed while focus was lost and 
+    " Check whether the system clipboard changed while focus was lost and
     " add it to our yank buffer
     augroup _sync_clipboard
         au!

@@ -30,6 +30,8 @@ function! s:VisualModeMoveMotion(reg)
         normal! gv"_d
         call EasyClip#SetCurrentYank(oldDefault)
     endif
+
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Move#PreMoveMotion( )
@@ -55,11 +57,12 @@ function! EasyClip#Move#MoveMotion(type)
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
 
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Move#SetDefaultBindings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['m',  '<Plug>MoveMotionPlug',  'n',  1],
     \   ['mm',  '<Plug>MoveMotionLinePlug',  'n',  1],
