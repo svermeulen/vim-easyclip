@@ -13,7 +13,7 @@ function! EasyClip#Shared#SaveSharedYanks()
 
     let l:yankstackStrings = []
 
-    for yankStackItem in [EasyClip#Yank#GetYankstackHead()] + s:yankstackTail
+    for yankStackItem in [EasyClip#Yank#GetYankstackHead()] + EasyClip#Yank#GetYankstackTail()
         let l:yankstackItemCopy = yankStackItem
         let l:yankstackItemCopy.text = substitute(yankStackItem.text, "\n", s:newLinePattern, 'g')
         call add(l:yankstackStrings, string(l:yankstackItemCopy))
@@ -44,8 +44,8 @@ function! EasyClip#Shared#LoadSharedYanks()
             break
         endif
     endfor
-    let s:shareYanksFile = g:EasyClipShareYanksDirectory . '/' . g:EasyClipShareYanksFile
 
+    let s:shareYanksFile = g:EasyClipShareYanksDirectory . '/' . g:EasyClipShareYanksFile
 
     if filereadable(s:shareYanksFile)
         " Only read in yanks from disk if the file has been modified since
@@ -66,18 +66,14 @@ function! EasyClip#Shared#LoadSharedYanks()
 
         if len(l:allYanks)
             call EasyClip#Yank#SetYankStackHead(remove(l:allYanks, 0))
-            let s:yankstackTail = l:allYanks
+            call EasyClip#Yank#SetYankStackTail(l:allYanks)
         endif
     endif
 endfunction
 
-function! EasyClip#Shared#InitSharedYanks()
-    call EasyClip#Shared#LoadSharedYanks()
-endfunction
-
 function! EasyClip#Shared#Init()
     if g:EasyClipShareYanks
-        call EasyClip#Shared#InitSharedYanks()
+        call EasyClip#Shared#LoadSharedYanks()
     endif
 endfunction
 

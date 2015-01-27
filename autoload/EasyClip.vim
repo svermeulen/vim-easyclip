@@ -58,6 +58,7 @@ endfunction
 
 function! EasyClip#SetCurrentYank(yank)
     call setreg(EasyClip#GetDefaultReg(), a:yank)
+    EasyClipOnYanksChanged
 endfunction
 
 function! EasyClip#Yank(str)

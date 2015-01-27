@@ -22,6 +22,7 @@ function! s:VisualModeMoveMotion(reg)
         EasyClipBeforeYank
         normal! gvy
         normal! gv"_d
+        EasyClipOnYanksChanged
     else
         let oldDefault = EasyClip#GetCurrentYank()
         " If register is specified explicitly then do not change default register

@@ -40,6 +40,7 @@ function! s:VisualModeYank(reg)
     if a:reg == EasyClip#GetDefaultReg()
         EasyClipBeforeYank
         normal! gvy
+        EasyClipOnYanksChanged
     else
         let oldDefault = EasyClip#GetCurrentYank()
         " If register is specified explicitly then do not change default register
@@ -62,15 +63,12 @@ function! EasyClip#Yank#OnBeforeYank()
         let s:yankstackTail = s:yankstackTail[: g:EasyClipYankHistorySize-1]
     endif
 
-    call s:OnYankBufferChanged()
 endfunction
 
 function! EasyClip#Yank#OnYanksChanged()
-    " TODO - save yanks to file
-endfunction
+    call EasyClip#Shared#SaveSharedYanks()
 
-function! s:OnYankBufferChanged()
-
+    " Update numbered registers
     for i in range(1, min([len(s:yankstackTail), 9]))
         let entry = s:yankstackTail[i-1]
 
@@ -102,12 +100,13 @@ function! EasyClip#Yank#Rotate(offset)
         call EasyClip#Yank#SetYankStackHead(l:entry)
     endwhile
 
-    call s:OnYankBufferChanged()
+    EasyClipOnYanksChanged
 endfunction
 
 function! EasyClip#Yank#ClearYanks()
     let s:yankstackTail = []
     let s:isFirstYank = 1
+    EasyClipOnYanksChanged
 endfunction
 
 function! EasyClip#Yank#GetYankstackHead()
@@ -116,9 +115,17 @@ function! EasyClip#Yank#GetYankstackHead()
     return { 'text': getreg(reg), 'type': getregtype(reg) }
 endfunction
 
+function! EasyClip#Yank#GetYankstackTail()
+    return s:yankstackTail
+endfunction
+
 function! EasyClip#Yank#SetYankStackHead(entry)
     let reg = EasyClip#GetDefaultReg()
     call setreg(reg, a:entry.text, a:entry.type)
+endfunction
+
+function! EasyClip#Yank#SetYankStackTail(tail)
+    let s:yankstackTail = a:tail
 endfunction
 
 function! EasyClip#Yank#ShowYanks()
@@ -184,7 +191,9 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
 
     " When an explict register is specified it also clobbers the default register, so
     " restore that
-    if a:reg !=# EasyClip#GetDefaultReg()
+    if a:reg ==# EasyClip#GetDefaultReg()
+        EasyClipOnYanksChanged
+    else
         call EasyClip#SetCurrentYank(oldDefaultReg)
     endif
 endfunction
@@ -220,6 +229,7 @@ function! EasyClip#Yank#YankLine()
     exec 'normal! '. s:yankCount . '"'. s:activeRegister .'yy'
 
     call setpos('.', s:preYankPos)
+    EasyClipOnYanksChanged
 endfunction
 
 function! EasyClip#Yank#EasyClipGetAllYanks()
