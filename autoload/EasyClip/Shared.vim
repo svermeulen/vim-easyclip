@@ -1,7 +1,8 @@
 scriptencoding utf-8
 
-let s:newLinePattern       = '@@@'
-let s:newLinePatternRegexp = '\%(\\\)\@<!@@@'
+" Thanks https://github.com/vim-scripts/YankRing.vim/blob/a884f3a161fa3cd8c996eb53a3d1c68631f60c21/plugin/yankring.vim#L273
+let s:newLinePattern            = '@@@'
+let s:newLinePatternRegexp      = '\%(\\\)\@<!@@@'
 
 function! EasyClip#Shared#SaveSharedYanks()
     if !g:EasyClipShareYanks
