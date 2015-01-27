@@ -6,6 +6,22 @@ Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Ma
 
 A good starting point for the motivation behind this Vim plugin can be found in Drew Neil's post [Registers: The Good, the Bad, and the Ugly Parts](http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/)
 
+## Table Of Contents
+
+* <a href="#installation">Installation</a>
+* <a href="#black-hole-redirection">Black Hole Redirection</a>
+* <a href="#substitution-operator">Substitution Operator</a>
+* <a href="#yank-buffer">Yank Buffer</a>
+* <a href="#paste">Paste</a>
+* <a href="#persistent-yank-history-and-sharing-clipboard-between-concurrent-vim-instances">Persistent yank history and sharing clipboard between concurrent Vim instances</a>
+* <a href="#clipboard-setting">Clipboard setting</a>
+* <a href="#options">Options</a>
+* <a href="#default-key-mappings">Default Key Mappings</a>
+* <a href="#custom-yanks">Custom Yanks</a>
+* <a href="#feedback">Feedback</a>
+* <a href="#changelog">Changelog</a>
+* <a href="#license">License</a>
+
 ### Installation ###
 
 I recommend loading your plugins with [neobundle](https://github.com/Shougo/neobundle.vim) or [vundle](https://github.com/gmarik/vundle) or [pathogen](https://github.com/tpope/vim-pathogen)
