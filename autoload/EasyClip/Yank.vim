@@ -75,7 +75,7 @@ function! EasyClip#Yank#OnYanksChanged()
         call setreg(i, entry.text, entry.type)
     endfor
 
-    call EasyClip#Shared#MarkYanksDirty()
+    call EasyClip#Shared#SaveToFileIfDirty()
 endfunction
 
 function! EasyClip#Yank#Rotate(offset)
@@ -262,7 +262,9 @@ function! EasyClip#Yank#SetDefaultMappings()
 endfunction
 
 function! EasyClip#Yank#OnFocusLost()
-    call EasyClip#Shared#SaveToFileIfDirty()
+    " It is tempting to call EasyClip#Shared#SaveToFileIfDirty here instead of every time the yank buffer
+    " changes but we can't do this since this event doesn't fire quick enough (and often fires after OnFocusGained
+    " has already fired on the other vim instance)
 
     if EasyClip#GetDefaultReg() ==# '*'
         let s:yankHeadBeforeFocusLost = EasyClip#Yank#GetYankstackHead()
@@ -270,7 +272,7 @@ function! EasyClip#Yank#OnFocusLost()
 endfunction
 
 function! EasyClip#Yank#OnFocusGained()
-    call EasyClip#Shared#LoadFileIfChanged()
+    let didLoad = EasyClip#Shared#LoadFileIfChanged()
 
     " If we are using the system register as our yank head,
     " then we have to make sure that it doesn't get clobbered
@@ -279,13 +281,19 @@ function! EasyClip#Yank#OnFocusGained()
     " the same as when it returns, and if not add a new entry properly
     " for the previous yank head
     if EasyClip#GetDefaultReg() ==# '*' && exists("s:yankHeadBeforeFocusLost")
-        let newYankHead = @*
 
-        " If the clipboard contains binary information then 'newYankHead' will be empty
-        " Restore old yank in this case
-        if s:yankHeadBeforeFocusLost.text !=# newYankHead
-            " User copied something externally
-            call s:AddToTail(s:yankHeadBeforeFocusLost)
+        " Ignore the system clipboard if we just replaced the entire clipboard above
+        " since our cached yank stack head is no longer valid
+        if !didLoad
+            let newYankHead = @*
+
+            " If the clipboard contains binary information then 'newYankHead' will be empty
+            " Restore old yank in this case
+            if s:yankHeadBeforeFocusLost.text !=# newYankHead
+                " User copied something externally
+                call s:AddToTail(s:yankHeadBeforeFocusLost)
+                EasyClipOnYanksChanged
+            endif
         endif
 
         unlet s:yankHeadBeforeFocusLost

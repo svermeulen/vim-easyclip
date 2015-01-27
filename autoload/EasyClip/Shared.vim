@@ -5,23 +5,11 @@ let s:newLinePattern              = '@@@'
 let s:newLinePatternRegexp        = '\%(\\\)\@<!@@@'
 let s:shareYanksFile              = ''
 let s:mostRecentYanksFileReadTime = 0
-let s:shareFileDirty              = 0
-
-function! EasyClip#Shared#MarkYanksDirty()
-    echom "Yanks marked dirty"
-    let s:shareFileDirty = 1
-endfunction
 
 function! EasyClip#Shared#SaveToFileIfDirty()
     if !g:EasyClipShareYanks
         return
     endif
-
-    if !s:shareFileDirty
-        return
-    endif
-
-    let s:shareFileDirty = 0
 
     let l:yankstackStrings = []
 
@@ -38,30 +26,31 @@ function! EasyClip#Shared#SaveToFileIfDirty()
     let l:yankstackStrings = reverse(l:yankstackStrings)
 
     let fileWriteStatus = writefile(l:yankstackStrings, s:shareYanksFile)
+
     if fileWriteStatus != 0
         echohl ErrorMsg
-        echo 'Failed to save EasyClip stack'
+        echo 'Failed to save EasyClip yank stack'
         echohl None
+        return
     endif
 
     let s:mostRecentYanksFileReadTime = getftime(s:shareYanksFile)
-    echom "EasyClip: Saved yanks to file"
 endfunction
 
 function! EasyClip#Shared#LoadFileIfChanged()
     if !g:EasyClipShareYanks
-        return
+        return 0
     endif
 
     if !filereadable(s:shareYanksFile)
-        return
+        return 0
     endif
 
     " Only read in yanks from disk if the file has been modified since
     " last read
     let l:currentYanksFileModificationTime = getftime(s:shareYanksFile)
     if l:currentYanksFileModificationTime <= s:mostRecentYanksFileReadTime
-        return
+        return 0
     endif
 
     let s:mostRecentYanksFileReadTime = l:currentYanksFileModificationTime
@@ -80,8 +69,7 @@ function! EasyClip#Shared#LoadFileIfChanged()
         call EasyClip#Yank#SetYankStackTail(l:allYanks)
     endif
 
-    let s:shareFileDirty = 0
-    echom "EasyClip: Reloaed yanks from file"
+    return 1
 endfunction
 
 function! EasyClip#Shared#Init()
