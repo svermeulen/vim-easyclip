@@ -31,7 +31,7 @@ function! s:VisualModeMoveMotion(reg)
         call EasyClip#SetCurrentYank(oldDefault)
     endif
 
-    call EasyClip#Yank#SaveSharedYanks()
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Move#PreMoveMotion( )
@@ -57,7 +57,7 @@ function! EasyClip#Move#MoveMotion(type)
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
 
-    call EasyClip#Yank#SaveSharedYanks()
+    call EasyClip#Shared#SaveSharedYanks()
 endfunction
 
 function! EasyClip#Move#SetDefaultBindings()

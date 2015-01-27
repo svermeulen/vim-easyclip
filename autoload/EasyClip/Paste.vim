@@ -159,7 +159,7 @@ function! EasyClip#Paste#WasLastChangePaste()
 endfunction
 
 function! EasyClip#Paste#PasteTextVisualMode(reg, count)
-    call EasyClip#Yank#LoadSharedYanks()
+    call EasyClip#Shared#LoadSharedYanks()
 
     normal! gv
 
@@ -173,7 +173,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
 endfunction
 
 function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
-    call EasyClip#Yank#LoadSharedYanks()
+    call EasyClip#Shared#LoadSharedYanks()
 
     let reg = a:reg
 
