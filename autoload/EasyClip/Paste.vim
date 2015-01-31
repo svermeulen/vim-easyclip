@@ -124,7 +124,7 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
 
         " This is necessary to avoid the bug where going up or down
         " does not use the right column number
-        if col('.') == col('$')-1
+        if col('.') == col('$') - 1
             normal! hl
         else
             normal! lh
@@ -179,7 +179,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         exec "normal! \"_c\<c-r>" . EasyClip#GetDefaultReg()
     else
         normal! "_d
-        if line('.') < line('$')
+        if (col('.') < col('$') - 1) && (line('.') < line('$'))
             call EasyClip#Paste#PasteText(a:reg, a:count, "P", 1, "EasyClipPasteBefore")
         else
             call EasyClip#Paste#PasteText(a:reg, a:count, "p", 1, "EasyClipPasteAfter")
@@ -202,7 +202,7 @@ function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
 
     while i < cnt
         call EasyClip#Paste#Paste(a:op, a:format, reg, 0)
-        let i = i + 1
+        let i += 1
     endwhile
 
     let s:lastPasteChangedtick = b:changedtick
