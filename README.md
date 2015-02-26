@@ -60,11 +60,7 @@ By default, the keys to toggle the paste are mapped to `<c-n>` and `<c-p>` (simi
 
 This method of toggling the chosen yank after paste will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<c-p>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
 
-Alternatively, you can execute (by default) keys `[y` or `]y` to navigate the
-yank buffer 'head' forwards or backwards.  In this case the change will be
-permanent.  That is, pressing `[y[yp` will paste the third most recent yank.
-Subsequent pastes will use the same yank, until you go forwards again using
-`]y`.
+Alternatively, you can execute (by default) keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank. Subsequent pastes will use the same yank, until you go forwards again using `]y`.
 
 The [y and ]y mappings are not on by default (map them manually).
 
