@@ -258,16 +258,17 @@ endfunction
 
 function! EasyClip#Yank#SetDefaultMappings()
 
-    " Let the user set [y themselves so that we don't conflict with vim-unimpaired
-    let bindings =
     \ [
-    "\   ['[y',  '<plug>EasyClipRotateYanksForward',  'n',  1],
-    "\   [']y',  '<plug>EasyClipRotateYanksBackward',  'n',  1],
     \   ['Y',  ':EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>',  'n',  0],
     \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
     \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
     \   ['y',  '<Plug>VisualModeYank',  'x',  1],
     \ ]
+    
+    " Let the user set [y themselves so that we don't conflict with vim-unimpaired
+    let bindings =
+    "\   ['[y',  '<plug>EasyClipRotateYanksForward',  'n',  1],
+    "\   [']y',  '<plug>EasyClipRotateYanksBackward',  'n',  1],
 
     for binding in bindings
         call call("EasyClip#AddWeakMapping", binding)
