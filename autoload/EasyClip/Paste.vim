@@ -178,8 +178,10 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         call EasyClip#Shared#LoadFileIfChanged()
         exec "normal! \"_c\<c-r>" . EasyClip#GetDefaultReg()
     else
-        let [op, plugName] = (col('.') < col('$') - 1 || col('$') <= 2) && (line('.') < line('$'))
-                    \ ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
+        let lnum = line('''>')
+        let [op, plugName] =
+        \   (col('''>') < col([lnum, '$']) - 1 || col([lnum, '$']) <= 2) && (lnum < line('$'))
+        \   ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
         normal! "_d
         call EasyClip#Paste#PasteText(a:reg, a:count, op, 1, plugName)
     endif
