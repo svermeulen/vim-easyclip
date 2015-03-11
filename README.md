@@ -105,8 +105,8 @@ Vim's built-in setting for `clipboard` can be set to one of the following:
 
 1. set clipboard=
 1. set clipboard=unnamed
-1. set clipboard=unnamed,unnamedplus
 1. set clipboard=unnamedplus
+1. set clipboard=unnamed,unnamedplus
 
 Leaving it as (1) which is Vim's default, will cause all yank/delete/paste operations to use the `"` register.  The only drawback here is that whenever you want to copy/paste something from another application, you have to explicitly access the system clipboard, which is represented by the `*` register.  For example, to copy the current line to the system clipboard, you would type `"*yy`.  And to paste some text copied from another window, you would type `"*p`
 
