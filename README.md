@@ -60,7 +60,9 @@ By default, the keys to toggle the paste are mapped to `<c-n>` and `<c-p>` (simi
 
 This method of toggling the chosen yank after paste will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<c-p>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
 
-Alternatively, you can execute (by default) keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank.  Subsequent pastes will use the same yank, until you go forwards again using `]y`.
+Alternatively, you can execute keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank. Subsequent pastes will use the same yank, until you go forwards again using `]y`.
+
+The [y and ]y mappings are not on by default (map them manually).
 
 You can view the full list of yanks at any time by running the command `:Yanks`
 
@@ -103,8 +105,8 @@ Vim's built-in setting for `clipboard` can be set to one of the following:
 
 1. set clipboard=
 1. set clipboard=unnamed
-1. set clipboard=unnamed,unnamedplus
 1. set clipboard=unnamedplus
+1. set clipboard=unnamed,unnamedplus
 
 Leaving it as (1) which is Vim's default, will cause all yank/delete/paste operations to use the `"` register.  The only drawback here is that whenever you want to copy/paste something from another application, you have to explicitly access the system clipboard, which is represented by the `*` register.  For example, to copy the current line to the system clipboard, you would type `"*yy`.  And to paste some text copied from another window, you would type `"*p`
 
