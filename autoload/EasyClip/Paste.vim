@@ -6,7 +6,7 @@ let s:lastPasteRegister =''
 let s:lastPasteChangedtick = -1
 let s:offsetSum = 0
 let s:isSwapping = 0
-let s:IgnoreAutoFormat = 0
+let s:lastPasteWasAutoFormatted = 0
 
 """""""""""""""""""""""
 " Plugs
@@ -98,9 +98,19 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
         exec "normal! \"".reg.a:op
     endif
 
-    if (isMultiLine || isEmptyLine) && a:format && g:EasyClipAutoFormat && get(b:, 'EasyClipAutoFormat', 1) && !s:IgnoreAutoFormat
-        " Only auto-format if it's multiline or pasting into an empty line
+    let shouldAutoFormat = 0
 
+    " Only auto-format if it's multiline or pasting into an empty line
+    if (isMultiLine || isEmptyLine)
+        if exists("s:ForceAutoFormat")
+            let shouldAutoFormat = s:ForceAutoFormat
+        else
+            let shouldAutoFormat = a:format && g:EasyClipAutoFormat && get(b:, 'EasyClipAutoFormat', 1)
+        endif
+    endif
+
+    if (shouldAutoFormat)
+        let s:lastPasteWasAutoFormatted = 1
         keepjumps normal! `]
         let startPos = getpos('.')
         normal! ^
@@ -117,6 +127,8 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
         endif
 
         normal! m]
+    else
+        let s:lastPasteWasAutoFormatted = 0
     endif
 
     if a:op ==# 'gp'
@@ -219,11 +231,11 @@ function! EasyClip#Paste#ToggleFormattedPaste()
         return
     endif
 
-    let s:IgnoreAutoFormat = 1
+    let s:ForceAutoFormat = !s:lastPasteWasAutoFormatted
     let s:pasteOverrideRegister = s:lastPasteRegister
     exec "normal u."
     let s:pasteOverrideRegister = ''
-    let s:IgnoreAutoFormat = 0
+    unlet s:ForceAutoFormat
 
 endfunction
 
