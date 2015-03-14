@@ -62,7 +62,7 @@ This method of toggling the chosen yank after paste will probably be your primar
 
 Alternatively, you can execute keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank. Subsequent pastes will use the same yank, until you go forwards again using `]y`.
 
-The [y and ]y mappings are not on by default (map them manually).
+NOTE: The [y and ]y mappings are not on by default (map them manually).
 
 You can view the full list of yanks at any time by running the command `:Yanks`
 
@@ -84,6 +84,12 @@ When the text is multi-line, the cursor is placed at the start of the new text. 
 Alternatively, you can enable the option `g:EasyClipAlwaysMoveCursorToEndOfPaste` to have the cursor positioned at the end in both cases (off by default).  Note that when this option is enabled, the beginning of the multi-line text is added to the jumplist, so you can still return to the start of the paste by pressing `<c-o>` (and this applies to multi-line substitutions as well)
 
 Another non-standard option is `g:EasyClipAutoFormat` (off by default), which will automatically format text immediately after it is pasted.  This can be useful when pasting text from one indent level to another.
+
+When auto-format is enabled, you can also map a key to toggle between the formatted paste and unformatted paste.  For example, you might include something like the following in your .vimrc:
+
+    nmap <leader>cf <plug>EasyClipToggleFormattedPaste
+
+Then anytime you want to view the original formatting you can type `<leader>cf` directly after paste.  You can also continuing hitting `<leader>cf` again to toggle between format/unformatted.  I find that in most cases I want to always auto-format, and for every other case I can cancel the auto-format immediately afterwards using this plug mapping.
 
 Easy Clip also includes a mapping for insert mode paste, which automatically turns on 'paste' mode for the duration of the paste.  Using 'paste' mode will work much more intuitively when pasting text with multiple lines while in insert mode.  You can enable this by including something similar to the following in your .vimrc:
 
@@ -254,6 +260,10 @@ Another way to do the above (which is necessary if you don't control the yank yo
 Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com.  Or, feel free to create a github issue.
 
 ### Changelog ###
+
+2.3 (2015-03-14)
+  - Bug fixes to visual mode paste
+  - Added plug mapping to toggle paste between format/unformatted
 
 2.2 (2015-01-27)
   - Bug fixes
