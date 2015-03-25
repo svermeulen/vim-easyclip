@@ -36,10 +36,14 @@ xnoremap <silent> <plug>VisualModeYank :<c-u>call <sid>VisualModeYank(v:register
 " Functions
 """""""""""""""""""""""
 function! s:VisualModeYank(reg)
-    if a:reg == EasyClip#GetDefaultReg()
+    if a:reg == EasyClip#GetDefaultReg() || g:EasyClipCopyExplicitRegisterToDefault
         EasyClipBeforeYank
         normal! gvy
         EasyClipOnYanksChanged
+
+        if g:EasyClipCopyExplicitRegisterToDefault
+            call EasyClip#Yank#SetRegToYankInfo(a:reg, EasyClip#Yank#GetYankstackHead())
+        endif
     else
         let oldDefaultInfo = EasyClip#Yank#GetYankstackHead()
         " If register is specified explicitly then do not change default register
@@ -124,8 +128,11 @@ function! EasyClip#Yank#ClearYanks()
 endfunction
 
 function! EasyClip#Yank#GetYankstackHead()
-    let reg = EasyClip#GetDefaultReg()
-    return { 'text': getreg(reg), 'type': getregtype(reg) }
+    return EasyClip#Yank#GetYankInfoForReg(EasyClip#GetDefaultReg())
+endfunction
+
+function! EasyClip#Yank#GetYankInfoForReg(reg)
+    return { 'text': getreg(a:reg), 'type': getregtype(a:reg) }
 endfunction
 
 function! EasyClip#Yank#GetYankstackTail()
@@ -133,8 +140,11 @@ function! EasyClip#Yank#GetYankstackTail()
 endfunction
 
 function! EasyClip#Yank#SetYankStackHead(entry)
-    let reg = EasyClip#GetDefaultReg()
-    call setreg(reg, a:entry.text, a:entry.type)
+    call EasyClip#Yank#SetRegToYankInfo(EasyClip#GetDefaultReg(), a:entry)
+endfunction
+
+function! EasyClip#Yank#SetRegToYankInfo(reg, entry)
+    call setreg(a:reg, a:entry.text, a:entry.type)
 endfunction
 
 function! EasyClip#Yank#SetYankStackTail(tail)
@@ -185,26 +195,37 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
         let excl_right = ""
     endif
 
-    if a:reg ==# EasyClip#GetDefaultReg()
-        " If register is declared explicitly then don't add it to yank history
-        EasyClipBeforeYank
-    else
-        let oldDefaultRegInfo = EasyClip#Yank#GetYankstackHead()
-    endif
-
     if a:type !=# 'line' && a:type !=# 'char'
         echoerr "Unexpected selection type '" . a:type . "'"
         return
     endif
 
-    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v')
-    \ . "`]".excl_right."\"".a:reg."y"
+    let oldDefaultRegInfo = EasyClip#Yank#GetYankstackHead()
 
-    " When an explict register is specified it also clobbers the default register, so
-    " restore that
-    if a:reg ==# EasyClip#GetDefaultReg()
+    let destinationReg = a:reg
+
+    if g:EasyClipCopyExplicitRegisterToDefault
+        let destinationReg = EasyClip#GetDefaultReg()
+    endif
+
+    if destinationReg ==# EasyClip#GetDefaultReg()
+        EasyClipBeforeYank
+    endif
+
+    exe "keepjumps normal! `[" . (a:type ==# 'line' ? 'V' : 'v')
+    \ . "`]".excl_right."\"".destinationReg."y"
+
+    if destinationReg ==# EasyClip#GetDefaultReg()
         EasyClipOnYanksChanged
-    else
+    endif
+
+    if g:EasyClipCopyExplicitRegisterToDefault && a:reg !=# EasyClip#GetDefaultReg()
+        call EasyClip#Yank#SetRegToYankInfo(a:reg, EasyClip#Yank#GetYankstackHead())
+    endif
+
+    " When clipboard is set to '' then it clobbers default register even when an
+    " explicit register is used so restore that
+    if !g:EasyClipCopyExplicitRegisterToDefault && a:reg !=# EasyClip#GetDefaultReg()
         call EasyClip#Yank#SetYankStackHead(oldDefaultRegInfo)
     endif
 endfunction

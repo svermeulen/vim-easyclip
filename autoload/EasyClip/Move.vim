@@ -18,11 +18,15 @@ nnoremap <silent> <expr> <plug>MoveMotionPlug ":<c-u>call EasyClip#Move#PreMoveM
 """""""""""""""""""""""
 function! s:VisualModeMoveMotion(reg)
 
-    if a:reg == EasyClip#GetDefaultReg()
+    if a:reg == EasyClip#GetDefaultReg() || g:EasyClipCopyExplicitRegisterToDefault
         EasyClipBeforeYank
         normal! gvy
         normal! gv"_d
         EasyClipOnYanksChanged
+
+        if g:EasyClipCopyExplicitRegisterToDefault
+            call EasyClip#Yank#SetRegToYankInfo(a:reg, EasyClip#Yank#GetYankstackHead())
+        endif
     else
         let oldDefaultInfo = EasyClip#Yank#GetYankstackHead()
         " If register is specified explicitly then do not change default register
