@@ -41,11 +41,11 @@ function! s:VisualModeYank(reg)
         normal! gvy
         EasyClipOnYanksChanged
     else
-        let oldDefault = EasyClip#GetCurrentYank()
+        let oldDefaultInfo = EasyClip#Yank#GetYankstackHead()
         " If register is specified explicitly then do not change default register
         " or add to yank history
         exec "normal! gv\"" . a:reg . "y"
-        call EasyClip#SetCurrentYank(oldDefault)
+        call EasyClip#Yank#SetYankStackHead(oldDefaultInfo)
     endif
 endfunction
 
@@ -185,13 +185,11 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
         let excl_right = ""
     endif
 
-    let oldDefaultReg = ''
-
     if a:reg ==# EasyClip#GetDefaultReg()
         " If register is declared explicitly then don't add it to yank history
         EasyClipBeforeYank
     else
-        let oldDefaultReg = EasyClip#GetCurrentYank()
+        let oldDefaultRegInfo = EasyClip#Yank#GetYankstackHead()
     endif
 
     if a:type !=# 'line' && a:type !=# 'char'
@@ -207,7 +205,7 @@ function! EasyClip#Yank#_YankLastChangedText(type, reg)
     if a:reg ==# EasyClip#GetDefaultReg()
         EasyClipOnYanksChanged
     else
-        call EasyClip#SetCurrentYank(oldDefaultReg)
+        call EasyClip#Yank#SetYankStackHead(oldDefaultRegInfo)
     endif
 endfunction
 
