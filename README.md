@@ -132,6 +132,8 @@ EasyClip can be easily customized to whatever mappings you wish, using the follo
 
 `g:EasyClipYankHistorySize` - Default: 50. Change this to limit yank history
 
+`g:EasyClipCopyExplicitRegisterToDefault` - Default: 0.  When set to 0, easy-clip will not change the default register clipboard when an explicit register is given.  For example, when set to 0, if you type `"ayip` it will copy the current paragraph to the `a` register, but it will not affect the default register, so typing `p` will work the same before the above command.  When set to 1, typing `"ayip` will copy the paragraph to both.
+
 `g:EasyClipAlwaysMoveCursorToEndOfPaste` - Default: 0.  Set this to 1 to always position cursor at the end of the pasted text for both multi-line and non-multiline pastes.
 
 `g:EasyClipPreserveCursorPositionAfterYank` - Default 0 (ie. disabled).  Vim's default behaviour is to position the cursor at the beginning of the yanked text, which is consistent with other motions.  However if you prefer the cursor position to remain unchanged when performing yanks, enable this option.

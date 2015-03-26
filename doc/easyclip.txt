@@ -223,6 +223,8 @@ another.
 
 *g:EasyClipYankHistorySize*   Default: 50. Change this to limit yank history
 
+*g:EasyClipAlwaysMoveCursorToEndOfPaste*    Default: 0.  Set this to 1 to always position cursor at the end of the pasted text for both multi-line and non-multiline pastes.
+
 *g:EasyClipAlwaysMoveCursorToEndOfPaste*    Default: 0.  Set this to 1 to always
 position cursor at the end of the pasted text for both multi-line and
 non-multiline pastes.
