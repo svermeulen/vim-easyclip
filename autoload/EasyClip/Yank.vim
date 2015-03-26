@@ -51,6 +51,10 @@ function! s:VisualModeYank(reg)
         exec "normal! gv\"" . a:reg . "y"
         call EasyClip#Yank#SetYankStackHead(oldDefaultInfo)
     endif
+
+    if g:EasyClipPreserveCursorPositionAfterYank
+        execute "normal! gv\<Esc>"
+    endif
 endfunction
 
 function! EasyClip#Yank#OnBeforeYank()
