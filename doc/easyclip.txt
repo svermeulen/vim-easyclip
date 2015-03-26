@@ -223,7 +223,7 @@ another.
 
 *g:EasyClipYankHistorySize*   Default: 50. Change this to limit yank history
 
-*g:EasyClipAlwaysMoveCursorToEndOfPaste*    Default: 0.  Set this to 1 to always position cursor at the end of the pasted text for both multi-line and non-multiline pastes.
+*g:EasyClipCopyExplicitRegisterToDefault*    Default: 0.  When set to 0, easy-clip will not change the default register clipboard when an explicit register is given.  For example, when set to 0, if you type `"ayip` it will copy the current paragraph to the `a` register, but it will not affect the default register, so typing `p` will work the same as it did before the above command.  When set to 1, typing `"ayip` will copy the paragraph to both.
 
 *g:EasyClipAlwaysMoveCursorToEndOfPaste*    Default: 0.  Set this to 1 to always
 position cursor at the end of the pasted text for both multi-line and
