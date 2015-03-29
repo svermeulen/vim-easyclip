@@ -237,6 +237,7 @@ function! EasyClip#Paste#ToggleFormattedPaste()
     let s:pasteOverrideRegister = s:lastPasteRegister
     exec "normal u."
     let s:pasteOverrideRegister = ''
+    echo (s:ForceAutoFormat ? "Formatted" : "Unformatted")
     unlet s:ForceAutoFormat
 
 endfunction
