@@ -276,7 +276,15 @@ endfunction
 function! EasyClip#Yank#ManuallyRotateYanks(offset)
 
     call EasyClip#Yank#Rotate(a:offset)
-    echo "Current Yank: " . split(EasyClip#Yank#GetYankstackHead().text, '\n')[0] . "..."
+
+    let lines = split(EasyClip#Yank#GetYankstackHead().text, '\n')
+
+    if empty(lines)
+        " This happens when it only contains newlines
+        echo "Current Yank: "
+    else
+        echo "Current Yank: " . lines[0] . "..."
+    endif
 endfunction
 
 function! EasyClip#Yank#SetDefaultMappings()
