@@ -188,7 +188,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
     " If we're pasting a single line yank in visual block mode then repeat paste for each line
     if mode() ==# '' && getreg(a:reg) !~# '\n'
         call EasyClip#Shared#LoadFileIfChanged()
-        exec "normal! \"_c\<c-r>" . EasyClip#GetDefaultReg()
+        exec "normal! \"_c\<C-R>\<C-O>" . EasyClip#GetDefaultReg()
     else
         let lnum = line('''>')
         let [op, plugName] =
