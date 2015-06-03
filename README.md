@@ -30,7 +30,7 @@ A good starting point for the motivation behind this Vim plugin can be found in 
 
 I recommend loading your plugins with [neobundle](https://github.com/Shougo/neobundle.vim) or [vundle](https://github.com/gmarik/vundle) or [pathogen](https://github.com/tpope/vim-pathogen)
 
-This plugin also requires that you have Tim Pope's [repeat.vim](https://github.com/tpope/vim-repeat) plugin installed.
+This plugin also requires that you have Tim Pope's [repeat.vim](https://github.com/tpope/vim-repeat) plugin installed
 
 ### Black Hole Redirection ###
 
@@ -56,9 +56,9 @@ EasyClip allows you to yank and cut things without worrying about losing text th
 
 This works very similar to the way [YankRing](https://github.com/vim-scripts/YankRing.vim) and [YankStack](https://github.com/maxbrunsfeld/vim-yankstack) work, in that you can use a key binding to toggle between different yanks immediately after triggering a paste or substitute.  (Most of the functionality is actually taken and adapted from Yankstack, with changes to make it work with substitute)
 
-By default, the keys to toggle the paste are mapped to `<c-n>` and `<c-p>` (similar to yankring).  For example, executing `p<c-p>` will paste, then toggle it to the most recent yank before that.  You can continue toggling forwards/backwards in the yank history to replace the most recent paste as much as you want.  Note that the toggle action will of course not be included in the undo history.  That is, pressing undo after any number of swaps will undo the paste and not each swap.
+By default, the keys to toggle the paste are mapped to `<CTRL-N>` and `<CTRL-P>` (similar to yankring).  For example, executing `p<CTRL-P>` will paste, then toggle it to the most recent yank before that.  You can continue toggling forwards/backwards in the yank history to replace the most recent paste as much as you want.  Note that the toggle action will of course not be included in the undo history.  That is, pressing undo after any number of swaps will undo the paste and not each swap.
 
-This method of toggling the chosen yank after paste will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<c-p>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
+This method of toggling the chosen yank after paste will probably be your primary method of digging back into the yank buffer.  Note that in this case the yank buffer is unchanged.  What this means for example is that you can toggle a given paste back using `<CTRL-P>` 10 times, then if you perform a new paste in a different location it will still use the most recent yank (and not the final yank you arrived at after 10 swaps).
 
 Alternatively, you can execute keys `[y` or `]y` to navigate the yank buffer 'head' forwards or backwards.  In this case the change will be permanent.  That is, pressing `[y[yp` will paste the third most recent yank. Subsequent pastes will use the same yank, until you go forwards again using `]y`.
 
@@ -81,7 +81,7 @@ By default EasyClip preserves the default vim paste behaviour, which is the foll
 
 When the text is multi-line, the cursor is placed at the start of the new text.  When the paste is non-multiline, the cursor is placed at the end.
 
-Alternatively, you can enable the option `g:EasyClipAlwaysMoveCursorToEndOfPaste` to have the cursor positioned at the end in both cases (off by default).  Note that when this option is enabled, the beginning of the multi-line text is added to the jumplist, so you can still return to the start of the paste by pressing `<c-o>` (and this applies to multi-line substitutions as well)
+Alternatively, you can enable the option `g:EasyClipAlwaysMoveCursorToEndOfPaste` to have the cursor positioned at the end in both cases (off by default).  Note that when this option is enabled, the beginning of the multi-line text is added to the jumplist, so you can still return to the start of the paste by pressing `<CTRL-O>` (and this applies to multi-line substitutions as well)
 
 Another non-standard option is `g:EasyClipAutoFormat` (off by default), which will automatically format text immediately after it is pasted.  This can be useful when pasting text from one indent level to another.
 
@@ -170,7 +170,7 @@ To change from the default mappings, you can disable one of the options above an
     xmap x <Plug>MoveMotionXPlug
     nmap xx <Plug>MoveMotionLinePlug
 
-Or to change the bindings for toggling paste from `<c-n>` and `<c-p>` to `<c-d>` and `<c-f>` include the following:
+Or to change the bindings for toggling paste from `<CTRL-N>` and `<CTRL-P>` to `<CTRL-D>` and `<CTRL-F>` include the following:
 
     let g:EasyClipUsePasteToggleDefaults = 0
 
@@ -229,13 +229,13 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 `mm` - Delete the current line and copy text to clipboard
 
-`<c-p>` - Rotate the previous paste forward in yank buffer.  Note that this binding will only work if executed immediately after a paste
+`<CTRL-P>` - Rotate the previous paste forward in yank buffer.  Note that this binding will only work if executed immediately after a paste
 
-`<c-n>` - Rotate the previous paste backward in yank buffer.  Note that this binding will only work if executed immediately after a paste
+`<CTRL-N>` - Rotate the previous paste backward in yank buffer.  Note that this binding will only work if executed immediately after a paste
 
-`[y` - Go backward in the yank buffer.  This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using `<c-p>` instead)
+`[y` - Go backward in the yank buffer.  This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using `<CTRL-P>` instead)
 
-`]y` - Go forward in the yank buffer. This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using `<c-n>` instead)
+`]y` - Go forward in the yank buffer. This can be executed at any time to modify order of yanks in the yank buffer (though I would recommend just using `<CTRL-N>` instead)
 
 `Y` - Copy text from cursor position to the end of line to the clipboard
 
