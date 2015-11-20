@@ -89,6 +89,10 @@ function! EasyClip#CheckRequiredDependencies()
     endtry
 endfunction
 
+function! EasyClip#GetYankAtIndex(index)
+    return EasyClip#Yank#GetYankInfoForIndex(a:index).text
+endfunction
+
 function! EasyClip#PasteIndex(index)
     if a:index == 0
         exec "normal \<plug>EasyClipPasteAfter"

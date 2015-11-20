@@ -259,6 +259,8 @@ Another way to do the above (which is necessary if you don't control the yank yo
 
 Also, worth noting is the `Paste` command which takes an index and pastes the yank at that index.  For example, executing `:Paste 0` is equivalent to `p`, `:Paste 1` is equivalent to `"1p`, etc.  For use within scripting, there is also the corresponding method `EasyClip#PasteIndex` which like the command takes an index as parameter.  For the `P` equivalent, there is also a `PasteBefore` command and `EasyClip#PasteIndexBefore` method.
 
+Another method worth noting is `EasyClip#GetYankAtIndex` which returns the text for the yank at a given index.
+
 ### Feedback ###
 
 Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com.  Or, feel free to create a github issue.
