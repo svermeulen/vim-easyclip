@@ -5,7 +5,7 @@ vim-easyclip
 Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Max Brunsfeld] (http://www.github.com/maxbrunsfeld)
 
 EasyClip is a plugin for Vim which contains a collection of clipboard related
-functionality with the goal of making using Vim simpler and more intuitive
+functionality with the goal of making using the clipboard in Vim simpler and more intuitive
 without losing any of its power.
 
 A good starting point for the motivation behind this Vim plugin can be found in Drew Neil's post [Registers: The Good, the Bad, and the Ugly Parts](http://vimcasts.org/blog/2013/11/registers-the-good-the-bad-and-the-ugly-parts/)
@@ -257,11 +257,16 @@ Another way to do the above (which is necessary if you don't control the yank yo
 
 `nnoremap <leader>yf :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>:EasyClipOnYanksChanged<cr>`
 
+Also, worth noting is the "Paste" command which takes an index and pastes the yank at that index.  For example, executing `:Paste 0` is equivalent to `p`, `:Paste 1` is equivalent to `"1p`, etc.  For use within scripting, there is also the corresponding method `EasyClip#PasteIndex` which like the command takes an index as parameter
+
 ### Feedback ###
 
 Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com.  Or, feel free to create a github issue.
 
 ### Changelog ###
+
+2.4 (2015-11-19)
+  - Added Paste and PasteBefore commands, and also the corresponding methods EasyClip#PasteIndex and EasyClip#PasteIndexBefore
 
 2.3 (2015-03-14)
   - Bug fixes to visual mode paste

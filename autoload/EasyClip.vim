@@ -23,6 +23,16 @@ let g:EasyClipEnableBlackHoleRedirectForDeleteOperator = get(g:, 'EasyClipEnable
 let g:EasyClipEnableBlackHoleRedirectForSelectOperator = get(g:, 'EasyClipEnableBlackHoleRedirectForSelectOperator', 1)
 
 """""""""""""""""""""""
+" Commands
+"""""""""""""""""""""""
+command! -nargs=1 Paste call EasyClip#PasteIndex(<q-args>)
+command! -nargs=1 PasteBefore call EasyClip#PasteIndexBefore(<q-args>)
+command! EasyClipBeforeYank :call EasyClip#Yank#OnBeforeYank()
+command! EasyClipOnYanksChanged :call EasyClip#Yank#OnYanksChanged()
+command! -nargs=0 Yanks call EasyClip#Yank#ShowYanks()
+command! -nargs=0 ClearYanks call EasyClip#Yank#ClearYanks()
+
+"""""""""""""""""""""""
 " Functions
 """""""""""""""""""""""
 function! EasyClip#GetDefaultReg()
@@ -38,7 +48,6 @@ endfunction
 
 " Only add the given mapping if it doesn't already exist
 function! EasyClip#AddWeakMapping(left, right, modes, ...)
-
     let recursive = a:0 > 0 ? a:1 : 0
 
     for mode in split(a:modes, '\zs')
@@ -68,7 +77,6 @@ function! EasyClip#Yank(str)
 endfunction
 
 function! EasyClip#CheckRequiredDependencies()
-
     try
         " This should have no effect when it succeeds
         call repeat#invalidate()
@@ -80,8 +88,30 @@ function! EasyClip#CheckRequiredDependencies()
         " function exists, ignore
     endtry
 endfunction
-function! EasyClip#Init()
 
+function! EasyClip#PasteIndex(index)
+    if a:index == 0
+        exec "normal \<plug>EasyClipPasteAfter"
+    else
+        let oldYankHead = EasyClip#Yank#GetYankstackHead()
+        call EasyClip#Yank#SetYankStackHead(EasyClip#Yank#GetYankInfoForIndex(a:index))
+        exec "normal \<plug>EasyClipPasteAfter"
+        call EasyClip#Yank#SetYankStackHead(oldYankHead)
+    endif
+endfunction
+
+function! EasyClip#PasteIndexBefore(index)
+    if a:index == 0
+        exec "normal \<plug>EasyClipPasteBefore"
+    else
+        let oldYankHead = EasyClip#Yank#GetYankstackHead()
+        call EasyClip#Yank#SetYankStackHead(EasyClip#Yank#GetYankInfoForIndex(a:index))
+        exec "normal \<plug>EasyClipPasteBefore"
+        call EasyClip#Yank#SetYankStackHead(oldYankHead)
+    endif
+endfunction
+
+function! EasyClip#Init()
     augroup easyclip_checkdependencies
         autocmd!
         autocmd VimEnter * call EasyClip#CheckRequiredDependencies()

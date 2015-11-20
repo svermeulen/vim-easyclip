@@ -1,7 +1,7 @@
 scriptencoding utf-8
 
 " A lot of this is based on yankstack by Max Brunsfeld
-" See originally code here: https://github.com/maxbrunsfeld/vim-yankstack
+" See original code here: https://github.com/maxbrunsfeld/vim-yankstack
 
 """""""""""""""""""""""
 " Variables
@@ -12,14 +12,6 @@ let s:isFirstYank = 1
 let s:preYankPos = []
 let s:yankCount = 0
 let s:preYankWinView = {}
-
-"""""""""""""""""""""""
-" Commands
-"""""""""""""""""""""""
-command! EasyClipBeforeYank :call EasyClip#Yank#OnBeforeYank()
-command! EasyClipOnYanksChanged :call EasyClip#Yank#OnYanksChanged()
-command! -nargs=0 Yanks call EasyClip#Yank#ShowYanks()
-command! -nargs=0 ClearYanks call EasyClip#Yank#ClearYanks()
 
 """""""""""""""""""""""
 " Plugs
@@ -162,6 +154,24 @@ function! EasyClip#Yank#ShowYanks()
         call EasyClip#Yank#ShowYank(yank, i)
         let i += 1
     endfor
+endfunction
+
+function! EasyClip#Yank#GetYankInfoForIndex(index)
+    if a:index < 0
+        throw "Invalid index given to EasyClip"
+    endif
+
+    if a:index == 0
+        return EasyClip#Yank#GetYankstackHead()
+    endif
+
+    let tailIndex = a:index - 1
+
+    if tailIndex >= len(s:yankstackTail)
+        throw "Invalid index given to EasyClip"
+    endif
+
+    return s:yankstackTail[tailIndex]
 endfunction
 
 function! EasyClip#Yank#ShowYank(yank, index)
