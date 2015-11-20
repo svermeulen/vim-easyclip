@@ -99,6 +99,8 @@ For convenience, there is also a plug for command mode paste, which you can enab
 
     cmap <c-v> <plug>EasyClipCommandModePaste
 
+There is also the `:IPaste` command (aka interactive paste) which allows you to enter the yank index buffer you want to paste from.  This can be useful if you are looking for an old yank and don't want to cycle back many times to find it.  In these cases, execute `:IPaste`, then the entire yank buffer will be printed, then enter the index of the row in the printed table you want to paste from.
+
 ### Persistent yank history and sharing clipboard between concurrent Vim instances ###
 
 EasyClip can automatically store the yank history to file, so that it can be restored the next time you start Vim.  Storing it to file also allows other active Vim instances to seamlessly share the same clipboard and yank history.
@@ -268,7 +270,8 @@ Feel free to email all feedback/criticism/suggestions to sfvermeulen@gmail.com. 
 ### Changelog ###
 
 2.4 (2015-11-19)
-  - Added Paste and PasteBefore commands, and also the corresponding methods EasyClip#PasteIndex and EasyClip#PasteIndexBefore
+  - Added interactive paste by executing command `:PasteI`
+  - Added `:Paste` and `:PasteBefore` commands, and also the corresponding methods `EasyClip#PasteIndex` and `EasyClip#PasteIndexBefore`
 
 2.3 (2015-03-14)
   - Bug fixes to visual mode paste

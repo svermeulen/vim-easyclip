@@ -25,6 +25,8 @@ let g:EasyClipEnableBlackHoleRedirectForSelectOperator = get(g:, 'EasyClipEnable
 """""""""""""""""""""""
 " Commands
 """""""""""""""""""""""
+command! -nargs=0 IPaste call EasyClip#InteractivePaste(0)
+command! -nargs=0 IPasteBefore call EasyClip#InteractivePaste(1)
 command! -nargs=1 Paste call EasyClip#PasteIndex(<q-args>)
 command! -nargs=1 PasteBefore call EasyClip#PasteIndexBefore(<q-args>)
 command! EasyClipBeforeYank :call EasyClip#Yank#OnBeforeYank()
@@ -91,6 +93,39 @@ endfunction
 
 function! EasyClip#GetYankAtIndex(index)
     return EasyClip#Yank#GetYankInfoForIndex(a:index).text
+endfunction
+
+function! EasyClip#InteractivePaste(pasteBefore)
+    echohl WarningMsg | echo "--- Interactive Paste ---" | echohl None
+    let i = 0
+    for yank in EasyClip#Yank#EasyClipGetAllYanks()
+        call EasyClip#Yank#ShowYank(yank, i)
+        let i += 1
+    endfor
+
+    let indexStr = input('Index: ')
+
+    if indexStr =~ '\v^\s*$'
+        return
+    endif
+
+    if indexStr !~ '\v^\s*\d+\s*'
+        echo "\n"
+        echoerr "Invalid yank index given"
+    else
+        let index = str2nr(indexStr)
+
+        if index < 0 || index > EasyClip#Yank#GetNumYanks()
+            echo "\n"
+            echoerr "Yank index out of bounds"
+        else
+            if a:pasteBefore
+                call EasyClip#PasteIndexBefore(index)
+            else
+                call EasyClip#PasteIndex(index)
+            endif
+        endif
+    endif
 endfunction
 
 function! EasyClip#PasteIndex(index)

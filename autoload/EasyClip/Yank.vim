@@ -111,6 +111,10 @@ function! EasyClip#Yank#Rotate(offset)
     EasyClipOnYanksChanged
 endfunction
 
+function! EasyClip#Yank#GetNumYanks()
+    return 1 + len(s:yankstackTail)
+endfunction
+
 function! EasyClip#Yank#ClearYanks()
     call EasyClip#Shared#LoadFileIfChanged()
 
