@@ -87,6 +87,17 @@ function! EasyClip#Shared#Init()
 
     let s:shareYanksFile = g:EasyClipShareYanksDirectory . '/' . g:EasyClipShareYanksFile
 
+    let yankHeadBeforeLoad = EasyClip#Yank#GetYankstackHead()
+
     call EasyClip#Shared#LoadFileIfChanged()
+
+    let newYankHead = EasyClip#Yank#GetYankstackHead()
+
+    " Do not clobber the initial yank after first loading Vim
+    if yankHeadBeforeLoad.text !=# newYankHead.text
+        EasyClipBeforeYank
+        call EasyClip#Yank#SetYankStackHead(yankHeadBeforeLoad)
+        EasyClipOnYanksChanged
+    endif
 endfunction
 

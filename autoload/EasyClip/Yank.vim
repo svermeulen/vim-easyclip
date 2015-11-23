@@ -8,7 +8,7 @@ scriptencoding utf-8
 """""""""""""""""""""""
 let s:activeRegister = EasyClip#GetDefaultReg()
 let s:yankstackTail = []
-let s:isFirstYank = 1
+let s:ignoreNextYank = 0
 let s:preYankPos = []
 let s:yankCount = 0
 let s:preYankWinView = {}
@@ -52,8 +52,8 @@ endfunction
 function! EasyClip#Yank#OnBeforeYank()
     call EasyClip#Shared#LoadFileIfChanged()
 
-    if s:isFirstYank
-        let s:isFirstYank = 0
+    if s:ignoreNextYank
+        let s:ignoreNextYank = 0
         return
     endif
 
@@ -121,7 +121,7 @@ function! EasyClip#Yank#ClearYanks()
     let l:size = len(s:yankstackTail)
 
     let s:yankstackTail = []
-    let s:isFirstYank = 1
+    let s:ignoreNextYank = 1
     EasyClipOnYanksChanged
 
     echo "Cleared yank history of " . l:size . " entries"
