@@ -244,7 +244,13 @@ endfunction
 
 function! EasyClip#Paste#SwapPaste(forward)
     if !EasyClip#Paste#WasLastChangePaste()
-        echo 'Last action was not paste, swap ignored'
+        if (a:forward) && exists('g:EasyClipSwapPasteForwardFallback')
+            exec g:EasyClipSwapPasteForwardFallback
+        elseif (!a:forward) && exists('g:EasyClipSwapPasteBackwardsFallback')
+            exec g:EasyClipSwapPasteBackwardsFallback
+        else
+            echo 'Last action was not paste, swap ignored'
+        endif
         return
     endif
 

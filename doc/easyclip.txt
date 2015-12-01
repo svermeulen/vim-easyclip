@@ -250,6 +250,14 @@ applicable when |g:EasyClipShareYanks| option is enabled.
 *g:EasyClipShowYanksWidth* - Default: 80 - The width to display for each line 
 when the `Yanks` command is executed
 
+*g:EasyClipSwapPasteForwardFallback* - Default: undefined. If set, and the
+previous action was not a paste <Plug>EasyClipSwapPasteForward will exec
+this. Useful if you have muscle memory for a previous use of <c-p>.
+
+*g:EasyClipSwapPasteBackwardsFallback* - Default: undefined. If set, and the
+previous action was not a paste <Plug>EasyClipSwapPasteBackwards will exec
+this. Useful if you have muscle memory for a previous use of <c-n>.
+
 You can also disable the default mappings by setting one or more of the
 following to zero.  By default they are set to 1 (ie. enabled)
 
