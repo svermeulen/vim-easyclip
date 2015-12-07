@@ -191,8 +191,9 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         exec "normal! \"_c\<C-R>\<C-O>" . EasyClip#GetDefaultReg()
     else
         let lnum = line('''>')
+        let cols = col([lnum, '$'])
         let [op, plugName] =
-        \   (col('''>') < col([lnum, '$']) - 1 || col([lnum, '$']) <= 2) && (lnum < line('$'))
+        \   (col('''>') <= cols - 2 || cols <= 2) && (lnum < line('$'))
         \   ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
         normal! "_d
         call EasyClip#Paste#PasteText(a:reg, a:count, op, 1, plugName)
