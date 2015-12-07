@@ -192,7 +192,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
     else
         let lnum = line('''>')
         let [op, plugName] =
-        \   (col('''>') != col([lnum, '$']) - 1) && (lnum != line('$'))
+        \   (col('''>') < col([lnum, '$']) - 1 || col([lnum, '$']) <= 2) && (lnum < line('$'))
         \   ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
         normal! "_d
         call EasyClip#Paste#PasteText(a:reg, a:count, op, 1, plugName)
