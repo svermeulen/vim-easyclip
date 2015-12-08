@@ -192,11 +192,17 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
     else
         let lnum = line('''>')
         let cols = col([lnum, '$'])
+        let vmode = mode()
 
-        if mode() ==# ''
-            let shouldPasteBefore = (col('''>') <= cols - 2 || cols <= 2) && (lnum < line('$'))
+        if vmode ==# 'v'
+            let shouldPasteBefore = (col('''>') != cols - 1)
+        elseif vmode ==# 'V'
+            let shouldPasteBefore = (lnum != line('$'))
+        elseif vmode ==# ''
+            let shouldPasteBefore = (col('''>') <= cols - 2 || cols <= 2)
         else
-            let shouldPasteBefore = (col('''>') != cols - 1) && (lnum != line('$'))
+            " Should never happen
+            throw "Unknown error occurred during EasyClip paste"
         endif
 
         let [op, plugName] = shouldPasteBefore ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
