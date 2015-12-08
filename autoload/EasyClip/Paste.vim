@@ -191,15 +191,16 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         exec "normal! \"_c\<C-R>\<C-O>" . EasyClip#GetDefaultReg()
     else
         let lnum = line('''>')
+        let cnum = col('''>')
         let cols = col([lnum, '$'])
         let vmode = mode()
 
         if vmode ==# 'v'
-            let shouldPasteBefore = (col('''>') != cols - 1)
+            let shouldPasteBefore = (cnum != cols - 1)
         elseif vmode ==# 'V'
             let shouldPasteBefore = (lnum != line('$'))
         elseif vmode ==# ''
-            let shouldPasteBefore = (col('''>') <= cols - 2 || cols <= 2)
+            let shouldPasteBefore = (cnum <= cols - 2 || cols <= 2)
         else
             " Should never happen
             throw "Unknown error occurred during EasyClip paste"
