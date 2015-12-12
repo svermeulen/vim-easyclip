@@ -195,8 +195,10 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         let cols = col([lnum, '$'])
         let vmode = mode()
 
+        " See here for an explanation of this code:
+        " https://github.com/svermeulen/vim-easyclip/pull/68#issuecomment-164106477
         if vmode ==# 'v'
-            let shouldPasteBefore = (cnum != cols - 1)
+            let shouldPasteBefore = (cnum != cols - 1 && (lnum != line('$') || cnum != cols))
         elseif vmode ==# 'V'
             let shouldPasteBefore = (lnum != line('$'))
         elseif vmode ==# ''
