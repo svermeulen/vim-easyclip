@@ -74,13 +74,13 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
 
     let s:lastPasteRegister = reg
     let isMultiLine = (text =~# "\n")
-    let line = getline(".")
+    let line = getline('.')
     let isEmptyLine = (line =~# '^\s*$')
     let oldPos = getpos('.')
 
     if a:inline
         " Do not save to jumplist when pasting inline
-        exec "normal! ". (a:op ==# 'p' ? 'a' : 'i') . "\<c-r>". reg . "\<right>"
+        exec 'normal! ' . (a:op ==# 'p' ? 'a' : 'i') . "\<c-r>" . reg . "\<right>"
     else
         let hasMoreThanOneLine = (text =~# "\n.*\n")
         " Save their old position to jumplist
@@ -90,7 +90,7 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
             if a:op ==# 'P'
                 " just doing m` doesn't work in this case so do it one line above
                 exec "normal! km`j"
-            elseif a:op == 'p'
+            elseif a:op ==# 'p'
                 exec "normal! m`"
             endif
         endif
@@ -102,7 +102,7 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
 
     " Only auto-format if it's multiline or pasting into an empty line
     if (isMultiLine || isEmptyLine)
-        if exists("s:ForceAutoFormat")
+        if exists('s:ForceAutoFormat')
             let shouldAutoFormat = s:ForceAutoFormat
         else
             let shouldAutoFormat = a:format && g:EasyClipAutoFormat && get(b:, 'EasyClipAutoFormat', 1)
@@ -123,7 +123,7 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
 
         if numFromStart > 0
             " Preserve cursor position so that it is placed at the last pasted character
-            exec "normal! ". numFromStart . "l"
+            exec 'normal! ' . numFromStart . 'l'
         endif
 
         normal! m]
@@ -165,7 +165,7 @@ function! s:EndSwapPaste()
 
     if !s:isSwapping
         " Should never happen
-        throw "Unknown Error detected during EasyClip paste"
+        throw 'Unknown Error detected during EasyClip paste'
     endif
 
     let s:isSwapping = 0
@@ -209,7 +209,7 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
             let shouldPasteBefore = (cnum <= cols - 2 || cols <= 2)
         else
             " Should never happen
-            throw "Unknown error occurred during EasyClip paste"
+            throw 'Unknown error occurred during EasyClip paste'
         endif
 
         let [op, plugName] = shouldPasteBefore ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
@@ -224,7 +224,7 @@ function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
 
     " This is necessary to get around a bug in vim where the active register persists to
     " the next command. Repro by doing "_d and then a command that uses v:register
-    if reg == "_"
+    if reg ==# '_'
         let reg = EasyClip#GetDefaultReg()
     end
 
@@ -239,7 +239,7 @@ function! EasyClip#Paste#PasteText(reg, count, op, format, plugName)
     let s:lastPasteChangedtick = b:changedtick
 
     if !empty(a:plugName)
-        let fullPlugName = "\<plug>". a:plugName
+        let fullPlugName = "\<plug>" . a:plugName
         silent! call repeat#setreg(fullPlugName, reg)
         silent! call repeat#set(fullPlugName, a:count)
     endif
@@ -254,9 +254,9 @@ function! EasyClip#Paste#ToggleFormattedPaste()
 
     let s:ForceAutoFormat = !s:lastPasteWasAutoFormatted
     let s:pasteOverrideRegister = s:lastPasteRegister
-    exec "normal u."
+    exec 'normal u.'
     let s:pasteOverrideRegister = ''
-    echo (s:ForceAutoFormat ? "Formatted" : "Unformatted")
+    echo (s:ForceAutoFormat ? 'Formatted' : 'Unformatted')
     unlet s:ForceAutoFormat
 
 endfunction
@@ -291,7 +291,7 @@ function! EasyClip#Paste#SwapPaste(forward)
     endif
 
     let s:pasteOverrideRegister = EasyClip#GetDefaultReg()
-    exec "normal u."
+    exec 'normal u.'
     let s:pasteOverrideRegister = ''
 
     augroup SwapPasteMoveDetect
@@ -333,7 +333,7 @@ function! EasyClip#Paste#SetDefaultMappings()
     \ ]
 
     for binding in bindings
-        call call("EasyClip#AddWeakMapping", binding)
+        call call('EasyClip#AddWeakMapping', binding)
     endfor
 endfunction
 
