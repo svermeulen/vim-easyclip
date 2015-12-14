@@ -185,23 +185,27 @@ endfunction
 function! EasyClip#Paste#PasteTextVisualMode(reg, count)
     normal! gv
 
+    let vmode = mode()
     " If we're pasting a single line yank in visual block mode then repeat paste for each line
-    if mode() ==# '' && getreg(a:reg) !~# '\n'
+    if vmode ==# '' && getreg(a:reg) !~# '\n'
         call EasyClip#Shared#LoadFileIfChanged()
         exec "normal! \"_c\<C-R>\<C-O>" . EasyClip#GetDefaultReg()
     else
         let lnum = line('''>')
         let cnum = col('''>')
         let cols = col([lnum, '$'])
-        let vmode = mode()
 
         " See here for an explanation of this code:
-        " https://github.com/svermeulen/vim-easyclip/pull/68#issuecomment-164106477
+        " https://github.com/svermeulen/vim-easyclip/wiki/Details-of-Visual-mode-paste
         if vmode ==# 'v'
             let shouldPasteBefore = (cnum != cols - 1 && (lnum != line('$') || cnum != cols))
         elseif vmode ==# 'V'
             let shouldPasteBefore = (lnum != line('$'))
         elseif vmode ==# ''
+            let lnum = min([lnum, line('''<')])
+            let cnum = max([cnum, col('''<')])
+            let cols = col([lnum, '$'])
+
             let shouldPasteBefore = (cnum <= cols - 2 || cols <= 2)
         else
             " Should never happen
