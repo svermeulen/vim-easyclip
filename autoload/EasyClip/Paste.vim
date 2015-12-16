@@ -198,7 +198,9 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         " See here for an explanation of this code:
         " https://github.com/svermeulen/vim-easyclip/wiki/Details-of-Visual-mode-paste
         if vmode ==# 'v'
-            let shouldPasteBefore = (cnum != cols - 1 && (lnum != line('$') || cnum != cols))
+            let shouldPasteBefore =
+                \ (cnum != cols - 1 && (lnum != line('$') || cnum != cols)) &&
+                \ (cnum != cols || col([lnum + 1, '$']) != 1)
         elseif vmode ==# 'V'
             let shouldPasteBefore = (lnum != line('$'))
         elseif vmode ==# ''
