@@ -12,10 +12,8 @@ let s:lastPasteWasAutoFormatted = 0
 " Plugs
 """""""""""""""""""""""
 
-set pastetoggle=<plug>PasteToggle
-
 " Always toggle to 'paste mode' before pasting in insert mode
-imap <expr> <plug>EasyClipInsertModePaste '<plug>PasteToggle<C-r>' . EasyClip#GetDefaultReg() . '<plug>PasteToggle'
+imap <expr> <plug>EasyClipInsertModePaste '<c-o>:execute "normal " . &pastetoggle<cr><c-r>' . EasyClip#GetDefaultReg() . '<c-o>:execute "normal " . &pastetoggle<cr>'
 
 cnoremap <expr> <plug>EasyClipCommandModePaste '<c-r>' . EasyClip#GetDefaultReg()
 
