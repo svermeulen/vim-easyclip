@@ -18,7 +18,7 @@ let s:lastPasteWasAutoFormatted = 0
 " pastetoggle to something yourself
 " The second avoids the need to set the global pastetoggle but leaves insert mode briefly, which can
 " cause the indentation level to change sometimes (for eg. when hitting 'o' then immediately doing CTRL+V to paste something)
-if get(g:, 'EasyClipUseGlobalPasteToggle', 0)
+if get(g:, 'EasyClipUseGlobalPasteToggle', 1)
     set pastetoggle=<plug>PasteToggle
     imap <expr> <plug>EasyClipInsertModePaste '<plug>PasteToggle<C-r>' . EasyClip#GetDefaultReg() . '<plug>PasteToggle'
 else
