@@ -12,7 +12,18 @@ let s:lastPasteWasAutoFormatted = 0
 " Plugs
 """""""""""""""""""""""
 
-inoremap <expr> <plug>EasyClipInsertModePaste '<c-o>:setl paste<cr><c-r>' . EasyClip#GetDefaultReg() . '<c-o>:setl nopaste<cr>'
+" Always toggle to 'paste mode' before pasting in insert mode
+" We have two methods of doing this here, both with different advantages/disadvantages
+" The first modifies the global value for pastetoggle, which may be undesirable if you want to bind
+" pastetoggle to something yourself
+" The second avoids the need to set the global pastetoggle but leaves insert mode briefly, which can
+" cause the indentation level to change sometimes (for eg. when hitting 'o' then immediately doing CTRL+V to paste something)
+if get(g:, 'EasyClipUseGlobalPasteToggle', 1)
+    set pastetoggle=<plug>PasteToggle
+    imap <expr> <plug>EasyClipInsertModePaste '<plug>PasteToggle<C-r>' . EasyClip#GetDefaultReg() . '<plug>PasteToggle'
+else
+    inoremap <expr> <plug>EasyClipInsertModePaste '<c-o>:setl paste<cr><c-r>' . EasyClip#GetDefaultReg() . '<c-o>:setl nopaste<cr>'
+endif
 
 cnoremap <expr> <plug>EasyClipCommandModePaste '<c-r>' . EasyClip#GetDefaultReg()
 
