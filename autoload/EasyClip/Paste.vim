@@ -160,13 +160,13 @@ function! EasyClip#Paste#Paste(op, format, reg, inline)
                 exec "keepjumps normal! `]"
             else
                 exec "keepjumps normal! `["
+            endif
 
-                " We do not want to always go to the beginning of the line when pasting
-                " visual block mode text.  Default behaviour is to retain the column position
-                " Otherwise, we do want to go to the beginning of the line
-                if len(textType) > 0 && textType[0] !=# ''
-                    normal! ^
-                endif
+            " We do not want to always go to the beginning of the line when pasting
+            " visual block mode text.  Default behaviour is to retain the column position
+            " Otherwise, we do want to go to the beginning of the line
+            if len(textType) > 0 && textType[0] !=# ''
+                normal! ^
             endif
         else
             exec "keepjumps normal! `]"
