@@ -51,11 +51,24 @@ function! EasyClip#Move#MoveMotion(type)
 
     let oldVisualStart = getpos("'<")
     let oldVisualEnd = getpos("'>")
+    let visualStart = getpos("'[")
+    let visualEnd = getpos("']")
 
-    call EasyClip#Yank#_YankLastChangedText(a:type, s:activeRegister)
+    let newType = a:type
 
-    exec "normal! gv"
-    exec "normal! \"_d"
+    if newType ==# 'char'
+        let numColumnsFirstLine = col([visualStart[1], '^'])
+        let numColumnsLastLine = col([visualEnd[1], '$'])
+
+        if visualStart[1] != visualEnd[1] && visualStart[2] == numColumnsFirstLine+1 && visualEnd[2] == numColumnsLastLine-1
+            let newType = 'line'
+        endif
+    endif
+
+    call EasyClip#Yank#_YankLastChangedText(newType, s:activeRegister)
+
+    exe "keepjumps normal! `[" . (newType ==# 'line' ? 'V' : 'v')
+                \ . "`]\"_d"
 
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
