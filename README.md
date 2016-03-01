@@ -95,6 +95,8 @@ Easy Clip also includes a mapping for insert mode paste, which automatically tur
 
     imap <c-v> <plug>EasyClipInsertModePaste
 
+Note:  If you have a custom mapping for `pastetoggle`, this may cause conflicts.   To preserve the functionality of your existing custom map, you may want to enable the option `g:EasyClipUseGlobalPasteToggle`.  See the comment at the top of `Paste.vim` for a more detailed explanation.
+
 For convenience, there is also a plug for command mode paste, which you can enable with the following
 
     cmap <c-v> <plug>EasyClipCommandModePaste
