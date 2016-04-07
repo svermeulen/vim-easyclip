@@ -233,7 +233,9 @@ Note that EasyClip will only enable a default mapping if it hasn't already been 
 
 `mm` - Delete the current line and copy text to clipboard
 
-*NOTE*: `M` is NOT mapped by default.  If you want it, include the following in your .vimrc: `nmap M <Plug>MoveMotionEndOfLinePlug`
+*NOTE*: `M` is NOT mapped by default.  If you want it, include the following in your .vimrc:
+
+`nmap M <Plug>MoveMotionEndOfLinePlug`
 
 `<CTRL-P>` - Rotate the previous paste forward in yank buffer.  Note that this binding will only work if executed immediately after a paste
 
