@@ -100,4 +100,3 @@ function! EasyClip#Shared#Init()
         EasyClipOnYanksChanged
     endif
 endfunction
-

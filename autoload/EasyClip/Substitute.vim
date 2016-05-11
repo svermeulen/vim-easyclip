@@ -40,9 +40,9 @@ function! EasyClip#Substitute#SubstituteMotion(type, ...)
     let startPos = getpos('.')
 
     if &selection ==# 'exclusive'
-      let excl_right = "\<right>"
+        let excl_right = "\<right>"
     else
-      let excl_right = ""
+        let excl_right = ""
     endif
 
     let oldVirtualEdit=&virtualedit
@@ -89,7 +89,7 @@ endfunction
 
 function! EasyClip#Substitute#SubstituteLine(reg, count)
 
-    " Check for black hole register to get around a bug in vim where the active 
+    " Check for black hole register to get around a bug in vim where the active
     " register persists to the next command
     let reg = (a:reg == "_" ? EasyClip#GetDefaultReg() : a:reg)
 
@@ -101,7 +101,7 @@ function! EasyClip#Substitute#SubstituteLine(reg, count)
     else
         let isLastLine = (line(".") == line("$"))
 
-        let cnt = a:count > 0 ? a:count : 1 
+        let cnt = a:count > 0 ? a:count : 1
         exe "normal! ". cnt . "\"_dd"
 
         let i = 0
@@ -130,7 +130,7 @@ endfunction
 
 function! EasyClip#Substitute#SetDefaultBindings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['s',  '<plug>SubstituteOverMotionMap',  'n',  1],
     \   ['gs',  '<plug>G_SubstituteOverMotionMap',  'n',  1],

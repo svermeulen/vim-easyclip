@@ -373,4 +373,3 @@ function! EasyClip#Yank#Init()
         autocmd FocusLost * call EasyClip#Yank#OnFocusLost()
     augroup END
 endfunction
-
