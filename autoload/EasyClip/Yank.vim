@@ -16,6 +16,9 @@ let s:preYankWinView = {}
 """""""""""""""""""""""
 " Plugs
 """""""""""""""""""""""
+
+nnoremap <silent> <plug>YankMotionEndOfLinePlug :<c-u>EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>
+
 nnoremap <plug>EasyClipRotateYanksForward :<c-u>call EasyClip#Yank#ManuallyRotateYanks(1)<cr>
 nnoremap <plug>EasyClipRotateYanksBackward :<c-u>call EasyClip#Yank#ManuallyRotateYanks(-1)<cr>
 
