@@ -66,6 +66,9 @@ nnoremap <silent> <plug>EasyClipToggleFormattedPaste :call EasyClip#Paste#Toggle
 " inline = 1 if we should paste multiline text inline.
 " That is, add the newline wherever the cursor is rather than above/below the current line
 function! EasyClip#Paste#Paste(op, format, reg, inline)
+    if !&modifiable
+        return
+    endif
 
     " This shouldn't be necessary since we calling this on FocusGained but
     " we call it here anyway since some console vims don't fire FocusGained
