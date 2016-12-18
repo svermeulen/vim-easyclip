@@ -109,6 +109,8 @@ EasyClip can automatically store the yank history to file, so that it can be res
 
 You can enable this feature by enabling the option `g:EasyClipShareYanks` (NOTE: off by default).  You can also customize where the yank history file gets stored (see options section below)
 
+Note that this feature can be [slow](https://github.com/svermeulen/vim-easyclip/issues/87) in some cases and this is why it is off by default.
+
 ### Clipboard setting ###
 
 Vim's built-in setting for `clipboard` can be set to one of the following:
