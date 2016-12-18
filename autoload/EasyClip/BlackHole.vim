@@ -21,7 +21,7 @@ endfunction
 
 function! EasyClip#BlackHole#AddDeleteBindings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['d', '"_d', 'nx'],
     \   ['dd', '"_dd', 'n'],
@@ -37,7 +37,7 @@ endfunction
 
 function! EasyClip#BlackHole#AddChangeBindings()
 
-    let bindings = 
+    let bindings =
     \ [
     \   ['c', '"_c', 'nx'],
     \   ['cc', '"_S', 'n'],
