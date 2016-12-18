@@ -233,8 +233,18 @@ function! EasyClip#Paste#PasteTextVisualMode(reg, count)
         endif
 
         let [op, plugName] = shouldPasteBefore ? ['P', 'EasyClipPasteBefore'] : ['p', 'EasyClipPasteAfter']
+        let l:save_selection = [getpos('''<'), getpos('''>')]
+
         normal! "_d
+
+        " Don't add blank line when pasting linewise to an empty buffer.
+        let l:isEmptyBuffer = (vmode ==# 'V') && (line('$') == 1) && empty(getline(1))
+        if l:isEmptyBuffer | execute 'normal! gv' | endif
+
         call EasyClip#Paste#PasteText(a:reg, a:count, op, 1, plugName)
+
+        call setpos('''<', l:save_selection[0])
+        call setpos('''>', l:save_selection[1])
     endif
 endfunction
 
