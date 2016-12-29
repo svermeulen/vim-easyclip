@@ -23,7 +23,7 @@ nnoremap <plug>EasyClipRotateYanksForward :<c-u>call EasyClip#Yank#ManuallyRotat
 nnoremap <plug>EasyClipRotateYanksBackward :<c-u>call EasyClip#Yank#ManuallyRotateYanks(-1)<cr>
 
 nnoremap <silent> <plug>YankLinePreserveCursorPosition :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:call EasyClip#Yank#YankLine()<cr>
-nnoremap <silent> <plug>YankPreserveCursorPosition :<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>g@
+nnoremap <silent> <expr> <plug>YankPreserveCursorPosition ":<c-u>call EasyClip#Yank#PreYankMotion()<cr>:set opfunc=EasyClip#Yank#YankMotion<cr>" . (v:count > 0 ? v:count : '') . "g@"
 
 xnoremap <silent> <plug>VisualModeYank :<c-u>call <sid>VisualModeYank(v:register)<cr>
 
