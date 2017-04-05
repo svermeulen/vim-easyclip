@@ -16,6 +16,7 @@ Brunsfeld <http://www.github.com/maxbrunsfeld>
 |easyclip-options|         Options
 |easyclip-mappings|        Mappings
 |easyclip-custom-yanks|    Custom Yanks
+|easyclip-ctrlp-support|   CtrlP Support
 |easyclip-feedback|        Feedback
 |easyclip-changelog|       Changelog
 |easyclip-license|         License
@@ -187,9 +188,9 @@ CLIPBOARD SETTING                               *easyclip-clipboard-setting*
 Vim's built-in setting for |clipboard| can be set to one of the following:
 
 1. set clipboard=
-1. set clipboard=unnamed
-1. set clipboard=unnamed,unnamedplus
-1. set clipboard=unnamedplus
+2. set clipboard=unnamed
+3. set clipboard=unnamed,unnamedplus
+4. set clipboard=unnamedplus
 
 Leaving it as (1) which is Vim's default, will cause all yank/delete/paste 
 operations to use the `"` register.  The only drawback here is that whenever 
@@ -375,6 +376,17 @@ Another way to do the above (which is necessary if you don't control the yank
 yourself), is to do the following:
 
     nnoremap <leader>yf :EasyClipBeforeYank<cr>:let @*=expand('%')<cr>:EasyClipOnYanksChanged<cr>
+
+CTRLP SUPPORT                                       *easyclip-ctrlp-support*
+
+ctrlp.vim (https://github.com/ctrlpvim/ctrlp.vim) is a Full path fuzzy file,
+ buffer, mru, tag, ... finder for Vim.
+
+Additionally, when showing all your yank(`:Yanks`), CtrlP is detected and
+ the plugin will open `:CtrlPEasyclip` instead of message. 
+
+With the CtrlP interface, when you select yanks you can paste the selected
+ yanks after(Enter) or before(ctrl-v) the current cursor postion.
 
 FEEDBACK                                            *easyclip-feedback*
 
