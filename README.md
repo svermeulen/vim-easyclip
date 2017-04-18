@@ -2,7 +2,7 @@ vim-easyclip
 =============
 ### Simplified clipboard functionality for Vim.###
 
-Author:  [Steve Vermeulen] (https://github.com/svermeulen), based on work by [Max Brunsfeld] (http://www.github.com/maxbrunsfeld)
+Author:  [Steve Vermeulen](https://github.com/svermeulen), based on work by [Max Brunsfeld](http://www.github.com/maxbrunsfeld)
 
 EasyClip is a plugin for Vim which contains a collection of clipboard related
 functionality with the goal of making using the clipboard in Vim simpler and more intuitive
