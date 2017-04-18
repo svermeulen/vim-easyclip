@@ -28,6 +28,7 @@ function! EasyClip#BlackHole#AddDeleteBindings()
     \   ['dD', '0"_d$', 'n'],
     \   ['D', '"_D', 'nx'],
     \   ['x', '"_x', 'nx'],
+    \   ['X', '"_X', 'nx'],
     \ ]
 
     for binding in bindings
