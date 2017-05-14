@@ -155,12 +155,16 @@ function! EasyClip#Yank#SetYankStackTail(tail)
 endfunction
 
 function! EasyClip#Yank#ShowYanks()
-    echohl WarningMsg | echo "--- Yanks ---" | echohl None
-    let i = 0
-    for yank in EasyClip#Yank#EasyClipGetAllYanks()
-        call EasyClip#Yank#ShowYank(yank, i)
-        let i += 1
-    endfor
+    if exists(':CtrlP') == 2
+        :call ctrlp#init(ctrlp#easyclip#id())
+    else
+        echohl WarningMsg | echo "--- Yanks ---" | echohl None
+        let i = 0
+        for yank in EasyClip#Yank#EasyClipGetAllYanks()
+            call EasyClip#Yank#ShowYank(yank, i)
+            let i += 1
+        endfor
+    endif
 endfunction
 
 function! EasyClip#Yank#GetYankInfoForIndex(index)
@@ -192,6 +196,16 @@ function! EasyClip#Yank#ShowYank(yank, index)
     echohl Directory | echo  index
     echohl None      | echon line
     echohl None
+endfunction
+
+function! EasyClip#Yank#GetYankLine(yank, index)
+    let index = printf("%-4d", a:index)
+    let line = substitute(a:yank.text, '\V\n', '^M', 'g')
+
+    if len(line) > g:EasyClipShowYanksWidth
+        let line = line[: g:EasyClipShowYanksWidth] . '…'
+    endif
+    return index.line
 endfunction
 
 function! EasyClip#Yank#PreYankMotion()

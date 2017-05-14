@@ -33,6 +33,9 @@ command! EasyClipBeforeYank :call EasyClip#Yank#OnBeforeYank()
 command! EasyClipOnYanksChanged :call EasyClip#Yank#OnYanksChanged()
 command! -nargs=0 Yanks call EasyClip#Yank#ShowYanks()
 command! -nargs=0 ClearYanks call EasyClip#Yank#ClearYanks()
+if exists(':CtrlP') == 2
+command! -nargs=0 CtrlPEasyclip call ctrlp#init(ctrlp#easyclip#id())
+endif
 
 """""""""""""""""""""""
 " Functions

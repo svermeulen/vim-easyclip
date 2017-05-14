@@ -22,6 +22,7 @@ A good starting point for the motivation behind this Vim plugin can be found in 
 * <a href="#options">Options</a>
 * <a href="#default-key-mappings">Default Key Mappings</a>
 * <a href="#custom-yanks">Custom Yanks</a>
+* <a href="#ctrlp-support">CtrlP Support</a>
 * <a href="#feedback">Feedback</a>
 * <a href="#changelog">Changelog</a>
 * <a href="#license">License</a>
@@ -270,6 +271,14 @@ Another way to do the above (which is necessary if you don't control the yank yo
 Also, worth noting is the `Paste` command which takes an index and pastes the yank at that index.  For example, executing `:Paste 0` is equivalent to `p`, `:Paste 1` is equivalent to `"1p`, etc.  For use within scripting, there is also the corresponding method `EasyClip#PasteIndex` which like the command takes an index as parameter.  For the `P` equivalent, there is also a `PasteBefore` command and `EasyClip#PasteIndexBefore` method.
 
 Another method worth noting is `EasyClip#GetYankAtIndex` which returns the text for the yank at a given index.
+
+### CtrlP Support ###
+
+[ctrlp.vim](https://github.com/ctrlpvim/ctrlp.vim) is a Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+
+Additionally, when showing all your yank(`:Yanks`), CtrlP is detected and the plugin will open `:CtrlPEasyclip` instead of message. 
+
+With the CtrlP interface, when you select yanks you can paste the selected yanks after(Enter) or before(ctrl-v) the current cursor postion.
 
 ### Feedback ###
 
