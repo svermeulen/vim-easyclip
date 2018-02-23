@@ -78,9 +78,9 @@ function! EasyClip#Move#SetDefaultBindings()
 
     let bindings =
     \ [
-    \   ['m',  '<Plug>MoveMotionPlug',  'n',  1],
-    \   ['mm',  '<Plug>MoveMotionLinePlug',  'n',  1],
-    \   ['m',  '<Plug>MoveMotionXPlug',  'x',  1],
+    \   ['<buffer> m',  '<Plug>MoveMotionPlug',  'n',  1],
+    \   ['<buffer> mm',  '<Plug>MoveMotionLinePlug',  'n',  1],
+    \   ['<buffer> m',  '<Plug>MoveMotionXPlug',  'x',  1],
     \ ]
 
     " Leave these commented to avoid shadowing M (go to middle of screen)
