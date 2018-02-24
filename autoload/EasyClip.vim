@@ -160,6 +160,11 @@ function! EasyClip#Init()
         autocmd BufReadPost * call EasyClip#Yank#Init()
     augroup END
 
+    call EasyClip#Paste#LoadPlugs()
+    call EasyClip#Substitute#LoadPlugs()
+    call EasyClip#Yank#LoadPlugs()
+    call EasyClip#Move#LoadPlugs()
+
     call EasyClip#Shared#Init()
 
     " Add black hole bindings last so that it only

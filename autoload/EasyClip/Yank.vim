@@ -362,6 +362,9 @@ function! EasyClip#Yank#OnFocusGained()
     endif
 endfunction
 
+function! EasyClip#Yank#LoadPlugs()
+endfunction
+
 function! EasyClip#Yank#Init()
 
     if g:EasyClipUseYankDefaults

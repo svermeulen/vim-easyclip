@@ -128,6 +128,9 @@ function! EasyClip#Substitute#SubstituteToEndOfLine(reg, moveCursor)
     endif
 endfunction
 
+function! EasyClip#Substitute#LoadPlugs()
+endfunction
+
 function! EasyClip#Substitute#SetDefaultBindings()
 
     let bindings =

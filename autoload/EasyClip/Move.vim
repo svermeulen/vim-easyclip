@@ -74,6 +74,9 @@ function! EasyClip#Move#MoveMotion(type)
     call setpos("'>", oldVisualEnd)
 endfunction
 
+function! EasyClip#Move#LoadPlugs()
+endfunction
+
 function! EasyClip#Move#SetDefaultBindings()
 
     let bindings =
