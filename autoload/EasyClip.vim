@@ -53,7 +53,7 @@ function! EasyClip#AddWeakMapping(left, right, modes, ...)
     let recursive = a:0 > 0 ? a:1 : 0
 
     for mode in split(a:modes, '\zs')
-        if !EasyClip#HasMapping(a:left, mode)
+        if &modifiable && !EasyClip#HasMapping(a:left, mode)
             exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:left . " " . a:right
         endif
     endfor
@@ -154,12 +154,12 @@ function! EasyClip#Init()
     augroup easyclip_checkdependencies
         autocmd!
         autocmd VimEnter * call EasyClip#CheckRequiredDependencies()
+        autocmd BufReadPost * call EasyClip#Paste#Init()
+        autocmd BufReadPost * call EasyClip#Move#Init()
+        autocmd BufReadPost * call EasyClip#Substitute#Init()
+        autocmd BufReadPost * call EasyClip#Yank#Init()
     augroup END
 
-    call EasyClip#Paste#Init()
-    call EasyClip#Move#Init()
-    call EasyClip#Substitute#Init()
-    call EasyClip#Yank#Init()
     call EasyClip#Shared#Init()
 
     " Add black hole bindings last so that it only

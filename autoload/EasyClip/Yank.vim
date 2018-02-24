@@ -308,10 +308,10 @@ function! EasyClip#Yank#SetDefaultMappings()
 
     let bindings =
     \ [
-    \   ['Y',  ':EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>',  'n',  0],
-    \   ['y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
-    \   ['yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
-    \   ['y',  '<Plug>VisualModeYank',  'x',  1],
+    \   ['<buffer> Y',  ':EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>',  'n',  0],
+    \   ['<buffer> y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
+    \   ['<buffer> yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
+    \   ['<buffer> y',  '<Plug>VisualModeYank',  'x',  1],
     \ ]
 
     " Let the user set [y themselves so that we don't conflict with vim-unimpaired
@@ -370,9 +370,6 @@ function! EasyClip#Yank#Init()
 
     " Watch focus to keep the shared clipboard in sync for use by other
     " vim sessions
-    augroup _easyclip_focuswatch
-        au!
-        autocmd FocusGained * call EasyClip#Yank#OnFocusGained()
-        autocmd FocusLost * call EasyClip#Yank#OnFocusLost()
-    augroup END
+    autocmd! FocusGained * <buffer> call EasyClip#Yank#OnFocusGained()
+    autocmd! FocusLost * <buffer> call EasyClip#Yank#OnFocusLost()
 endfunction

@@ -132,12 +132,12 @@ function! EasyClip#Substitute#SetDefaultBindings()
 
     let bindings =
     \ [
-    \   ['s',  '<plug>SubstituteOverMotionMap',  'n',  1],
-    \   ['gs',  '<plug>G_SubstituteOverMotionMap',  'n',  1],
-    \   ['ss',  '<plug>SubstituteLine',  'n',  1],
-    \   ['s',  '<plug>XEasyClipPaste',  'x',  1],
-    \   ['S',  '<plug>SubstituteToEndOfLine',  'n',  1],
-    \   ['gS',  '<plug>G_SubstituteToEndOfLine',  'n',  1],
+    \   ['<buffer> s',  '<plug>SubstituteOverMotionMap',  'n',  1],
+    \   ['<buffer> gs',  '<plug>G_SubstituteOverMotionMap',  'n',  1],
+    \   ['<buffer> ss',  '<plug>SubstituteLine',  'n',  1],
+    \   ['<buffer> s',  '<plug>XEasyClipPaste',  'x',  1],
+    \   ['<buffer> S',  '<plug>SubstituteToEndOfLine',  'n',  1],
+    \   ['<buffer> gS',  '<plug>G_SubstituteToEndOfLine',  'n',  1],
     \ ]
 
     for binding in bindings
