@@ -128,7 +128,7 @@ function! EasyClip#Substitute#SubstituteToEndOfLine(reg, moveCursor)
     endif
 endfunction
 
-function! EasyClip#Substitute#LoadPlugs()
+function! EasyClip#Substitute#Init()
 endfunction
 
 function! EasyClip#Substitute#SetDefaultBindings()
@@ -148,7 +148,7 @@ function! EasyClip#Substitute#SetDefaultBindings()
     endfor
 endfunction
 
-function! EasyClip#Substitute#Init()
+function! EasyClip#Substitute#AddMappings()
 
     if g:EasyClipUseSubstituteDefaults
         call EasyClip#Substitute#SetDefaultBindings()

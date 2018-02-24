@@ -154,16 +154,16 @@ function! EasyClip#Init()
     augroup easyclip_checkdependencies
         autocmd!
         autocmd VimEnter * call EasyClip#CheckRequiredDependencies()
-        autocmd BufReadPost * call EasyClip#Paste#Init()
-        autocmd BufReadPost * call EasyClip#Move#Init()
-        autocmd BufReadPost * call EasyClip#Substitute#Init()
-        autocmd BufReadPost * call EasyClip#Yank#Init()
+        autocmd BufReadPost * call EasyClip#Paste#AddMappings()
+        autocmd BufReadPost * call EasyClip#Move#AddMappings()
+        autocmd BufReadPost * call EasyClip#Substitute#AddMappings()
+        autocmd BufReadPost * call EasyClip#Yank#AddMappings()
     augroup END
 
-    call EasyClip#Paste#LoadPlugs()
-    call EasyClip#Substitute#LoadPlugs()
-    call EasyClip#Yank#LoadPlugs()
-    call EasyClip#Move#LoadPlugs()
+    call EasyClip#Paste#Init()
+    call EasyClip#Substitute#Init()
+    call EasyClip#Yank#Init()
+    call EasyClip#Move#Init()
 
     call EasyClip#Shared#Init()
 

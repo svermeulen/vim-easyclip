@@ -367,10 +367,10 @@ function! EasyClip#Paste#SetDefaultMappings()
     endfor
 endfunction
 
-function! EasyClip#Paste#LoadPlugs()
+function! EasyClip#Paste#Init()
 endfunction
 
-function! EasyClip#Paste#Init()
+function! EasyClip#Paste#AddMappings()
 
     if g:EasyClipUsePasteDefaults
         call EasyClip#Paste#SetDefaultMappings()
