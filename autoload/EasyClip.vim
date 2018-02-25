@@ -49,12 +49,12 @@ function! EasyClip#GetDefaultReg()
 endfunction
 
 " Only add the given mapping if it doesn't already exist
-function! EasyClip#AddWeakMapping(options, left, right, modes, ...)
+function! EasyClip#AddWeakMapping(left, right, modes, ...)
     let recursive = a:0 > 0 ? a:1 : 0
 
     for mode in split(a:modes, '\zs')
         if &modifiable && !EasyClip#HasMapping(a:left, mode)
-            exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:options . " " . a:left . " " . a:right
+            exec mode . (recursive ? "map" : "noremap") . " <silent> <buffer> " . a:left . " " . a:right
         endif
     endfor
 endfunction
@@ -158,16 +158,16 @@ function! EasyClip#Init()
         autocmd BufReadPost * call EasyClip#Move#AddMappings()
         autocmd BufReadPost * call EasyClip#Substitute#AddMappings()
         autocmd BufReadPost * call EasyClip#Yank#AddMappings()
+        " Add black hole bindings last so that it only
+        " adds bindings if they are not taken
+        autocmd BufReadPost * call EasyClip#BlackHole#AddMappings()
     augroup END
 
     call EasyClip#Paste#Init()
     call EasyClip#Substitute#Init()
     call EasyClip#Yank#Init()
     call EasyClip#Move#Init()
+    call EasyClip#BlackHole#Init()
 
     call EasyClip#Shared#Init()
-
-    " Add black hole bindings last so that it only
-    " adds bindings if they are not taken
-    call EasyClip#BlackHole#Init()
 endfunction
