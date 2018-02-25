@@ -14,9 +14,9 @@ function! EasyClip#BlackHole#AddSelectBindings()
         let i = i + 1
     endwhile
 
-    snoremap <buffer> <bs> <c-o>"_c
-    snoremap <buffer> <space> <c-o>"_c<space>
-    snoremap <buffer> \| <c-o>"_c|
+    snoremap <bs> <c-o>"_c
+    snoremap <space> <c-o>"_c<space>
+    snoremap \| <c-o>"_c|
 endfunction
 
 function! EasyClip#BlackHole#AddDeleteBindings()
@@ -63,12 +63,15 @@ function! EasyClip#BlackHole#AddMappings()
         if g:EasyClipEnableBlackHoleRedirectForDeleteOperator
             call EasyClip#BlackHole#AddDeleteBindings()
         endif
+    endif
+endfunction
+
+function! EasyClip#BlackHole#Init()
+
+    if g:EasyClipEnableBlackHoleRedirect
 
         if g:EasyClipEnableBlackHoleRedirectForSelectOperator
             call EasyClip#BlackHole#AddSelectBindings()
         endif
     endif
-endfunction
-
-function! EasyClip#BlackHole#Init()
 endfunction
