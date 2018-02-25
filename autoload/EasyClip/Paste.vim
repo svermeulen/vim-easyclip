@@ -344,22 +344,22 @@ function! EasyClip#Paste#SetDefaultMappings()
 
     let bindings =
     \ [
-    \   ['<buffer>', 'p',  '<plug>XEasyClipPaste',  'x',  1],
-    \   ['<buffer>', 'P',  '<plug>XEasyClipPaste',  'x',  1],
-    \   ['<buffer>', 'gp',  '<plug>XG_EasyClipPaste',  'x',  1],
-    \   ['<buffer>', 'gP',  '<plug>XG_EasyClipPaste',  'x',  1],
-    \   ['<buffer>', '<leader>p',  '<plug>XEasyClipPasteUnformatted',  'x',  1],
-    \   ['<buffer>', '<leader>P',  '<plug>XEasyClipPasteUnformatted',  'x',  1],
-    \   ['<buffer>', 'P',  '<plug>EasyClipPasteBefore',  'n',  1],
-    \   ['<buffer>', 'p',  '<plug>EasyClipPasteAfter',  'n',  1],
-    \   ['<buffer>', 'gp',  '<plug>G_EasyClipPasteAfter',  'n',  1],
-    \   ['<buffer>', 'gP',  '<plug>G_EasyClipPasteBefore',  'n',  1],
-    \   ['<buffer>', '<leader>p',  '<plug>EasyClipPasteUnformattedAfter',  'n',  1],
-    \   ['<buffer>', '<leader>P',  '<plug>EasyClipPasteUnformattedBefore',  'n',  1],
-    \   ['<buffer>', 'g<leader>p',  '<plug>G_EasyClipPasteUnformattedAfter',  'n',  1],
-    \   ['<buffer>', 'g<leader>P',  '<plug>G_EasyClipPasteUnformattedBefore',  'n',  1],
-    \   ['<buffer>', '<c-p>',  '<plug>EasyClipSwapPasteForward',  'n',  1],
-    \   ['<buffer>', '<c-n>',  '<plug>EasyClipSwapPasteBackwards',  'n',  1],
+    \   ['p',  '<plug>XEasyClipPaste',  'x',  1],
+    \   ['P',  '<plug>XEasyClipPaste',  'x',  1],
+    \   ['gp',  '<plug>XG_EasyClipPaste',  'x',  1],
+    \   ['gP',  '<plug>XG_EasyClipPaste',  'x',  1],
+    \   ['<leader>p',  '<plug>XEasyClipPasteUnformatted',  'x',  1],
+    \   ['<leader>P',  '<plug>XEasyClipPasteUnformatted',  'x',  1],
+    \   ['P',  '<plug>EasyClipPasteBefore',  'n',  1],
+    \   ['p',  '<plug>EasyClipPasteAfter',  'n',  1],
+    \   ['gp',  '<plug>G_EasyClipPasteAfter',  'n',  1],
+    \   ['gP',  '<plug>G_EasyClipPasteBefore',  'n',  1],
+    \   ['<leader>p',  '<plug>EasyClipPasteUnformattedAfter',  'n',  1],
+    \   ['<leader>P',  '<plug>EasyClipPasteUnformattedBefore',  'n',  1],
+    \   ['g<leader>p',  '<plug>G_EasyClipPasteUnformattedAfter',  'n',  1],
+    \   ['g<leader>P',  '<plug>G_EasyClipPasteUnformattedBefore',  'n',  1],
+    \   ['<c-p>',  '<plug>EasyClipSwapPasteForward',  'n',  1],
+    \   ['<c-n>',  '<plug>EasyClipSwapPasteBackwards',  'n',  1],
     \ ]
 
     for binding in bindings
