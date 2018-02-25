@@ -60,7 +60,8 @@ function! EasyClip#AddWeakMapping(left, right, modes, ...)
 endfunction
 
 function! EasyClip#HasMapping(mapping, mode)
-    return maparg(a:mapping, a:mode) != ''
+    let mapping = substitute(a:mapping, '\V\^<buffer> ', '', '')
+    return maparg(mapping, a:mode) != ''
 endfunction
 
 function! EasyClip#GetCurrentYank()
