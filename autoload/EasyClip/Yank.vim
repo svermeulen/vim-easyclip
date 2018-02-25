@@ -308,10 +308,10 @@ function! EasyClip#Yank#SetDefaultMappings()
 
     let bindings =
     \ [
-    \   ['<buffer> Y',  ':EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>',  'n',  0],
-    \   ['<buffer> y',  '<Plug>YankPreserveCursorPosition',  'n',  1],
-    \   ['<buffer> yy',  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
-    \   ['<buffer> y',  '<Plug>VisualModeYank',  'x',  1],
+    \   ['<buffer>', "Y",  ':EasyClipBeforeYank<cr>y$:EasyClipOnYanksChanged<cr>',  'n',  0],
+    \   ['<buffer>', "y",  '<Plug>YankPreserveCursorPosition',  'n',  1],
+    \   ['<buffer>', "yy",  '<Plug>YankLinePreserveCursorPosition',  'n',  1],
+    \   ['<buffer>', "y",  '<Plug>VisualModeYank',  'x',  1],
     \ ]
 
     " Let the user set [y themselves so that we don't conflict with vim-unimpaired

@@ -23,12 +23,12 @@ function! EasyClip#BlackHole#AddDeleteBindings()
 
     let bindings =
     \ [
-    \   ['d', '"_d', 'nx'],
-    \   ['dd', '"_dd', 'n'],
-    \   ['dD', '0"_d$', 'n'],
-    \   ['D', '"_D', 'nx'],
-    \   ['x', '"_x', 'nx'],
-    \   ['X', '"_X', 'nx'],
+    \   ['', 'd', '"_d', 'nx'],
+    \   ['', 'dd', '"_dd', 'n'],
+    \   ['', 'dD', '0"_d$', 'n'],
+    \   ['', 'D', '"_D', 'nx'],
+    \   ['', 'x', '"_x', 'nx'],
+    \   ['', 'X', '"_X', 'nx'],
     \ ]
 
     for binding in bindings
@@ -40,11 +40,11 @@ function! EasyClip#BlackHole#AddChangeBindings()
 
     let bindings =
     \ [
-    \   ['c', '"_c', 'nx'],
-    \   ['cc', '"_S', 'n'],
-    \   ['C', '"_C', 'nx'],
-    \   ['s', '"_s', 'nx'],
-    \   ['S', '"_S', 'nx'],
+    \   ['', 'c', '"_c', 'nx'],
+    \   ['', 'cc', '"_S', 'n'],
+    \   ['', 'C', '"_C', 'nx'],
+    \   ['', 's', '"_s', 'nx'],
+    \   ['', 'S', '"_S', 'nx'],
     \ ]
 
     for binding in bindings
