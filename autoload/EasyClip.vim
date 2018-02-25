@@ -49,12 +49,12 @@ function! EasyClip#GetDefaultReg()
 endfunction
 
 " Only add the given mapping if it doesn't already exist
-function! EasyClip#AddWeakMapping(left, right, modes, ...)
+function! EasyClip#AddWeakMapping(options, left, right, modes, ...)
     let recursive = a:0 > 0 ? a:1 : 0
 
     for mode in split(a:modes, '\zs')
         if &modifiable && !EasyClip#HasMapping(a:left, mode)
-            exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:left . " " . a:right
+            exec mode . (recursive ? "map" : "noremap") . " <silent> " . a:options . " " . a:left . " " . a:right
         endif
     endfor
 endfunction
