@@ -128,6 +128,9 @@ function! EasyClip#Substitute#SubstituteToEndOfLine(reg, moveCursor)
     endif
 endfunction
 
+function! EasyClip#Substitute#Init()
+endfunction
+
 function! EasyClip#Substitute#SetDefaultBindings()
 
     let bindings =
@@ -145,7 +148,7 @@ function! EasyClip#Substitute#SetDefaultBindings()
     endfor
 endfunction
 
-function! EasyClip#Substitute#Init()
+function! EasyClip#Substitute#AddMappings()
 
     if g:EasyClipUseSubstituteDefaults
         call EasyClip#Substitute#SetDefaultBindings()

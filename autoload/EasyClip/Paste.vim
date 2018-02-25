@@ -67,7 +67,7 @@ nnoremap <silent> <plug>EasyClipToggleFormattedPaste :call EasyClip#Paste#Toggle
 " inline = 1 if we should paste multiline text inline.
 " That is, add the newline wherever the cursor is rather than above/below the current line
 function! EasyClip#Paste#Paste(op, format, reg, inline)
-    if !&modifiable
+    if !&modifiable && &buftype != 'terminal'
         return
     endif
 
@@ -368,6 +368,9 @@ function! EasyClip#Paste#SetDefaultMappings()
 endfunction
 
 function! EasyClip#Paste#Init()
+endfunction
+
+function! EasyClip#Paste#AddMappings()
 
     if g:EasyClipUsePasteDefaults
         call EasyClip#Paste#SetDefaultMappings()

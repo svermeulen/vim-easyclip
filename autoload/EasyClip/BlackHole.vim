@@ -52,7 +52,7 @@ function! EasyClip#BlackHole#AddChangeBindings()
     endfor
 endfunction
 
-function! EasyClip#BlackHole#Init()
+function! EasyClip#BlackHole#AddMappings()
 
     if g:EasyClipEnableBlackHoleRedirect
 
@@ -68,4 +68,7 @@ function! EasyClip#BlackHole#Init()
             call EasyClip#BlackHole#AddSelectBindings()
         endif
     endif
+endfunction
+
+function! EasyClip#BlackHole#Init()
 endfunction

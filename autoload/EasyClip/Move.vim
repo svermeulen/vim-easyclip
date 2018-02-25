@@ -74,6 +74,9 @@ function! EasyClip#Move#MoveMotion(type)
     call setpos("'>", oldVisualEnd)
 endfunction
 
+function! EasyClip#Move#Init()
+endfunction
+
 function! EasyClip#Move#SetDefaultBindings()
 
     let bindings =
@@ -92,7 +95,7 @@ function! EasyClip#Move#SetDefaultBindings()
     endfor
 endfunction
 
-function! EasyClip#Move#Init()
+function! EasyClip#Move#AddMappings()
 
     if g:EasyClipUseCutDefaults
         call EasyClip#Move#SetDefaultBindings()

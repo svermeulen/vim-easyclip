@@ -363,13 +363,18 @@ function! EasyClip#Yank#OnFocusGained()
 endfunction
 
 function! EasyClip#Yank#Init()
+    " Watch focus to keep the shared clipboard in sync for use by other
+    " vim sessions
+    augroup _easyclip_focuswatch
+        au!
+        autocmd FocusGained * call EasyClip#Yank#OnFocusGained()
+        autocmd FocusLost * call EasyClip#Yank#OnFocusLost()
+    augroup END
+endfunction
+
+function! EasyClip#Yank#AddMappings()
 
     if g:EasyClipUseYankDefaults
         call EasyClip#Yank#SetDefaultMappings()
     endif
-
-    " Watch focus to keep the shared clipboard in sync for use by other
-    " vim sessions
-    autocmd! FocusGained * <buffer> call EasyClip#Yank#OnFocusGained()
-    autocmd! FocusLost * <buffer> call EasyClip#Yank#OnFocusLost()
 endfunction

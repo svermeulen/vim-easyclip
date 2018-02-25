@@ -154,14 +154,20 @@ function! EasyClip#Init()
     augroup easyclip_checkdependencies
         autocmd!
         autocmd VimEnter * call EasyClip#CheckRequiredDependencies()
-        autocmd BufReadPost * call EasyClip#Paste#Init()
-        autocmd BufReadPost * call EasyClip#Move#Init()
-        autocmd BufReadPost * call EasyClip#Substitute#Init()
-        autocmd BufReadPost * call EasyClip#Yank#Init()
+        autocmd BufReadPost * call EasyClip#Paste#AddMappings()
+        autocmd BufReadPost * call EasyClip#Move#AddMappings()
+        autocmd BufReadPost * call EasyClip#Substitute#AddMappings()
+        autocmd BufReadPost * call EasyClip#Yank#AddMappings()
         " Add black hole bindings last so that it only
         " adds bindings if they are not taken
-        autocmd BufReadPost * call EasyClip#BlackHole#Init()
+        autocmd BufReadPost * call EasyClip#BlackHole#AddMappings()
     augroup END
+
+    call EasyClip#Paste#Init()
+    call EasyClip#Substitute#Init()
+    call EasyClip#Yank#Init()
+    call EasyClip#Move#Init()
+    call EasyClip#BlackHole#Init()
 
     call EasyClip#Shared#Init()
 endfunction
