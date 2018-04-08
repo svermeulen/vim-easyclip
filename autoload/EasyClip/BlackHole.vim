@@ -8,6 +8,9 @@ function! EasyClip#BlackHole#AddSelectBindings()
     while i <= 126
         if i !=# 124
             let char = nr2char(i)
+            if i ==# 92
+              let char = '\\'
+            endif
             exec 'snoremap '. char .' <c-o>"_c'. char
         endif
 
