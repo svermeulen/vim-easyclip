@@ -74,16 +74,13 @@ function! EasyClip#Move#MoveMotion(type)
     call setpos("'>", oldVisualEnd)
 endfunction
 
-function! EasyClip#Move#Init()
-endfunction
-
 function! EasyClip#Move#SetDefaultBindings()
 
     let bindings =
     \ [
-    \   ["m",  '<Plug>MoveMotionPlug',  'n',  1],
-    \   ["mm",  '<Plug>MoveMotionLinePlug',  'n',  1],
-    \   ["m",  '<Plug>MoveMotionXPlug',  'x',  1],
+    \   ['m',  '<Plug>MoveMotionPlug',  'n',  1],
+    \   ['mm',  '<Plug>MoveMotionLinePlug',  'n',  1],
+    \   ['m',  '<Plug>MoveMotionXPlug',  'x',  1],
     \ ]
 
     " Leave these commented to avoid shadowing M (go to middle of screen)
@@ -95,7 +92,7 @@ function! EasyClip#Move#SetDefaultBindings()
     endfor
 endfunction
 
-function! EasyClip#Move#AddMappings()
+function! EasyClip#Move#Init()
 
     if g:EasyClipUseCutDefaults
         call EasyClip#Move#SetDefaultBindings()

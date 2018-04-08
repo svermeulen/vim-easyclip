@@ -55,7 +55,7 @@ function! EasyClip#BlackHole#AddChangeBindings()
     endfor
 endfunction
 
-function! EasyClip#BlackHole#AddMappings()
+function! EasyClip#BlackHole#Init()
 
     if g:EasyClipEnableBlackHoleRedirect
 
@@ -66,12 +66,6 @@ function! EasyClip#BlackHole#AddMappings()
         if g:EasyClipEnableBlackHoleRedirectForDeleteOperator
             call EasyClip#BlackHole#AddDeleteBindings()
         endif
-    endif
-endfunction
-
-function! EasyClip#BlackHole#Init()
-
-    if g:EasyClipEnableBlackHoleRedirect
 
         if g:EasyClipEnableBlackHoleRedirectForSelectOperator
             call EasyClip#BlackHole#AddSelectBindings()
