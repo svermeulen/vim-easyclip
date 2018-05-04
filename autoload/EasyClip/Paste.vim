@@ -358,9 +358,14 @@ function! EasyClip#Paste#SetDefaultMappings()
     \   ['<leader>P',  '<plug>EasyClipPasteUnformattedBefore',  'n',  1],
     \   ['g<leader>p',  '<plug>G_EasyClipPasteUnformattedAfter',  'n',  1],
     \   ['g<leader>P',  '<plug>G_EasyClipPasteUnformattedBefore',  'n',  1],
-    \   ['<c-p>',  '<plug>EasyClipSwapPasteForward',  'n',  1],
-    \   ['<c-n>',  '<plug>EasyClipSwapPasteBackwards',  'n',  1],
     \ ]
+
+    if g:EasyClipUsePasteToggleDefaults
+      let bindings += [
+            \   ['<c-p>',  '<plug>EasyClipSwapPasteForward',  'n',  1],
+            \   ['<c-n>',  '<plug>EasyClipSwapPasteBackwards',  'n',  1],
+            \ ]
+    endif
 
     for binding in bindings
         call call('EasyClip#AddWeakMapping', binding)
