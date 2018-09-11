@@ -321,7 +321,7 @@ function! EasyClip#Paste#SwapPaste(forward)
     endif
 
     let s:pasteOverrideRegister = EasyClip#GetDefaultReg()
-    exec 'normal u.'
+    exec "normal u:silent call repeat#run(v:count)\<CR>"
     let s:pasteOverrideRegister = ''
 
     augroup SwapPasteMoveDetect
