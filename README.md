@@ -1,6 +1,11 @@
 vim-easyclip
 =============
-### Simplified clipboard functionality for Vim.###
+
+### NOTE
+
+This plugin is considered more or less "done".  Minor bug fixes will be applied but otherwise it will just remain stable.  For modern versions of vim (Vim 8+ or Neovim) it has been split up into three different plugins instead:  [vim-cutlass](https://github.com/svermeulen/vim-cutlass), [nvim-yoink](https://github.com/svermeulen/nvim-yoink), and [vim-subversive](https://github.com/svermeulen/vim-subversive).  However note that these replacements are currently experimental
+
+### Simplified clipboard functionality for Vim.
 
 Author:  [Steve Vermeulen](https://github.com/svermeulen), based on work by [Max Brunsfeld](http://www.github.com/maxbrunsfeld)
 
