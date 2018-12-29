@@ -48,6 +48,8 @@ function! EasyClip#Move#PreMoveMotion( )
 endfunction
 
 function! EasyClip#Move#MoveMotion(type)
+    let oldSelection = &selection
+    let &selection = 'inclusive'
 
     let oldVisualStart = getpos("'<")
     let oldVisualEnd = getpos("'>")
@@ -72,6 +74,8 @@ function! EasyClip#Move#MoveMotion(type)
 
     call setpos("'<", oldVisualStart)
     call setpos("'>", oldVisualEnd)
+
+    let &selection = oldSelection
 endfunction
 
 function! EasyClip#Move#SetDefaultBindings()
