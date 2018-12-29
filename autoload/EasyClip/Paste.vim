@@ -284,7 +284,7 @@ function! EasyClip#Paste#ToggleFormattedPaste()
 
     let s:ForceAutoFormat = !s:lastPasteWasAutoFormatted
     let s:pasteOverrideRegister = s:lastPasteRegister
-    exec 'normal u.'
+    exec "normal \<Plug>(RepeatUndo)\<Plug>(RepeatDot)"
     let s:pasteOverrideRegister = ''
     echo (s:ForceAutoFormat ? 'Formatted' : 'Unformatted')
     unlet s:ForceAutoFormat
