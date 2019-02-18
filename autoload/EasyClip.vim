@@ -78,19 +78,6 @@ function! EasyClip#Yank(str)
     EasyClipOnYanksChanged
 endfunction
 
-function! EasyClip#CheckRequiredDependencies()
-    try
-        " This should have no effect when it succeeds
-        call repeat#invalidate()
-    catch /\VUnknown function/
-        echohl ErrorMsg
-        echo 'Could not find vim-repeat installed.  EasyClip requires vim-repeat to function properly.  Please install vim-repeat and restart Vim'
-        echohl None
-    catch
-        " function exists, ignore
-    endtry
-endfunction
-
 function! EasyClip#GetYankAtIndex(index)
     return EasyClip#Yank#GetYankInfoForIndex(a:index).text
 endfunction
@@ -151,11 +138,6 @@ function! EasyClip#PasteIndexBefore(index)
 endfunction
 
 function! EasyClip#Init()
-    augroup easyclip_checkdependencies
-        autocmd!
-        autocmd VimEnter * call EasyClip#CheckRequiredDependencies()
-    augroup END
-
     call EasyClip#Paste#Init()
     call EasyClip#Move#Init()
     call EasyClip#Substitute#Init()
